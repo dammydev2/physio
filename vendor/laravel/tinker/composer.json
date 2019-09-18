@@ -1,0 +1,80 @@
+<?php
+
+namespace League\Flysystem\Adapter;
+
+use DateTime;
+use League\Flysystem\AdapterInterface;
+use League\Flysystem\Config;
+use League\Flysystem\NotSupportedException;
+use League\Flysystem\SafeStorage;
+use RuntimeException;
+
+abstract class AbstractFtpAdapter extends AbstractAdapter
+{
+    /**
+     * @var mixed
+     */
+    protected $connection;
+
+    /**
+     * @var string
+     */
+    protected $host;
+
+    /**
+     * @var int
+     */
+    protected $port = 21;
+
+    /**
+     * @var bool
+     */
+    protected $ssl = false;
+
+    /**
+     * @var int
+     */
+    protected $timeout = 90;
+
+    /**
+     * @var bool
+     */
+    protected $passive = true;
+
+    /**
+     * @var string
+     */
+    protected $separator = '/';
+
+    /**
+     * @var string|null
+     */
+    protected $root;
+
+    /**
+     * @var int
+     */
+    protected $permPublic = 0744;
+
+    /**
+     * @var int
+     */
+    protected $permPrivate = 0700;
+
+    /**
+     * @var array
+     */
+    protected $configurable = [];
+
+    /**
+     * @var string
+     */
+    protected $systemType;
+
+    /**
+     * @var SafeStorage
+     */
+    protected $safeStorage;
+
+    /**
+     * True to enable timestamps for FTP ser

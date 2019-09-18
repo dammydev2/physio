@@ -1,0 +1,33 @@
+<?php
+
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Symfony\Component\Routing\Loader\Configurator;
+
+use Symfony\Component\Routing\Route;
+use Symfony\Component\Routing\RouteCollection;
+
+/**
+ * @author Nicolas Grekas <p@tchwork.com>
+ */
+class CollectionConfigurator
+{
+    use Traits\AddTrait;
+    use Traits\RouteTrait;
+
+    private $parent;
+    private $parentConfigurator;
+    private $parentPrefixes;
+
+    public function __construct(RouteCollection $parent, string $name, self $parentConfigurator = null, array $parentPrefixes = null)
+    {
+        $this->parent = $parent;
+        $this->name = $name;
+        $this->collection = new R

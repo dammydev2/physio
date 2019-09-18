@@ -1,0 +1,32 @@
+<?php
+
+namespace InfyOm\Generator\Common;
+
+use Exception;
+
+abstract class BaseRepository extends \Prettus\Repository\Eloquent\BaseRepository
+{
+    public function findWithoutFail($id, $columns = ['*'])
+    {
+        try {
+            return $this->find($id, $columns);
+        } catch (Exception $e) {
+            return;
+        }
+    }
+
+    public function create(array $attributes)
+    {
+        // Have to skip presenter to get a model not some data
+        $temporarySkipPresenter = $this->skipPresenter;
+        $this->skipPresenter(true);
+        $model = parent::create($attributes);
+        $this->skipPresenter($temporarySkipPresenter);
+
+        $model = $this->updateRelations($model, $attributes);
+        $model->save();
+
+        return $this->parserResult($model);
+    }
+
+    public fun

@@ -1,0 +1,44 @@
+)) {
+            return $this->failedBasicResponse();
+        }
+    }
+
+    /**
+     * Attempt to authenticate using basic authentication.
+     *
+     * @param  \Symfony\Component\HttpFoundation\Request  $request
+     * @param  string  $field
+     * @param  array  $extraConditions
+     * @return bool
+     */
+    protected function attemptBasic(Request $request, $field, $extraConditions = [])
+    {
+        if (! $request->getUser()) {
+            return false;
+        }
+
+        return $this->attempt(array_merge(
+            $this->basicCredentials($request, $field), $extraConditions
+        ));
+    }
+
+    /**
+     * Get the credential array for a HTTP Basic request.
+     *
+     * @param  \Symfony\Component\HttpFoundation\Request  $request
+     * @param  string  $field
+     * @return array
+     */
+    protected function basicCredentials(Request $request, $field)
+    {
+        return [$field => $request->getUser(), 'password' => $request->getPassword()];
+    }
+
+    /**
+     * Get the response for basic authentication.
+     *
+     * @return void
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException
+     */
+    protected fun

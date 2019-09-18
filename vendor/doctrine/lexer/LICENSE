@@ -1,0 +1,24 @@
+<?php
+
+namespace Egulias\EmailValidator\Parser;
+
+use Egulias\EmailValidator\EmailLexer;
+use Egulias\EmailValidator\Exception\CharNotAllowed;
+use Egulias\EmailValidator\Exception\CommaInDomain;
+use Egulias\EmailValidator\Exception\ConsecutiveAt;
+use Egulias\EmailValidator\Exception\CRLFAtTheEnd;
+use Egulias\EmailValidator\Exception\CRNoLF;
+use Egulias\EmailValidator\Exception\DomainHyphened;
+use Egulias\EmailValidator\Exception\DotAtEnd;
+use Egulias\EmailValidator\Exception\DotAtStart;
+use Egulias\EmailValidator\Exception\ExpectingATEXT;
+use Egulias\EmailValidator\Exception\ExpectingDomainLiteralClose;
+use Egulias\EmailValidator\Exception\ExpectingDTEXT;
+use Egulias\EmailValidator\Exception\NoDomainPart;
+use Egulias\EmailValidator\Exception\UnopenedComment;
+use Egulias\EmailValidator\Warning\AddressLiteral;
+use Egulias\EmailValidator\Warning\CFWSWithFWS;
+use Egulias\EmailValidator\Warning\DeprecatedComment;
+use Egulias\EmailValidator\Warning\DomainLiteral;
+use Egulias\EmailValidator\Warning\DomainTooLong;
+use Egulias\EmailValidator\Warning\IPV6BadCha

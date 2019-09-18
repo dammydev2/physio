@@ -1,0 +1,219 @@
+<?php
+/*
+ * This file is part of the php-code-coverage package.
+ *
+ * (c) Sebastian Bergmann <sebastian@phpunit.de>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+namespace SebastianBergmann\CodeCoverage\Report\Html;
+
+use SebastianBergmann\CodeCoverage\Node\File as FileNode;
+use SebastianBergmann\CodeCoverage\Util;
+
+/**
+ * Renders a file node.
+ */
+final class File extends Renderer
+{
+    /**
+     * @var int
+     */
+    private $htmlSpecialCharsFlags = \ENT_COMPAT | \ENT_HTML401 | \ENT_SUBSTITUTE;
+
+    /**
+     * @throws \RuntimeException
+     */
+    public function render(FileNode $node, string $file): void
+    {
+        $template = new \Text_Template($this->templatePath . 'file.html', '{{', '}}');
+
+        $template->setVar(
+            [
+                'items' => $this->renderItems($node),
+                'lines' => $this->renderSource($node),
+            ]
+        );
+
+        $this->setCommonTemplateVariables($template, $node);
+
+        $template->renderTo($file);
+    }
+
+    protected function renderItems(FileNode $node): string
+    {
+        $template = new \Text_Template($this->templatePath . 'file_item.html', '{{', '}}');
+
+        $methodItemTemplate = new \Text_Template(
+            $this->templatePath . 'method_item.html',
+            '{{',
+            '}}'
+        );
+
+        $items = $this->renderItemTemplate(
+            $template,
+            [
+                'name'                         => 'Total',
+                'numClasses'                   => $node->getNumClassesAndTraits(),
+                'numTestedClasses'             => $node->getNumTestedClassesAndTraits(),
+                'numMethods'                   => $node->getNumFunctionsAndMethods(),
+                'numTestedMethods'             => $node->getNumTestedFunctionsAndMethods(),
+                'linesExecutedPercent'         => $node->getLineExecutedPercent(false),
+                'linesExecutedPercentAsString' => $node->getLineExecutedPercent(),
+                'numExecutedLines'             => $node->getNumExecutedLines(),
+                'numExecutableLines'           => $node->getNumExecutableLines(),
+                'testedMethodsPercent'         => $node->getTestedFunctionsAndMethodsPercent(false),
+                'testedMethodsPercentAsString' => $node->getTestedFunctionsAndMethodsPercent(),
+                'testedClassesPercent'         => $node->getTestedClassesAndTraitsPercent(false),
+                'testedClassesPercentAsString' => $node->getTestedClassesAndTraitsPercent(),
+                'crap'                         => '<abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr>',
+            ]
+        );
+
+        $items .= $this->renderFunctionItems(
+            $node->getFunctions(),
+            $methodItemTemplate
+        );
+
+        $items .= $this->renderTraitOrClassItems(
+            $node->getTraits(),
+            $template,
+            $methodItemTemplate
+        );
+
+        $items .= $this->renderTraitOrClassItems(
+            $node->getClasses(),
+            $template,
+            $methodItemTemplate
+        );
+
+        return $items;
+    }
+
+    protected function renderTraitOrClassItems(array $items, \Text_Template $template, \Text_Template $methodItemTemplate): string
+    {
+        $buffer = '';
+
+        if (empty($items)) {
+            return $buffer;
+        }
+
+        foreach ($items as $name => $item) {
+            $numMethods       = 0;
+            $numTestedMethods = 0;
+
+            foreach ($item['methods'] as $method) {
+                if ($method['executableLines'] > 0) {
+                    $numMethods++;
+
+                    if ($method['executedLines'] === $method['executableLines']) {
+                        $numTestedMethods++;
+                    }
+                }
+            }
+
+            if ($item['executableLines'] > 0) {
+                $numClasses                   = 1;
+                $numTestedClasses             = $numTestedMethods == $numMethods ? 1 : 0;
+                $linesExecutedPercentAsString = Util::percent(
+                    $item['executedLines'],
+                    $item['executableLines'],
+                    true
+                );
+            } else {
+                $numClasses                   = 'n/a';
+                $numTestedClasses             = 'n/a';
+                $linesExecutedPercentAsString = 'n/a';
+            }
+
+            $buffer .= $this->renderItemTemplate(
+                $template,
+                [
+                    'name'                         => $this->abbreviateClassName($name),
+                    'numClasses'                   => $numClasses,
+                    'numTestedClasses'             => $numTestedClasses,
+                    'numMethods'                   => $numMethods,
+                    'numTestedMethods'             => $numTestedMethods,
+                    'linesExecutedPercent'         => Util::percent(
+                        $item['executedLines'],
+                        $item['executableLines'],
+                        false
+                    ),
+                    'linesExecutedPercentAsString' => $linesExecutedPercentAsString,
+                    'numExecutedLines'             => $item['executedLines'],
+                    'numExecutableLines'           => $item['executableLines'],
+                    'testedMethodsPercent'         => Util::percent(
+                        $numTestedMethods,
+                        $numMethods
+                    ),
+                    'testedMethodsPercentAsString' => Util::percent(
+                        $numTestedMethods,
+                        $numMethods,
+                        true
+                    ),
+                    'testedClassesPercent'         => Util::percent(
+                        $numTestedMethods == $numMethods ? 1 : 0,
+                        1
+                    ),
+                    'testedClassesPercentAsString' => Util::percent(
+                        $numTestedMethods == $numMethods ? 1 : 0,
+                        1,
+                        true
+                    ),
+                    'crap'                         => $item['crap'],
+                ]
+            );
+
+            foreach ($item['methods'] as $method) {
+                $buffer .= $this->renderFunctionOrMethodItem(
+                    $methodItemTemplate,
+                    $method,
+                    '&nbsp;'
+                );
+            }
+        }
+
+        return $buffer;
+    }
+
+    protected function renderFunctionItems(array $functions, \Text_Template $template): string
+    {
+        if (empty($functions)) {
+            return '';
+        }
+
+        $buffer = '';
+
+        foreach ($functions as $function) {
+            $buffer .= $this->renderFunctionOrMethodItem(
+                $template,
+                $function
+            );
+        }
+
+        return $buffer;
+    }
+
+    protected function renderFunctionOrMethodItem(\Text_Template $template, array $item, string $indent = ''): string
+    {
+        $numMethods       = 0;
+        $numTestedMethods = 0;
+
+        if ($item['executableLines'] > 0) {
+            $numMethods = 1;
+
+            if ($item['executedLines'] === $item['executableLines']) {
+                $numTestedMethods = 1;
+            }
+        }
+
+        return $this->renderItemTemplate(
+            $template,
+            [
+                'name'                         => \sprintf(
+                    '%s<a href="#%d"><abbr title="%s">%s</abbr></a>',
+                    $indent,
+                    $item['startLine'],
+                    \htmlspecialchars($item['signature'], $this->htmlSpecialCharsFlags),
+                  

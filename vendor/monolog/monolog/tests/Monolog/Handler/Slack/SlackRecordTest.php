@@ -1,0 +1,70 @@
+         subYear()                                                                           Sub one year to the instance (using date interval).
+ * @method        $this          addYearsWithOverflow(int $value = 1)                                                Add years (the $value count passed in) to the instance (using date interval) with overflow explicitly allowed.
+ * @method        $this          addYearWithOverflow()                                                               Add one year to the instance (using date interval) with overflow explicitly allowed.
+ * @method        $this          subYearsWithOverflow(int $value = 1)                                                Sub years (the $value count passed in) to the instance (using date interval) with overflow explicitly allowed.
+ * @method        $this          subYearWithOverflow()                                                               Sub one year to the instance (using date interval) with overflow explicitly allowed.
+ * @method        $this          addYearsWithoutOverflow(int $value = 1)                                             Add years (the $value count passed in) to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          addYearWithoutOverflow()                                                            Add one year to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          subYearsWithoutOverflow(int $value = 1)                                             Sub years (the $value count passed in) to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          subYearWithoutOverflow()                                                            Sub one year to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          addYearsWithNoOverflow(int $value = 1)                                              Add years (the $value count passed in) to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          addYearWithNoOverflow()                                                             Add one year to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          subYearsWithNoOverflow(int $value = 1)                                              Sub years (the $value count passed in) to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          subYearWithNoOverflow()                                                             Sub one year to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          addYearsNoOverflow(int $value = 1)                                                  Add years (the $value count passed in) to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          addYearNoOverflow()                                                                 Add one year to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          subYearsNoOverflow(int $value = 1)                                                  Sub years (the $value count passed in) to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          subYearNoOverflow()                                                                 Sub one year to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          addMonths(int $value = 1)                                                           Add months (the $value count passed in) to the instance (using date interval).
+ * @method        $this          addMonth()                                                                          Add one month to the instance (using date interval).
+ * @method        $this          subMonths(int $value = 1)                                                           Sub months (the $value count passed in) to the instance (using date interval).
+ * @method        $this          subMonth()                                                                          Sub one month to the instance (using date interval).
+ * @method        $this          addMonthsWithOverflow(int $value = 1)                                               Add months (the $value count passed in) to the instance (using date interval) with overflow explicitly allowed.
+ * @method        $this          addMonthWithOverflow()                                                              Add one month to the instance (using date interval) with overflow explicitly allowed.
+ * @method        $this          subMonthsWithOverflow(int $value = 1)                                               Sub months (the $value count passed in) to the instance (using date interval) with overflow explicitly allowed.
+ * @method        $this          subMonthWithOverflow()                                                              Sub one month to the instance (using date interval) with overflow explicitly allowed.
+ * @method        $this          addMonthsWithoutOverflow(int $value = 1)                                            Add months (the $value count passed in) to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          addMonthWithoutOverflow()                                                           Add one month to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          subMonthsWithoutOverflow(int $value = 1)                                            Sub months (the $value count passed in) to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          subMonthWithoutOverflow()                                                           Sub one month to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          addMonthsWithNoOverflow(int $value = 1)                                             Add months (the $value count passed in) to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          addMonthWithNoOverflow()                                                            Add one month to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          subMonthsWithNoOverflow(int $value = 1)                                             Sub months (the $value count passed in) to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          subMonthWithNoOverflow()                                                            Sub one month to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          addMonthsNoOverflow(int $value = 1)                                                 Add months (the $value count passed in) to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          addMonthNoOverflow()                                                                Add one month to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          subMonthsNoOverflow(int $value = 1)                                                 Sub months (the $value count passed in) to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          subMonthNoOverflow()                                                                Sub one month to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          addDays(int $value = 1)                                                             Add days (the $value count passed in) to the instance (using date interval).
+ * @method        $this          addDay()                                                                            Add one day to the instance (using date interval).
+ * @method        $this          subDays(int $value = 1)                                                             Sub days (the $value count passed in) to the instance (using date interval).
+ * @method        $this          subDay()                                                                            Sub one day to the instance (using date interval).
+ * @method        $this          addHours(int $value = 1)                                                            Add hours (the $value count passed in) to the instance (using date interval).
+ * @method        $this          addHour()                                                                           Add one hour to the instance (using date interval).
+ * @method        $this          subHours(int $value = 1)                                                            Sub hours (the $value count passed in) to the instance (using date interval).
+ * @method        $this          subHour()                                                                           Sub one hour to the instance (using date interval).
+ * @method        $this          addMinutes(int $value = 1)                                                          Add minutes (the $value count passed in) to the instance (using date interval).
+ * @method        $this          addMinute()                                                                         Add one minute to the instance (using date interval).
+ * @method        $this          subMinutes(int $value = 1)                                                          Sub minutes (the $value count passed in) to the instance (using date interval).
+ * @method        $this          subMinute()                                                                         Sub one minute to the instance (using date interval).
+ * @method        $this          addSeconds(int $value = 1)                                                          Add seconds (the $value count passed in) to the instance (using date interval).
+ * @method        $this          addSecond()                                                                         Add one second to the instance (using date interval).
+ * @method        $this          subSeconds(int $value = 1)                                                          Sub seconds (the $value count passed in) to the instance (using date interval).
+ * @method        $this          subSecond()                                                                         Sub one second to the instance (using date interval).
+ * @method        $this          addMillis(int $value = 1)                                                           Add milliseconds (the $value count passed in) to the instance (using date interval).
+ * @method        $this          addMilli()                                                                          Add one millisecond to the instance (using date interval).
+ * @method        $this          subMillis(int $value = 1)                                                           Sub milliseconds (the $value count passed in) to the instance (using date interval).
+ * @method        $this          subMilli()                                                                          Sub one millisecond to the instance (using date interval).
+ * @method        $this          addMilliseconds(int $value = 1)                                                     Add milliseconds (the $value count passed in) to the instance (using date interval).
+ * @method        $this          addMillisecond()                                                                    Add one millisecond to the instance (using date interval).
+ * @method        $this          subMilliseconds(int $value = 1)                                                     Sub milliseconds (the $value count passed in) to the instance (using date interval).
+ * @method        $this          subMillisecond()                                                                    Sub one millisecond to the instance (using date interval).
+ * @method        $this          addMicros(int $value = 1)                                                           Add microseconds (the $value count passed in) to the instance (using date interval).
+ * @method        $this          addMicro()                                                                          Add one microsecond to the instance (using date interval).
+ * @method        $this          subMicros(int $value = 1)                                                           Sub microseconds (the $value count passed in) to the instance (using date interval).
+ * @method        $this          subMicro()                                                                          Sub one microsecond to the instance (using date interval).
+ * @method        $this          addMicroseconds(int $value = 1)                                                     Add microseconds (the $value count passed in) to the instance (using date interval).
+ * @method        $this          addMicrosecond()                                                                    Add one microsecond to the instance (using date interval).
+ * @method        $this          subMicroseconds(int $value = 1)                                                     Sub microseconds (the $value count passed in) to the instance (using date interval).
+ * @method        $this          subMicrosecond()                                                                    Sub one microsecond to the instance (using date interval).
+ * @method        $this          addMillennia(int $value = 1)                                                        Add millennia (the $value count passed in) to the in

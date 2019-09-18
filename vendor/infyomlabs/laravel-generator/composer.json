@@ -1,0 +1,47 @@
+<?php
+
+namespace InfyOm\Generator\Generators;
+
+use InfyOm\Generator\Common\GeneratorField;
+
+class SwaggerGenerator
+{
+    public static $swaggerTypes = [];
+
+    /**
+     * @param GeneratorField[] $inputFields
+     *
+     * @return array
+     */
+    public static function generateTypes($inputFields)
+    {
+        if (!empty(self::$swaggerTypes)) {
+            return self::$swaggerTypes;
+        }
+
+        $fieldTypes = [];
+
+        foreach ($inputFields as $field) {
+            $fieldData = self::getFieldType($field->fieldType);
+            $fieldType = $fieldData['fieldType'];
+            $fieldFormat = $fieldData['fieldFormat'];
+
+            if (!empty($fieldType)) {
+                $fieldType = [
+                    'name'   => $field->name,
+                    'type'   => $fieldType,
+                    'format' => $fieldFormat,
+                ];
+
+                $fieldType['description'] = (!empty($field->description)) ? $field->description : '';
+
+                $fieldTypes[] = $fieldType;
+            }
+        }
+
+        self::$swaggerTypes = $fieldTypes;
+
+        return self::$swaggerTypes;
+    }
+
+    public static function g

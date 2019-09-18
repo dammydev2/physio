@@ -1,0 +1,84 @@
+testArgument instanceof MockObject) {
+                    if ($this->isCloneable($testArgument)) {
+                        $testArgument = clone $testArgument;
+                    }
+
+                    $this->registerMockObject($testArgument);
+                } elseif (\is_array($testArgument) && !\in_array($testArgument, $visited, true)) {
+                    $visited[] = $testArgument;
+
+                    $this->registerMockObjectsFromTestArguments(
+                        $testArgument,
+                        $visited
+                    );
+                }
+            }
+        }
+    }
+
+    private function setDoesNotPerformAssertionsFromAnnotation(): void
+    {
+        $annotations = $this->getAnnotations();
+
+        if (isset($annotations['method']['doesNotPerformAssertions'])) {
+            $this->doesNotPerformAssertions = true;
+        }
+    }
+
+    private function isCloneable(MockObject $testArgument): bool
+    {
+        $reflector = new ReflectionObject($testArgument);
+
+        if (!$reflector->isCloneable()) {
+            return false;
+        }
+
+        if ($reflector->hasMethod('__clone') &&
+            $reflector->getMethod('__clone')->isPublic()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function unregisterCustomComparators(): void
+    {
+        $factory = ComparatorFactory::getInstance();
+
+        foreach ($this->customComparators as $comparator) {
+            $factory->unregister($comparator);
+        }
+
+        $this->customComparators = [];
+    }
+
+    private function cleanupIniSettings(): void
+    {
+        foreach ($this->iniSettings as $varName => $oldValue) {
+            \ini_set($varName, $oldValue);
+        }
+
+        $this->iniSettings = [];
+    }
+
+    private function cleanupLocaleSettings(): void
+    {
+        foreach ($this->locale as $category => $locale) {
+            \setlocale($category, $locale);
+        }
+
+        $this->locale = [];
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    private function checkExceptionExpectations(Throwable $throwable): bool
+    {
+        $result = false;
+
+        if ($this->expectedException !== null || $this->expectedExceptionCode !== null || $this->expectedExceptionMessage !== null || $this->expectedExceptionMessageRegExp !== null) {
+            $result = true;
+        }
+
+  

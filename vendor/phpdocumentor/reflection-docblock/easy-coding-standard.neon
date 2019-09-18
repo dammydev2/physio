@@ -1,0 +1,48 @@
+AMESPACE token.
+     *
+     * @param \ArrayIterator $tokens
+     *
+     * @return string
+     */
+    private function parseNamespace(\ArrayIterator $tokens)
+    {
+        // skip to the first string or namespace separator
+        $this->skipToNextStringOrNamespaceSeparator($tokens);
+
+        $name = '';
+        while ($tokens->valid() && ($tokens->current()[0] === T_STRING || $tokens->current()[0] === T_NS_SEPARATOR)
+        ) {
+            $name .= $tokens->current()[1];
+            $tokens->next();
+        }
+
+        return $name;
+    }
+
+    /**
+     * Deduce the names of all imports when we are at the T_USE token.
+     *
+     * @param \ArrayIterator $tokens
+     *
+     * @return string[]
+     */
+    private function parseUseStatement(\ArrayIterator $tokens)
+    {
+        $uses = [];
+        $continue = true;
+
+        while ($continue) {
+            $this->skipToNextStringOrNamespaceSeparator($tokens);
+
+            list($alias, $fqnn) = $this->extractUseStatement($tokens);
+            $uses[$alias] = $fqnn;
+            if ($tokens->current()[0] === self::T_LITERAL_END_OF_USE) {
+                $continue = false;
+            }
+        }
+
+        return $uses;
+    }
+
+    /**
+     * Fas

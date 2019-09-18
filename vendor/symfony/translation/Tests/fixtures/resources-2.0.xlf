@@ -1,0 +1,26 @@
+    'baseURI' => $dom->baseURI ? new LinkStub($dom->baseURI) : $dom->baseURI,
+            'textContent' => new CutStub($dom->textContent),
+        ];
+
+        return $a;
+    }
+
+    public static function castNameSpaceNode(\DOMNameSpaceNode $dom, array $a, Stub $stub, $isNested)
+    {
+        $a += [
+            'nodeName' => $dom->nodeName,
+            'nodeValue' => new CutStub($dom->nodeValue),
+            'nodeType' => new ConstStub(self::$nodeTypes[$dom->nodeType], $dom->nodeType),
+            'prefix' => $dom->prefix,
+            'localName' => $dom->localName,
+            'namespaceURI' => $dom->namespaceURI,
+            'ownerDocument' => new CutStub($dom->ownerDocument),
+            'parentNode' => new CutStub($dom->parentNode),
+        ];
+
+        return $a;
+    }
+
+    public static function castDocument(\DOMDocument $dom, array $a, Stub $stub, $isNested, $filter = 0)
+    {
+        $

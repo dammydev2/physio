@@ -1,0 +1,10 @@
+                           => 'fig',
+        'application/x-xliff+xml'                                                   => 'xlf',
+        'application/x-xpinstall'                                                   => 'xpi',
+        'application/x-xz'                                                          => 'xz',
+        'application/x-zmachine'                                                    => 'z1',
+        'application/xaml+xml'                                                      => 'xaml',
+        'application/xcap-diff+xml'                                                 => 'xdf',
+        'application/xenc+xml'                                                      => 'xenc',
+        'application/xhtml+xml'                                                     => array('xhtml', 'xht'),
+        'application/xml'                                                

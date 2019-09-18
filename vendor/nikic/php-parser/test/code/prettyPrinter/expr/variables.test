@@ -1,0 +1,31 @@
+<?php declare(strict_types=1);
+
+namespace PhpParser\Node\Scalar;
+
+class StringTest extends \PHPUnit\Framework\TestCase
+{
+    /**
+     * @dataProvider provideTestParseEscapeSequences
+     */
+    public function testParseEscapeSequences($expected, $string, $quote) {
+        $this->assertSame(
+            $expected,
+            String_::parseEscapeSequences($string, $quote)
+        );
+    }
+
+    /**
+     * @dataProvider provideTestParse
+     */
+    public function testCreate($expected, $string) {
+        $this->assertSame(
+            $expected,
+            String_::parse($string)
+        );
+    }
+
+    public function provideTestParseEscapeSequences() {
+        return [
+            ['"',              '\\"',              '"'],
+            ['\\"',            '\\"',              '`'],
+            ['\\"\\`', 

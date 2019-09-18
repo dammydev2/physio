@@ -1,0 +1,27 @@
+      $visitor1->expects($this->at(6))->method('leaveNode')->with($negNode);
+        $visitor2->expects($this->at(2))->method('leaveNode')->with($negNode);
+
+        $traverser = new NodeTraverser;
+        $traverser->addVisitor($visitor1);
+        $traverser->addVisitor($visitor2);
+
+        $resultStmts = $traverser->traverse($stmts);
+
+        $this->assertInstanceOf(Expr\BinaryOp\Div::class, $resultStmts[1]->expr);
+    }
+
+    public function testStopTraversal() {
+        $varNode1 = new Expr\Variable('a');
+        $varNode2 = new Expr\Variable('b');
+        $varNode3 = new Expr\Variable('c');
+        $mulNode = new Expr\BinaryOp\Mul($varNode1, $varNode2);
+        $printNode = new Expr\Print_($varNode3);
+        $stmts = [$mulNode, $printNode];
+
+        // From enterNode() with array parent
+        $visitor = $this->getMockBuilder(NodeVisitor::class)->getMock();
+        $visitor->expects($this->at(1))->method('enterNode')->with($mulNode)
+            ->willReturn(NodeTraverser::STOP_TRAVERSAL);
+        $visitor->expects($this->at(2))->method('afterTraverse');
+        $traverser = new NodeTraverser;
+        $traverser->addV

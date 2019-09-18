@@ -1,0 +1,20 @@
+ottom = nodeTop + nodeOffset.height;
+    var parentScrollTop = $parent.scrollTop();
+    var parentHeight = $parent.height();
+
+    if (nodeTop < 0) {
+      $parent.scrollTop(parentScrollTop + nodeTop);
+    } else if (nodeBottom > parentHeight) {
+      $parent.scrollTop(parentScrollTop + nodeBottom - parentHeight);
+    }
+  }
+
+  $(document).on('keydown', function(e) {
+    var applicationFrames = $frameContainer.hasClass('frames-container-application'),
+        frameClass = applicationFrames ? '.frame.frame-application' : '.frame';
+
+	  if(e.ctrlKey || e.which === 74  || e.which === 75) {
+		  // CTRL+Arrow-UP/k and Arrow-Down/j support:
+		  // 1) select the next/prev element
+		  // 2) make sure the newly selected element is within the view-scope
+		  // 3) focus the (right) containe

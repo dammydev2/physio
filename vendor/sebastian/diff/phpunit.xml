@@ -1,0 +1,32 @@
+<?php declare(strict_types=1);
+/*
+ * This file is part of sebastian/diff.
+ *
+ * (c) Sebastian Bergmann <sebastian@phpunit.de>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace SebastianBergmann\Diff\Utils;
+
+trait UnifiedDiffAssertTrait
+{
+    /**
+     * @param string $diff
+     *
+     * @throws \UnexpectedValueException
+     */
+    public function assertValidUnifiedDiffFormat(string $diff): void
+    {
+        if ('' === $diff) {
+            $this->addToAssertionCount(1);
+
+            return;
+        }
+
+        // test diff ends with a line break
+        $last = \substr($diff, -1);
+
+        if ("\n" !== $last && "\r" !== $last) {
+            throw new \U

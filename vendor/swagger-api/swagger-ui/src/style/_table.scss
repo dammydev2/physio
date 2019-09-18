@@ -1,0 +1,105 @@
+xml: {
+          wrapped: true,
+          name: "aliens"
+        }
+      }
+
+      expect(sut(definition)).toEqual(expected)
+    })
+
+    it("return correct nested wrapped array with xml", function () {
+      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<aliens>\n\t<dogs>\n\t\t<dog>string</dog>\n\t</dogs>\n</aliens>"
+      var definition = {
+        type: "array",
+        items: {
+          type: "array",
+          items: {
+            type: "string",
+            xml: {
+              name: "dog"
+            }
+          },
+          xml: {
+            name: "dogs",
+            wrapped: true
+          }
+        },
+        xml: {
+          wrapped: true,
+          name: "aliens"
+        }
+      }
+
+      expect(sut(definition)).toEqual(expected)
+    })
+
+    it("adds namespace to array", function () {
+      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<dog xmlns=\"test\">string</dog>"
+      var definition = {
+        type: "array",
+        items: {
+          type: "string",
+          xml: {
+            name: "dog",
+            namespace: "test"
+          }
+        },
+        xml: {
+          name: "aliens",
+          namespace: "test_new"
+        }
+      }
+
+      expect(sut(definition)).toEqual(expected)
+    })
+
+    it("adds prefix to array", function () {
+      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<test:dog>string</test:dog>"
+      var definition = {
+        type: "array",
+        items: {
+          type: "string",
+          xml: {
+            name: "dog",
+            prefix: "test"
+          }
+        },
+        xml: {
+          name: "aliens",
+          prefix: "test_new"
+        }
+      }
+
+      expect(sut(definition)).toEqual(expected)
+    })
+
+    it("adds prefix to array with no xml in items", function () {
+      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<test:dog>string</test:dog>"
+      var definition = {
+        type: "array",
+        items: {
+          type: "string"
+        },
+        xml: {
+          name: "dog",
+          prefix: "test"
+        }
+      }
+
+      expect(sut(definition)).toEqual(expected)
+    })
+
+    it("adds namespace to array with no xml in items", function () {
+      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<dog xmlns=\"test\">string</dog>"
+      var definition = {
+        type: "array",
+        items: {
+          type: "string"
+        },
+        xml: {
+          name: "dog",
+          namespace: "test"
+        }
+      }
+
+     

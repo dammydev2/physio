@@ -1,0 +1,78 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Session;
+use App\Patient;
+use App\FitPage1;
+use App\FitPage2;
+
+class FitController extends Controller
+{
+    public function __construct()
+	{
+		$this->middleware('auth');
+	}
+
+	public function start()
+	{
+		return view('fitness.index');
+	}
+
+	public function fitSearch(Request $request)
+	{
+		$request->validate([
+			'sys_num' => 'required'
+		]);
+		$data = Patient::where('sys_num', $request['sys_num'])->get();
+    	//dd($data);
+		if ($data->isEmpty()) {
+			Session::flash('error', 'no record found');
+			return redirect('addFit');
+		}
+		Session::put('sys_num', $request['sys_num']);
+		return redirect('fitFirst');
+	}
+
+	public function fitFirst()
+	{
+		$sys_num = Session::get('sys_num');
+		$data = Patient::where('sys_num', $sys_num)->get();
+		return view('fitness.fitFirst', compact('data'));
+	}
+
+	public function fitPage1(Request $request)
+	{
+		$x = rand();
+		Session::put('rec', $x);
+		$present = $request['present']. " " .$request['present2']. " " .$request['present3']. " " .$request['present4']. " " .$request['present5']. " " .$request['present6'];
+
+		FitPage1::create([
+			'sys_num' => Session::get('sys_num'),
+			'rec' => Session::get('rec'),
+			'name' => $request['name'],
+			'age' => $request['age'],
+			'dob' => $request['dob'],
+			'complaint' => $request['complaint'],
+			'date' => $request['date'],
+			'history' => $request['history'],
+			'history2' => $request['history2'],
+			'present' => $present,
+			'major' => $request['major'],
+			'drug' => $request['drug'],
+			'surgical' => $request['surgical'],
+			'family' => $request['family'],
+		]);
+		return redirect('fitSecond');
+	}
+
+	public function fitSecond()
+	{
+		return view('fitness.fitSecond');
+	}
+
+	public function fitPage2(Request $request)
+	{
+		FitPage2::create([
+			'sys_num' 

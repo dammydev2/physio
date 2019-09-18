@@ -1,0 +1,35 @@
+<?php
+
+use Laracasts\Flash\FlashNotifier;
+use PHPUnit\Framework\TestCase;
+
+class FlashTest extends TestCase
+{
+    protected $session;
+
+    protected $flash;
+
+    public function setUp()
+    {
+        $this->session = Mockery::spy('Laracasts\Flash\SessionStore');
+
+        $this->flash = new FlashNotifier($this->session);
+    }
+
+    /** @test */
+    function it_can_interact_with_a_message_as_an_array()
+    {
+        $this->flash->message('Welcome Aboard', 'one', 'two');
+
+        $this->assertEquals('Welcome Aboard', $this->flash->messages[0]['message']);
+
+    }
+
+    /** @test */
+    public function it_displays_default_flash_notifications()
+    {
+        $this->flash->message('Welcome Aboard');
+
+        $this->assertCount(1, $this->flash->messages);
+
+        $message = $th

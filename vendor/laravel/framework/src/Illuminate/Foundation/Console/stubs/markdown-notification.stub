@@ -1,0 +1,48 @@
+<?php
+
+namespace Illuminate\Foundation\Testing\Concerns;
+
+use Illuminate\Support\Arr;
+use Illuminate\Console\OutputStyle;
+use Illuminate\Contracts\Console\Kernel;
+use Illuminate\Foundation\Testing\PendingCommand;
+
+trait InteractsWithConsole
+{
+    /**
+     * Indicates if the console output should be mocked.
+     *
+     * @var bool
+     */
+    public $mockConsoleOutput = true;
+
+    /**
+     * All of the expected output lines.
+     *
+     * @var array
+     */
+    public $expectedOutput = [];
+
+    /**
+     * All of the expected questions.
+     *
+     * @var array
+     */
+    public $expectedQuestions = [];
+
+    /**
+     * Call artisan command and return code.
+     *
+     * @param  string  $command
+     * @param  array  $parameters
+     * @return \Illuminate\Foundation\Testing\PendingCommand|int
+     */
+    public function artisan($command, $parameters = [])
+    {
+        if (! $this->mockConsoleOutput) {
+            return $this->app[Kernel::class]->call($command, $parameters);
+        }
+
+        $this->beforeApplicationDestroyed(function () {
+            if (count($this->expectedQuestions)) {
+                $thi

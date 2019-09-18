@@ -1,0 +1,6 @@
+(using date interval) with overflow explicitly forbidden.
+ * @method        $this          addMillenniaWithNoOverflow(int $value = 1)                                          Add millennia (the $value count passed in) to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          addMillenniumWithNoOverflow()                                                       Add one millennium to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          subMillenniaWithNoOverflow(int $value = 1)                                          Sub millennia (the $value count passed in) to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          subMillenniumWithNoOverflow()                                                       Sub one millennium to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          addMillenniaNoOverflow(int $value = 1)                                              Add millennia (the $value count passed in) to the instance (using date interval) with overflow 

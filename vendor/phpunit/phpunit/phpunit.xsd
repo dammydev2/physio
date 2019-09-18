@@ -1,0 +1,678 @@
+<?php
+/*
+ * This file is part of PHPUnit.
+ *
+ * (c) Sebastian Bergmann <sebastian@phpunit.de>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+namespace PHPUnit\Framework;
+
+use AssertionError;
+use Countable;
+use Error;
+use PHPUnit\Framework\MockObject\Exception as MockObjectException;
+use PHPUnit\Util\Blacklist;
+use PHPUnit\Util\ErrorHandler;
+use PHPUnit\Util\Printer;
+use SebastianBergmann\CodeCoverage\CodeCoverage;
+use SebastianBergmann\CodeCoverage\CoveredCodeNotExecutedException as OriginalCoveredCodeNotExecutedException;
+use SebastianBergmann\CodeCoverage\Exception as OriginalCodeCoverageException;
+use SebastianBergmann\CodeCoverage\MissingCoversAnnotationException as OriginalMissingCoversAnnotationException;
+use SebastianBergmann\CodeCoverage\UnintentionallyCoveredCodeException;
+use SebastianBergmann\Invoker\Invoker;
+use SebastianBergmann\Invoker\TimeoutException;
+use SebastianBergmann\ResourceOperations\ResourceOperations;
+use SebastianBergmann\Timer\Timer;
+use Throwable;
+
+/**
+ * A TestResult collects the results of executing a test case.
+ */
+class TestResult implements Countable
+{
+    /**
+     * @var array
+     */
+    protected $passed = [];
+
+    /**
+     * @var TestFailure[]
+     */
+    protected $errors = [];
+
+    /**
+     * @var TestFailure[]
+     */
+    protected $failures = [];
+
+    /**
+     * @var TestFailure[]
+     */
+    protected $warnings = [];
+
+    /**
+     * @var TestFailure[]
+     */
+    protected $notImplemented = [];
+
+    /**
+     * @var TestFailure[]
+     */
+    protected $risky = [];
+
+    /**
+     * @var TestFailure[]
+     */
+    protected $skipped = [];
+
+    /**
+     * @var TestListener[]
+     */
+    protected $listeners = [];
+
+    /**
+     * @var int
+     */
+    protected $runTests = 0;
+
+    /**
+     * @var float
+     */
+    protected $time = 0;
+
+    /**
+     * @var TestSuite
+     */
+    protected $topTestSuite;
+
+    /**
+     * Code Coverage information.
+     *
+     * @var CodeCoverage
+     */
+    protected $codeCoverage;
+
+    /**
+     * @var bool
+     */
+    protected $convertErrorsToExceptions = true;
+
+    /**
+     * @var bool
+     */
+    protected $stop = false;
+
+    /**
+     * @var bool
+     */
+    protected $stopOnError = false;
+
+    /**
+     * @var bool
+     */
+    protected $stopOnFailure = false;
+
+    /**
+     * @var bool
+     */
+    protected $stopOnWarning = false;
+
+    /**
+     * @var bool
+     */
+    protected $beStrictAboutTestsThatDoNotTestAnything = true;
+
+    /**
+     * @var bool
+     */
+    protected $beStrictAboutOutputDuringTests = false;
+
+    /**
+     * @var bool
+     */
+    protected $beStrictAboutTodoAnnotatedTests = false;
+
+    /**
+     * @var bool
+     */
+    protected $beStrictAboutResourceUsageDuringSmallTests = false;
+
+    /**
+     * @var bool
+     */
+    protected $enforceTimeLimit = false;
+
+    /**
+     * @var int
+     */
+    protected $timeoutForSmallTests = 1;
+
+    /**
+     * @var int
+     */
+    protected $timeoutForMediumTests = 10;
+
+    /**
+     * @var int
+     */
+    protected $timeoutForLargeTests = 60;
+
+    /**
+     * @var bool
+     */
+    protected $stopOnRisky = false;
+
+    /**
+     * @var bool
+     */
+    protected $stopOnIncomplete = false;
+
+    /**
+     * @var bool
+     */
+    protected $stopOnSkipped = false;
+
+    /**
+     * @var bool
+     */
+    protected $lastTestFailed = false;
+
+    /**
+     * @var int
+     */
+    private $defaultTimeLimit = 0;
+
+    /**
+     * @var bool
+     */
+    private $stopOnDefect = false;
+
+    /**
+     * @var bool
+     */
+    private $registerMockObjectsFromTestArgumentsRecursively = false;
+
+    public static function isAnyCoverageRequired(TestCase $test)
+    {
+        $annotations = $test->getAnnotations();
+
+        // If any methods have covers, coverage must me generated
+        if (isset($annotations['method']['covers'])) {
+            return true;
+        }
+
+        // If there are no explicit covers, and the test class is
+        // marked as covers nothing, all coverage can be skipped
+        if (isset($annotations['class']['coversNothing'])) {
+            return false;
+        }
+
+        // Otherwise each test method can generate coverage
+        return true;
+    }
+
+    /**
+     * Registers a TestListener.
+     */
+    public function addListener(TestListener $listener): void
+    {
+        $this->listeners[] = $listener;
+    }
+
+    /**
+     * Unregisters a TestListener.
+     */
+    public function removeListener(TestListener $listener): void
+    {
+        foreach ($this->listeners as $key => $_listener) {
+            if ($listener === $_listener) {
+                unset($this->listeners[$key]);
+            }
+        }
+    }
+
+    /**
+     * Flushes all flushable TestListeners.
+     */
+    public function flushListeners(): void
+    {
+        foreach ($this->listeners as $listener) {
+            if ($listener instanceof Printer) {
+                $listener->flush();
+            }
+        }
+    }
+
+    /**
+     * Adds an error to the list of errors.
+     */
+    public function addError(Test $test, Throwable $t, float $time): void
+    {
+        if ($t instanceof RiskyTest) {
+            $this->risky[] = new TestFailure($test, $t);
+            $notifyMethod  = 'addRiskyTest';
+
+            if ($test instanceof TestCase) {
+                $test->markAsRisky();
+            }
+
+            if ($this->stopOnRisky || $this->stopOnDefect) {
+                $this->stop();
+            }
+        } elseif ($t instanceof IncompleteTest) {
+            $this->notImplemented[] = new TestFailure($test, $t);
+            $notifyMethod           = 'addIncompleteTest';
+
+            if ($this->stopOnIncomplete) {
+                $this->stop();
+            }
+        } elseif ($t instanceof SkippedTest) {
+            $this->skipped[] = new TestFailure($test, $t);
+            $notifyMethod    = 'addSkippedTest';
+
+            if ($this->stopOnSkipped) {
+                $this->stop();
+            }
+        } else {
+            $this->errors[] = new TestFailure($test, $t);
+            $notifyMethod   = 'addError';
+
+            if ($this->stopOnError || $this->stopOnFailure) {
+                $this->stop();
+            }
+        }
+
+        // @see https://github.com/sebastianbergmann/phpunit/issues/1953
+        if ($t instanceof Error) {
+            $t = new ExceptionWrapper($t);
+        }
+
+        foreach ($this->listeners as $listener) {
+            $listener->$notifyMethod($test, $t, $time);
+        }
+
+        $this->lastTestFailed = true;
+        $this->time += $time;
+    }
+
+    /**
+     * Adds a warning to the list of warnings.
+     * The passed in exception caused the warning.
+     */
+    public function addWarning(Test $test, Warning $e, float $time): void
+    {
+        if ($this->stopOnWarning || $this->stopOnDefect) {
+            $this->stop();
+        }
+
+        $this->warnings[] = new TestFailure($test, $e);
+
+        foreach ($this->listeners as $listener) {
+            $listener->addWarning($test, $e, $time);
+        }
+
+        $this->time += $time;
+    }
+
+    /**
+     * Adds a failure to the list of failures.
+     * The passed in exception caused the failure.
+     */
+    public function addFailure(Test $test, AssertionFailedError $e, float $time): void
+    {
+        if ($e instanceof RiskyTest || $e instanceof OutputError) {
+            $this->risky[] = new TestFailure($test, $e);
+            $notifyMethod  = 'addRiskyTest';
+
+            if ($test instanceof TestCase) {
+                $test->markAsRisky();
+            }
+
+            if ($this->stopOnRisky || $this->stopOnDefect) {
+                $this->stop();
+            }
+        } elseif ($e instanceof IncompleteTest) {
+            $this->notImplemented[] = new TestFailure($test, $e);
+            $notifyMethod           = 'addIncompleteTest';
+
+            if ($this->stopOnIncomplete) {
+                $this->stop();
+            }
+        } elseif ($e instanceof SkippedTest) {
+            $this->skipped[] = new TestFailure($test, $e);
+            $notifyMethod    = 'addSkippedTest';
+
+            if ($this->stopOnSkipped) {
+                $this->stop();
+            }
+        } else {
+            $this->failures[] = new TestFailure($test, $e);
+            $notifyMethod     = 'addFailure';
+
+            if ($this->stopOnFailure || $this->stopOnDefect) {
+                $this->stop();
+            }
+        }
+
+        foreach ($this->listeners as $listener) {
+            $listener->$notifyMethod($test, $e, $time);
+        }
+
+        $this->lastTestFailed = true;
+        $this->time += $time;
+    }
+
+    /**
+     * Informs the result that a test suite will be started.
+     */
+    public function startTestSuite(TestSuite $suite): void
+    {
+        if ($this->topTestSuite === null) {
+            $this->topTestSuite = $suite;
+        }
+
+        foreach ($this->listeners as $listener) {
+            $listener->startTestSuite($suite);
+        }
+    }
+
+    /**
+     * Informs the result that a test suite was completed.
+     */
+    public function endTestSuite(TestSuite $suite): void
+    {
+        foreach ($this->listeners as $listener) {
+            $listener->endTestSuite($suite);
+        }
+    }
+
+    /**
+     * Informs the result that a test will be started.
+     */
+    public function startTest(Test $test): void
+    {
+        $this->lastTestFailed = false;
+        $this->runTests += \count($test);
+
+        foreach ($this->listeners as $listener) {
+            $listener->startTest($test);
+        }
+    }
+
+    /**
+     * Informs the result that a test was completed.
+     *
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    public function endTest(Test $test, float $time): void
+    {
+        foreach ($this->listeners as $listener) {
+            $listener->endTest($test, $time);
+        }
+
+        if (!$this->lastTestFailed && $test instanceof TestCase) {
+            $class = \get_class($test);
+            $key   = $class . '::' . $test->getName();
+
+            $this->passed[$key] = [
+                'result' => $test->getResult(),
+                'size'   => \PHPUnit\Util\Test::getSize(
+                    $class,
+                    $test->getName(false)
+                ),
+            ];
+
+            $this->time += $time;
+        }
+    }
+
+    /**
+     * Returns true if no risky test occurred.
+     */
+    public function allHarmless(): bool
+    {
+        return $this->riskyCount() == 0;
+    }
+
+    /**
+     * Gets the number of risky tests.
+     */
+    public function riskyCount(): int
+    {
+        return \count($this->risky);
+    }
+
+    /**
+     * Returns true if no incomplete test occurred.
+     */
+    public function allCompletelyImplemented(): bool
+    {
+        return $this->notImplementedCount() == 0;
+    }
+
+    /**
+     * Gets the number of incomplete tests.
+     */
+    public function notImplementedCount(): int
+    {
+        return \count($this->notImplemented);
+    }
+
+    /**
+     * Returns an array of TestFailure objects for the risky tests
+     *
+     * @return TestFailure[]
+     */
+    public function risky(): array
+    {
+        return $this->risky;
+    }
+
+    /**
+     * Returns an array of TestFailure objects for the incomplete tests
+     *
+     * @return TestFailure[]
+     */
+    public function notImplemented(): array
+    {
+        return $this->notImplemented;
+    }
+
+    /**
+     * Returns true if no test has been skipped.
+     */
+    public function noneSkipped(): bool
+    {
+        return $this->skippedCount() == 0;
+    }
+
+    /**
+     * Gets the number of skipped tests.
+     */
+    public function skippedCount(): int
+    {
+        return \count($this->skipped);
+    }
+
+    /**
+     * Returns an array of TestFailure objects for the skipped tests
+     *
+     * @return TestFailure[]
+     */
+    public function skipped(): array
+    {
+        return $this->skipped;
+    }
+
+    /**
+     * Gets the number of detected errors.
+     */
+    public function errorCount(): int
+    {
+        return \count($this->errors);
+    }
+
+    /**
+     * Returns an array of TestFailure objects for the errors
+     *
+     * @return TestFailure[]
+     */
+    public function errors(): array
+    {
+        return $this->errors;
+    }
+
+    /**
+     * Gets the number of detected failures.
+     */
+    public function failureCount(): int
+    {
+        return \count($this->failures);
+    }
+
+    /**
+     * Returns an array of TestFailure objects for the failures
+     *
+     * @return TestFailure[]
+     */
+    public function failures(): array
+    {
+        return $this->failures;
+    }
+
+    /**
+     * Gets the number of detected warnings.
+     */
+    public function warningCount(): int
+    {
+        return \count($this->warnings);
+    }
+
+    /**
+     * Returns an array of TestFailure objects for the warnings
+     *
+     * @return TestFailure[]
+     */
+    public function warnings(): array
+    {
+        return $this->warnings;
+    }
+
+    /**
+     * Returns the names of the tests that have passed.
+     */
+    public function passed(): array
+    {
+        return $this->passed;
+    }
+
+    /**
+     * Returns the (top) test suite.
+     */
+    public function topTestSuite(): TestSuite
+    {
+        return $this->topTestSuite;
+    }
+
+    /**
+     * Returns whether code coverage information should be collected.
+     */
+    public function getCollectCodeCoverageInformation(): bool
+    {
+        return $this->codeCoverage !== null;
+    }
+
+    /**
+     * Runs a TestCase.
+     *
+     * @throws CodeCoverageException
+     * @throws OriginalCoveredCodeNotExecutedException
+     * @throws OriginalMissingCoversAnnotationException
+     * @throws UnintentionallyCoveredCodeException
+     * @throws \ReflectionException
+     * @throws \SebastianBergmann\CodeCoverage\InvalidArgumentException
+     * @throws \SebastianBergmann\CodeCoverage\RuntimeException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    public function run(Test $test): void
+    {
+        Assert::resetCount();
+
+        $coversNothing = false;
+
+        if ($test instanceof TestCase) {
+            $test->setRegisterMockObjectsFromTestArgumentsRecursively(
+                $this->registerMockObjectsFromTestArgumentsRecursively
+            );
+
+            $isAnyCoverageRequired = self::isAnyCoverageRequired($test);
+        }
+
+        $error      = false;
+        $failure    = false;
+        $warning    = false;
+        $incomplete = false;
+        $risky      = false;
+        $skipped    = false;
+
+        $this->startTest($test);
+
+        $errorHandlerSet = false;
+
+        if ($this->convertErrorsToExceptions) {
+            $oldErrorHandler = \set_error_handler(
+                [ErrorHandler::class, 'handleError'],
+                \E_ALL | \E_STRICT
+            );
+
+            if ($oldErrorHandler === null) {
+                $errorHandlerSet = true;
+            } else {
+                \restore_error_handler();
+            }
+        }
+
+        $collectCodeCoverage = $this->codeCoverage !== null &&
+                               !$test instanceof WarningTestCase &&
+                               $isAnyCoverageRequired;
+
+        if ($collectCodeCoverage) {
+            $this->codeCoverage->start($test);
+        }
+
+        $monitorFunctions = $this->beStrictAboutResourceUsageDuringSmallTests &&
+            !$test instanceof WarningTestCase &&
+            $test->getSize() == \PHPUnit\Util\Test::SMALL &&
+            \function_exists('xdebug_start_function_monitor');
+
+        if ($monitorFunctions) {
+            /* @noinspection ForgottenDebugOutputInspection */
+            \xdebug_start_function_monitor(ResourceOperations::getFunctions());
+        }
+
+        Timer::start();
+
+        try {
+            if (!$test instanceof WarningTestCase &&
+                $this->enforceTimeLimit &&
+                ($this->defaultTimeLimit || $test->getSize() != \PHPUnit\Util\Test::UNKNOWN) &&
+                \extension_loaded('pcntl') && \class_exists(Invoker::class)) {
+                switch ($test->getSize()) {
+                    case \PHPUnit\Util\Test::SMALL:
+                        $_timeout = $this->timeoutForSmallTests;
+
+                        break;
+
+                    case \PHPUnit\Util\Test::MEDIUM:
+                        $_timeout = $this->timeoutForMediumTests;
+
+                        break;
+
+                    case \PHPUnit\Util\Test::LARGE:
+                        $_timeout = $this->timeoutForLargeTests;
+
+                        break;
+
+              

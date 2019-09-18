@@ -1,0 +1,28 @@
+
+    /**
+     * Resolves the given FQSEN string into an FQSEN object.
+     *
+     * @param string $type
+     * @param Context|null $context
+     *
+     * @return Object_
+     */
+    private function resolveTypedObject($type, Context $context = null)
+    {
+        return new Object_($this->fqsenResolver->resolve($type, $context));
+    }
+
+    /**
+     * Resolves a compound type (i.e. `string|int`) into the appropriate Type objects or FQSEN.
+     *
+     * @param string $type
+     * @param Context $context
+     *
+     * @return Compound
+     */
+    private function resolveCompoundType($type, Context $context)
+    {
+        $types = [];
+
+        foreach (explode('|', $type) as $part) {
+            $types[] = $this->resolve($pa

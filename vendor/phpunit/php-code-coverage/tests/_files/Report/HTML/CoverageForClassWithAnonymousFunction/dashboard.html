@@ -1,0 +1,457 @@
+ PHP_Token_NAMESPACE) {
+                $result['namespace'] = $this->tokenStream[$i]->getName();
+                break;
+            }
+        }
+
+        if (preg_match('/@category[\s]+([\.\w]+)/', $docComment, $matches)) {
+            $result['category'] = $matches[1];
+        }
+
+        if (preg_match('/@package[\s]+([\.\w]+)/', $docComment, $matches)) {
+            $result['package']     = $matches[1];
+            $result['fullPackage'] = $matches[1];
+        }
+
+        if (preg_match('/@subpackage[\s]+([\.\w]+)/', $docComment, $matches)) {
+            $result['subpackage']   = $matches[1];
+            $result['fullPackage'] .= '.' . $matches[1];
+        }
+
+        if (empty($result['fullPackage'])) {
+            $result['fullPackage'] = $this->arrayToName(
+                explode('_', str_replace('\\', '_', $className)),
+                '.'
+            );
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param array  $parts
+     * @param string $join
+     *
+     * @return string
+     */
+    protected function arrayToName(array $parts, $join = '\\')
+    {
+        $result = '';
+
+        if (count($parts) > 1) {
+            array_pop($parts);
+
+            $result = implode($join, $parts);
+        }
+
+        return $result;
+    }
+
+    /**
+     * @return bool|string
+     */
+    public function getParent()
+    {
+        if (!$this->hasParent()) {
+            return false;
+        }
+
+        $i         = $this->id + 6;
+        $tokens    = $this->tokenStream->tokens();
+        $className = (string) $tokens[$i];
+
+        while (isset($tokens[$i + 1]) &&
+               !$tokens[$i + 1] instanceof PHP_Token_WHITESPACE) {
+            $className .= (string) $tokens[++$i];
+        }
+
+        return $className;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasInterfaces()
+    {
+        return (isset($this->tokenStream[$this->id + 4]) &&
+                $this->tokenStream[$this->id + 4] instanceof PHP_Token_IMPLEMENTS) ||
+               (isset($this->tokenStream[$this->id + 8]) &&
+                $this->tokenStream[$this->id + 8] instanceof PHP_Token_IMPLEMENTS);
+    }
+
+    /**
+     * @return array|bool
+     */
+    public function getInterfaces()
+    {
+        if ($this->interfaces !== null) {
+            return $this->interfaces;
+        }
+
+        if (!$this->hasInterfaces()) {
+            return ($this->interfaces = false);
+        }
+
+        if ($this->tokenStream[$this->id + 4] instanceof PHP_Token_IMPLEMENTS) {
+            $i = $this->id + 3;
+        } else {
+            $i = $this->id + 7;
+        }
+
+        $tokens = $this->tokenStream->tokens();
+
+        while (!$tokens[$i + 1] instanceof PHP_Token_OPEN_CURLY) {
+            $i++;
+
+            if ($tokens[$i] instanceof PHP_Token_STRING) {
+                $this->interfaces[] = (string) $tokens[$i];
+            }
+        }
+
+        return $this->interfaces;
+    }
+}
+
+class PHP_Token_ABSTRACT extends PHP_Token
+{
+}
+
+class PHP_Token_AMPERSAND extends PHP_Token
+{
+}
+
+class PHP_Token_AND_EQUAL extends PHP_Token
+{
+}
+
+class PHP_Token_ARRAY extends PHP_Token
+{
+}
+
+class PHP_Token_ARRAY_CAST extends PHP_Token
+{
+}
+
+class PHP_Token_AS extends PHP_Token
+{
+}
+
+class PHP_Token_AT extends PHP_Token
+{
+}
+
+class PHP_Token_BACKTICK extends PHP_Token
+{
+}
+
+class PHP_Token_BAD_CHARACTER extends PHP_Token
+{
+}
+
+class PHP_Token_BOOLEAN_AND extends PHP_Token
+{
+}
+
+class PHP_Token_BOOLEAN_OR extends PHP_Token
+{
+}
+
+class PHP_Token_BOOL_CAST extends PHP_Token
+{
+}
+
+class PHP_Token_BREAK extends PHP_Token
+{
+}
+
+class PHP_Token_CARET extends PHP_Token
+{
+}
+
+class PHP_Token_CASE extends PHP_Token
+{
+}
+
+class PHP_Token_CATCH extends PHP_Token
+{
+}
+
+class PHP_Token_CHARACTER extends PHP_Token
+{
+}
+
+class PHP_Token_CLASS extends PHP_Token_INTERFACE
+{
+    /**
+     * @var bool
+     */
+    private $anonymous = false;
+
+    /**
+     * @var string
+     */
+    private $name;
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        if ($this->name !== null) {
+            return $this->name;
+        }
+
+        $next = $this->tokenStream[$this->id + 1];
+
+        if ($next instanceof PHP_Token_WHITESPACE) {
+            $next = $this->tokenStream[$this->id + 2];
+        }
+
+        if ($next instanceof PHP_Token_STRING) {
+            $this->name =(string) $next;
+
+            return $this->name;
+        }
+
+        if ($next instanceof PHP_Token_OPEN_CURLY ||
+            $next instanceof PHP_Token_EXTENDS ||
+            $next instanceof PHP_Token_IMPLEMENTS) {
+
+            $this->name = sprintf(
+                'AnonymousClass:%s#%s',
+                $this->getLine(),
+                $this->getId()
+            );
+
+            $this->anonymous = true;
+
+            return $this->name;
+        }
+    }
+
+    public function isAnonymous()
+    {
+        return $this->anonymous;
+    }
+}
+
+class PHP_Token_CLASS_C extends PHP_Token
+{
+}
+
+class PHP_Token_CLASS_NAME_CONSTANT extends PHP_Token
+{
+}
+
+class PHP_Token_CLONE extends PHP_Token
+{
+}
+
+class PHP_Token_CLOSE_BRACKET extends PHP_Token
+{
+}
+
+class PHP_Token_CLOSE_CURLY extends PHP_Token
+{
+}
+
+class PHP_Token_CLOSE_SQUARE extends PHP_Token
+{
+}
+
+class PHP_Token_CLOSE_TAG extends PHP_Token
+{
+}
+
+class PHP_Token_COLON extends PHP_Token
+{
+}
+
+class PHP_Token_COMMA extends PHP_Token
+{
+}
+
+class PHP_Token_COMMENT extends PHP_Token
+{
+}
+
+class PHP_Token_CONCAT_EQUAL extends PHP_Token
+{
+}
+
+class PHP_Token_CONST extends PHP_Token
+{
+}
+
+class PHP_Token_CONSTANT_ENCAPSED_STRING extends PHP_Token
+{
+}
+
+class PHP_Token_CONTINUE extends PHP_Token
+{
+}
+
+class PHP_Token_CURLY_OPEN extends PHP_Token
+{
+}
+
+class PHP_Token_DEC extends PHP_Token
+{
+}
+
+class PHP_Token_DECLARE extends PHP_Token
+{
+}
+
+class PHP_Token_DEFAULT extends PHP_Token
+{
+}
+
+class PHP_Token_DIV extends PHP_Token
+{
+}
+
+class PHP_Token_DIV_EQUAL extends PHP_Token
+{
+}
+
+class PHP_Token_DNUMBER extends PHP_Token
+{
+}
+
+class PHP_Token_DO extends PHP_Token
+{
+}
+
+class PHP_Token_DOC_COMMENT extends PHP_Token
+{
+}
+
+class PHP_Token_DOLLAR extends PHP_Token
+{
+}
+
+class PHP_Token_DOLLAR_OPEN_CURLY_BRACES extends PHP_Token
+{
+}
+
+class PHP_Token_DOT extends PHP_Token
+{
+}
+
+class PHP_Token_DOUBLE_ARROW extends PHP_Token
+{
+}
+
+class PHP_Token_DOUBLE_CAST extends PHP_Token
+{
+}
+
+class PHP_Token_DOUBLE_COLON extends PHP_Token
+{
+}
+
+class PHP_Token_DOUBLE_QUOTES extends PHP_Token
+{
+}
+
+class PHP_Token_ECHO extends PHP_Token
+{
+}
+
+class PHP_Token_ELSE extends PHP_Token
+{
+}
+
+class PHP_Token_ELSEIF extends PHP_Token
+{
+}
+
+class PHP_Token_EMPTY extends PHP_Token
+{
+}
+
+class PHP_Token_ENCAPSED_AND_WHITESPACE extends PHP_Token
+{
+}
+
+class PHP_Token_ENDDECLARE extends PHP_Token
+{
+}
+
+class PHP_Token_ENDFOR extends PHP_Token
+{
+}
+
+class PHP_Token_ENDFOREACH extends PHP_Token
+{
+}
+
+class PHP_Token_ENDIF extends PHP_Token
+{
+}
+
+class PHP_Token_ENDSWITCH extends PHP_Token
+{
+}
+
+class PHP_Token_ENDWHILE extends PHP_Token
+{
+}
+
+class PHP_Token_END_HEREDOC extends PHP_Token
+{
+}
+
+class PHP_Token_EQUAL extends PHP_Token
+{
+}
+
+class PHP_Token_EVAL extends PHP_Token
+{
+}
+
+class PHP_Token_EXCLAMATION_MARK extends PHP_Token
+{
+}
+
+class PHP_Token_EXIT extends PHP_Token
+{
+}
+
+class PHP_Token_EXTENDS extends PHP_Token
+{
+}
+
+class PHP_Token_FILE extends PHP_Token
+{
+}
+
+class PHP_Token_FINAL extends PHP_Token
+{
+}
+
+class PHP_Token_FOR extends PHP_Token
+{
+}
+
+class PHP_Token_FOREACH extends PHP_Token
+{
+}
+
+class PHP_Token_FUNC_C extends PHP_Token
+{
+}
+
+class PHP_Token_GLOBAL extends PHP_Token
+{
+}
+
+class PHP_Token_GT extends PHP_Token
+{
+}
+
+class PHP_Token_IF extends PHP_Token
+{
+}
+

@@ -1,0 +1,56 @@
+l) with overflow explicitly forbidden.
+ * @method        $this          subDecadeWithoutOverflow()                                                          Sub one decade to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          addDecadesWithNoOverflow(int $value = 1)                                            Add decades (the $value count passed in) to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          addDecadeWithNoOverflow()                                                           Add one decade to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          subDecadesWithNoOverflow(int $value = 1)                                            Sub decades (the $value count passed in) to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          subDecadeWithNoOverflow()                                                           Sub one decade to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          addDecadesNoOverflow(int $value = 1)                                                Add decades (the $value count passed in) to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          addDecadeNoOverflow()                                                               Add one decade to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          subDecadesNoOverflow(int $value = 1)                                                Sub decades (the $value count passed in) to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          subDecadeNoOverflow()                                                               Sub one decade to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          addQuarters(int $value = 1)                                                         Add quarters (the $value count passed in) to the instance (using date interval).
+ * @method        $this          addQuarter()                                                                        Add one quarter to the instance (using date interval).
+ * @method        $this          subQuarters(int $value = 1)                                                         Sub quarters (the $value count passed in) to the instance (using date interval).
+ * @method        $this          subQuarter()                                                                        Sub one quarter to the instance (using date interval).
+ * @method        $this          addQuartersWithOverflow(int $value = 1)                                             Add quarters (the $value count passed in) to the instance (using date interval) with overflow explicitly allowed.
+ * @method        $this          addQuarterWithOverflow()                                                            Add one quarter to the instance (using date interval) with overflow explicitly allowed.
+ * @method        $this          subQuartersWithOverflow(int $value = 1)                                             Sub quarters (the $value count passed in) to the instance (using date interval) with overflow explicitly allowed.
+ * @method        $this          subQuarterWithOverflow()                                                            Sub one quarter to the instance (using date interval) with overflow explicitly allowed.
+ * @method        $this          addQuartersWithoutOverflow(int $value = 1)                                          Add quarters (the $value count passed in) to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          addQuarterWithoutOverflow()                                                         Add one quarter to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          subQuartersWithoutOverflow(int $value = 1)                                          Sub quarters (the $value count passed in) to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          subQuarterWithoutOverflow()                                                         Sub one quarter to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          addQuartersWithNoOverflow(int $value = 1)                                           Add quarters (the $value count passed in) to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          addQuarterWithNoOverflow()                                                          Add one quarter to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          subQuartersWithNoOverflow(int $value = 1)                                           Sub quarters (the $value count passed in) to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          subQuarterWithNoOverflow()                                                          Sub one quarter to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          addQuartersNoOverflow(int $value = 1)                                               Add quarters (the $value count passed in) to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          addQuarterNoOverflow()                                                              Add one quarter to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          subQuartersNoOverflow(int $value = 1)                                               Sub quarters (the $value count passed in) to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          subQuarterNoOverflow()                                                              Sub one quarter to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          addWeeks(int $value = 1)                                                            Add weeks (the $value count passed in) to the instance (using date interval).
+ * @method        $this          addWeek()                                                                           Add one week to the instance (using date interval).
+ * @method        $this          subWeeks(int $value = 1)                                                            Sub weeks (the $value count passed in) to the instance (using date interval).
+ * @method        $this          subWeek()                                                                           Sub one week to the instance (using date interval).
+ * @method        $this          addWeekdays(int $value = 1)                                                         Add weekdays (the $value count passed in) to the instance (using date interval).
+ * @method        $this          addWeekday()                                                                        Add one weekday to the instance (using date interval).
+ * @method        $this          subWeekdays(int $value = 1)                                                         Sub weekdays (the $value count passed in) to the instance (using date interval).
+ * @method        $this          subWeekday()                                                                        Sub one weekday to the instance (using date interval).
+ * @method        $this          addRealMicros(int $value = 1)                                                       Add microseconds (the $value count passed in) to the instance (using timestamp).
+ * @method        $this          addRealMicro()                                                                      Add one microsecond to the instance (using timestamp).
+ * @method        $this          subRealMicros(int $value = 1)                                                       Sub microseconds (the $value count passed in) to the instance (using timestamp).
+ * @method        $this          subRealMicro()                                                                      Sub one microsecond to the instance (using timestamp).
+ * @method        $this          addRealMicroseconds(int $value = 1)                                                 Add microseconds (the $value count passed in) to the instance (using timestamp).
+ * @method        $this          addRealMicrosecond()                                                                Add one microsecond to the instance (using timestamp).
+ * @method        $this          subRealMicroseconds(int $value = 1)                                                 Sub microseconds (the $value count passed in) to the instance (using timestamp).
+ * @method        $this          subRealMicrosecond()                                                                Sub one microsecond to the instance (using timestamp).
+ * @method        $this          addRealMillis(int $value = 1)                                                       Add milliseconds (the $value count passed in) to the instance (using timestamp).
+ * @method        $this          addRealMilli()                                                                      Add one millisecond to the instance (using timestamp).
+ * @method        $this          subRealMillis(int $value = 1)                                                       Sub milliseconds (the $value count passed in) to the instance (using timestamp).
+ * @method        $this          subRealMilli()                                                                      Sub one millisecond to the instance (using timestamp).
+ * @method        $this          addRealMilliseconds(int $value = 1)                                                 Add milliseconds (the $value count passed in) to the instance (using timestamp).
+ * @method        $this          addRealMillisecond()                                                                Add one millisecond to the instance (using timestamp).
+ * @method        $this          subRealMilliseconds(int $value = 1)                                                 Sub milliseconds (the $value count passed in) to the instance (using timestamp).
+ * @method        $this          subRealMillisecond()                                                                Sub one millisecond to the instance (using timestamp).
+ * @method        $this          addRealSeconds(int $value = 1)                                                      Add seconds (the $value count passed in) to the instance (using timestamp).
+ * @method        $this  

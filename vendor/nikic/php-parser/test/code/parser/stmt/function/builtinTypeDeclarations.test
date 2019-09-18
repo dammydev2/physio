@@ -1,0 +1,66 @@
+odification
+        $subNode =& $node->subNode;
+        $subNode = 'newNewValue';
+        $this->assertSame('newNewValue', $node->subNode);
+
+        // removal
+        unset($node->subNode);
+        $this->assertObjectNotHasAttribute('subNode', $node);
+    }
+
+    /**
+     * @dataProvider provideNodes
+     */
+    public function testIteration(array $attributes, Node $node) {
+        // Iteration is simple object iteration over properties,
+        // not over subnodes
+        $i = 0;
+        foreach ($node as $key => $value) {
+            if ($i === 0) {
+                $this->assertSame('subNode1', $key);
+                $this->assertSame('value1', $value);
+            } elseif ($i === 1) {
+                $this->assertSame('subNode2', $key);
+                $this->assertSame('value2', $value);
+            } elseif ($i === 2) {
+                $this->assertSame('notSubNode', $key);
+                $this->assertSame('value3', $value);
+            } else {
+                throw new \Exception;
+            }
+            $i++;
+        }
+        $this->assertSame(3, $i);
+    }
+
+    public function testAttributes() {
+        /** @var $node Node */
+        $node = $this->getMockForAbstractClass(NodeAbstract::class);
+
+        $this->assertEmpty($node->getAttributes());
+
+        $node->setAttribute('key', 'value');
+        $this->assertTrue($node->hasAttribute('key'));
+        $this->assertSame('value', $node->getAttribute('key'));
+
+        $this->assertFalse($node->hasAttribute('doesNotExist'));
+        $this->assertNull($node->getAttribute('doesNotExist'));
+        $this->assertSame('default', $node->getAttribute('doesNotExist', 'default'));
+
+        $node->setAttribute('null', null);
+        $this->assertTrue($node->hasAttribute('null'));
+        $this->assertNull($node->getAttribute('null'));
+        $this->assertNull($node->getAttribute('null', 'default'));
+
+        $this->assertSame(
+            [
+                'key'  => 'value',
+                'null' => null,
+            ],
+            $node->getAttributes()
+        );
+
+        $node->setAttributes(
+            [
+                'a' => 'b',
+              

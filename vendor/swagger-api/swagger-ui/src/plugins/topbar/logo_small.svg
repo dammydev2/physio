@@ -1,0 +1,638 @@
+eOas3Param = (param, value, expectedError) => {
+      // for cases where you _only_ want to try OAS3
+      result = validateParam(fromJS(param), value, {
+        isOAS3: true
+      })
+      expect( result ).toEqual( expectedError )
+    }
+    
+    it("should check the isOAS3 flag when validating parameters", function() {
+      // This should "skip" validation because there is no `schema` property
+      // and we are telling `validateParam` this is an OAS3 spec
+      param = fromJS({
+        required: true
+      })
+      value = ""
+      result = validateParam( param, value, {
+        isOAS3: true
+      } )
+      expect( result ).toEqual( [] )
+    })
+    
+    it("validates required OAS3 objects", function() {
+      // valid object
+      param = {
+        required: true,
+        schema: {
+          type: "object"
+        }
+      }
+      value = {
+        abc: 123
+      }
+      assertValidateOas3Param(param, value, [])
+      
+      // valid object-as-string
+      param = {
+        required: true,
+        schema: {
+          type: "object"
+        }
+      }
+      value = JSON.stringify({
+        abc: 123
+      })
+      assertValidateOas3Param(param, value, [])
+      
+      // invalid object-as-string
+      param = {
+        required: true,
+        schema: {
+          type: "object"
+        }
+      }
+      value = "{{}"
+      assertValidateOas3Param(param, value, ["Parameter string value must be valid JSON"])
+      
+      // missing when required
+      param = {
+        required: true,
+        schema: {
+          type: "object"
+        },
+      }
+      value = undefined
+      assertValidateOas3Param(param, value, ["Required field is not provided"])
+    })
+    
+    it("validates optional OAS3 objects", function() {
+      // valid object
+      param = {
+        schema: {
+          type: "object"
+        }
+      }
+      value = {
+        abc: 123
+      }
+      assertValidateOas3Param(param, value, [])
+      
+      // valid object-as-string
+      param = {
+        schema: {
+          type: "object"
+        }
+      }
+      value = JSON.stringify({
+        abc: 123
+      })
+      assertValidateOas3Param(param, value, [])
+      
+      // invalid object-as-string
+      param = {
+        schema: {
+          type: "object"
+        }
+      }
+      value = "{{}"
+      assertValidateOas3Param(param, value, ["Parameter string value must be valid JSON"])
+      
+      // missing when not required
+      param = {
+        schema: {
+          type: "object"
+        },
+      }
+      value = undefined
+      assertValidateOas3Param(param, value, [])
+    })
+    
+    it("validates required strings", function() {
+      // invalid string
+      param = {
+        required: true,
+        type: "string"
+      }
+      value = ""
+      assertValidateParam(param, value, ["Required field is not provided"])
+      
+      // valid string
+      param = {
+        required: true,
+        type: "string"
+      }
+      value = "test string"
+      assertValidateParam(param, value, [])
+      
+      // valid string with min and max length
+      param = {
+        required: true,
+        type: "string",
+        maxLength: 50,
+        minLength: 1
+      }
+      value = "test string"
+      assertValidateParam(param, value, [])
+    })
+    
+    it("validates required strings with min and max length", function() {
+      // invalid string with max length
+      param = {
+        required: true,
+        type: "string",
+        maxLength: 5
+      }
+      value = "test string"
+      assertValidateParam(param, value, ["Value must be less than MaxLength"])
+      
+      // invalid string with max length 0
+      param = {
+        required: true,
+        type: "string",
+        maxLength: 0
+      }
+      value = "test string"
+      assertValidateParam(param, value, ["Value must be less than MaxLength"])
+      
+      // invalid string with min length
+      param = {
+        required: true,
+        type: "string",
+        minLength: 50
+      }
+      value = "test string"
+      assertValidateParam(param, value, ["Value must be greater than MinLength"])
+    })
+    
+    it("validates optional strings", function() {
+      // valid (empty) string
+      param = {
+        required: false,
+        type: "string"
+      }
+      value = ""
+      assertValidateParam(param, value, [])
+      
+      // valid string
+      param = {
+        required: false,
+        type: "string"
+      }
+      value = "test"
+      assertValidateParam(param, value, [])
+    })
+    
+    it("validates required files", function() {
+      // invalid file
+      param = {
+        required: true,
+        type: "file"
+      }
+      value = undefined
+      assertValidateParam(param, value, ["Required field is not provided"])
+      
+      // valid file
+      param = {
+        required: true,
+        type: "file"
+      }
+      value = new win.File()
+      assertValidateParam(param, value, [])
+    })
+    
+    it("validates optional files", function() {
+      // invalid file
+      param = {
+        required: false,
+        type: "file"
+      }
+      value = "not a file"
+      assertValidateParam(param, value, ["Value must be a file"])
+      
+      // valid (empty) file
+      param = {
+        required: false,
+        type: "file"
+      }
+      value = undefined
+      assertValidateParam(param, value, [])
+      
+      // valid file
+      param = {
+        required: false,
+        type: "file"
+      }
+      value = new win.File()
+      assertValidateParam(param, value, [])
+    })
+    
+    it("validates required arrays", function() {
+      // invalid (empty) array
+      param = {
+        required: true,
+        type: "array"
+      }
+      value = []
+      assertValidateParam(param, value, ["Required field is not provided"])
+      
+      // invalid (not an array)
+      param = {
+        required: true,
+        type: "array"
+      }
+      value = undefined
+      assertValidateParam(param, value, ["Required field is not provided"])
+      
+      // invalid array, items do not match correct type
+      param = {
+        required: true,
+        type: "array",
+        items: {
+          type: "string"
+        }
+      }
+      value = [1]
+      assertValidateParam(param, value, [{index: 0, error: "Value must be a string"}])
+      
+      // valid array, with no 'type' for items
+      param = {
+        required: true,
+        type: "array"
+      }
+      value = [1]
+      assertValidateParam(param, value, [])
+      
+      // valid array, items match type
+      param = {
+        required: true,
+        type: "array",
+        items: {
+          type: "string"
+        }
+      }
+      value = ["1"]
+      assertValidateParam(param, value, [])
+    })
+    
+    it("validates optional arrays", function() {
+      // valid, empty array
+      param = {
+        required: false,
+        type: "array"
+      }
+      value = []
+      assertValidateParam(param, value, [])
+      
+      // invalid, items do not match correct type
+      param = {
+        required: false,
+        type: "array",
+        items: {
+          type: "number"
+        }
+      }
+      value = ["number"]
+      assertValidateParam(param, value, [{index: 0, error: "Value must be a number"}])
+      
+      // valid
+      param = {
+        required: false,
+        type: "array",
+        items: {
+          type: "string"
+        }
+      }
+      value = ["test"]
+      assertValidateParam(param, value, [])
+    })
+    
+    it("validates required booleans", function() {
+      // invalid boolean value
+      param = {
+        required: true,
+        type: "boolean"
+      }
+      value = undefined
+      assertValidateParam(param, value, ["Required field is not provided"])
+      
+      // invalid boolean value (not a boolean)
+      param = {
+        required: true,
+        type: "boolean"
+      }
+      value = "test string"
+      assertValidateParam(param, value, ["Value must be a boolean"])
+      
+      // valid boolean value
+      param = {
+        required: true,
+        type: "boolean"
+      }
+      value = "true"
+      assertValidateParam(param, value, [])
+      
+      // valid boolean value
+      param = {
+        required: true,
+        type: "boolean"
+      }
+      value = false
+      assertValidateParam(param, value, [])
+    })
+    
+    it("validates optional booleans", function() {
+      // valid (empty) boolean value
+      param = {
+        required: false,
+        type: "boolean"
+      }
+      value = undefined
+      assertValidateParam(param, value, [])
+      
+      // invalid boolean value (not a boolean)
+      param = {
+        required: false,
+        type: "boolean"
+      }
+      value = "test string"
+      assertValidateParam(param, value, ["Value must be a boolean"])
+      
+      // valid boolean value
+      param = {
+        required: false,
+        type: "boolean"
+      }
+      value = "true"
+      assertValidateParam(param, value, [])
+      
+      // valid boolean value
+      param = {
+        required: false,
+        type: "boolean"
+      }
+      value = false
+      assertValidateParam(param, value, [])
+    })
+    
+    it("validates required numbers", function() {
+      // invalid number, string instead of a number
+      param = {
+        required: true,
+        type: "number"
+      }
+      value = "test"
+      assertValidateParam(param, value, ["Value must be a number"])
+      
+      // invalid number, undefined value
+      param = {
+        required: true,
+        type: "number"
+      }
+      value = undefined
+      assertValidateParam(param, value, ["Required field is not provided"])
+      
+      // valid number with min and max
+      param = {
+        required: true,
+        type: "number",
+        minimum: 5,
+        maximum: 99
+      }
+      value = 10
+      assertValidateParam(param, value, [])
+      
+      // valid negative number with min and max
+      param = {
+        required: true,
+        type: "number",
+        minimum: -50,
+        maximum: -5
+      }
+      value = -10
+      assertValidateParam(param, value, [])
+      
+      // invalid number with maximum:0
+      param = {
+        required: true,
+        type: "number",
+        
+        maximum: 0
+      }
+      value = 1
+      assertValidateParam(param, value, ["Value must be less than Maximum"])
+      
+      // invalid number with minimum:0
+      param = {
+        required: true,
+        type: "number",
+        minimum: 0
+      }
+      value = -10
+      assertValidateParam(param, value, ["Value must be greater than Minimum"])
+    })
+    
+    it("validates optional numbers", function() {
+      // invalid number, string instead of a number
+      param = {
+        required: false,
+        type: "number"
+      }
+      value = "test"
+      assertValidateParam(param, value, ["Value must be a number"])
+      
+      // valid (empty) number
+      param = {
+        required: false,
+        type: "number"
+      }
+      value = undefined
+      assertValidateParam(param, value, [])
+      
+      // valid number
+      param = {
+        required: false,
+        type: "number"
+      }
+      value = 10
+      assertValidateParam(param, value, [])
+    })
+    
+    it("validates required integers", function() {
+      // invalid integer, string instead of an integer
+      param = {
+        required: true,
+        type: "integer"
+      }
+      value = "test"
+      assertValidateParam(param, value, ["Value must be an integer"])
+      
+      // invalid integer, undefined value
+      param = {
+        required: true,
+        type: "integer"
+      }
+      value = undefined
+      assertValidateParam(param, value, ["Required field is not provided"])
+      
+      // valid integer, but 0 is falsy in JS
+      param = {
+        required: true,
+        type: "integer"
+      }
+      value = 0
+      assertValidateParam(param, value, [])
+      
+      // valid integer
+      param = {
+        required: true,
+        type: "integer"
+      }
+      value = 10
+      assertValidateParam(param, value, [])
+    })
+    
+    it("validates optional integers", function() {
+      // invalid integer, string instead of an integer
+      param = {
+        required: false,
+        type: "integer"
+      }
+      value = "test"
+      assertValidateParam(param, value, ["Value must be an integer"])
+      
+      // valid (empty) integer
+      param = {
+        required: false,
+        type: "integer"
+      }
+      value = undefined
+      assertValidateParam(param, value, [])
+      
+      // integers
+      param = {
+        required: false,
+        type: "integer"
+      }
+      value = 10
+      assertValidateParam(param, value, [])
+    })
+  })
+  
+  describe("fromJSOrdered", () => {
+    it("should create an OrderedMap from an object", () => {
+      const param = {
+        value: "test"
+      }
+      
+      const result = fromJSOrdered(param).toJS()
+      expect( result ).toEqual( { value: "test" } )
+    })
+    
+    it("should not use an object's length property for Map size", () => {
+      const param = {
+        length: 5
+      }
+      
+      const result = fromJSOrdered(param).toJS()
+      expect( result ).toEqual( { length: 5 } )
+    })
+    
+    it("should create an OrderedMap from an array", () => {
+      const param = [1, 1, 2, 3, 5, 8]
+      
+      const result = fromJSOrdered(param).toJS()
+      expect( result ).toEqual( [1, 1, 2, 3, 5, 8] )
+    })
+  })
+  
+  describe("getAcceptControllingResponse", () => {
+    it("should return the first 2xx response with a media type", () => {
+      const responses = fromJSOrdered({
+        "200": {
+          content: {
+            "application/json": {
+              schema: {
+                type: "object"
+              }
+            }
+          }
+        },
+        "201": {
+          content: {
+            "application/json": {
+              schema: {
+                type: "object"
+              }
+            }
+          }
+        }
+      })
+      
+      expect(getAcceptControllingResponse(responses)).toEqual(responses.get("200"))
+    })
+    it("should skip 2xx responses without defined media types", () => {
+      const responses = fromJSOrdered({
+        "200": {
+          content: {
+            "application/json": {
+              schema: {
+                type: "object"
+              }
+            }
+          }
+        },
+        "201": {
+          content: {
+            "application/json": {
+              schema: {
+                type: "object"
+              }
+            }
+          }
+        }
+      })
+      
+      expect(getAcceptControllingResponse(responses)).toEqual(responses.get("201"))
+    })
+    it("should default to the `default` response if it has defined media types", () => {
+      const responses = fromJSOrdered({
+        "200": {
+          description: "quite empty"
+        },
+        "201": {
+          description: "quite empty"
+        },
+        default: {
+          content: {
+            "application/json": {
+              schema: {
+                type: "object"
+              }
+            }
+          }
+        }
+      })
+      
+      expect(getAcceptControllingResponse(responses)).toEqual(responses.get("default"))
+    })
+    it("should return null if there are no suitable controlling responses", () => {
+      const responses = fromJSOrdered({
+        "200": {
+          description: "quite empty"
+        },
+        "201": {
+          description: "quite empty"
+        },
+        "default": {
+          description: "also empty.."
+        }
+      })
+      
+      expect(getAcceptControllingResponse(responses)).toBe(null)
+    })
+    it("should return null if an empty OrderedMap is passed", () => {
+      const responses = fromJSOrdered()
+      
+      expect(getAcceptControllingResponse(responses)).toBe(null)
+    })
+    it("should 

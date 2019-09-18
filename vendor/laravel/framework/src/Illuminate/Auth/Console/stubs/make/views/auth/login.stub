@@ -1,0 +1,110 @@
+     } else {
+                $value = $this->unserialize(
+                    $response[$this->valueAttribute]['S'] ??
+                    $response[$this->valueAttribute]['N'] ??
+                    null
+                );
+            }
+
+            return [Str::replaceFirst($this->prefix, '', $response[$this->keyAttribute]['S']) => $value];
+        })->all());
+    }
+
+    /**
+     * Determine if the given item is expired.
+     *
+     * @param  array  $item
+     * @param  \DateTimeInterface|null  $expiration
+     * @return bool
+     */
+    protected function isExpired(array $item, $expiration = null)
+    {
+        $expiration = $expiration ?: Carbon::now();
+
+        return isset($item[$this->expirationAttribute]) &&
+               $expiration->getTimestamp() >= $item[$this->expirationAttribute]['N'];
+    }
+
+    /**
+     * Store an item in the cache for a given number of seconds.
+     *
+     * @param  string  $key
+     * @param  mixed  $value
+     * @param  int  $seconds
+     * @return bool
+     */
+    public function put($key, $value, $seconds)
+    {
+        $this->dynamo->putItem([
+            'TableName' => $this->table,
+            'Item' => [
+                $this->keyAttribute => [
+                    'S' => $this->prefix.$key,
+                ],
+                $this->valueAttribute => [
+                    $this->type($value) => $this->serialize($value),
+                ],
+                $this->expirationAttribute => [
+                    'N' => (string) $this->toTimestamp($seconds),
+                ],
+            ],
+        ]);
+
+        return true;
+    }
+
+    /**
+     * Store multiple items in the cache for a given number of $seconds.
+     *
+     * @param  array  $values
+     * @param  int  $seconds
+     * @return bool
+     */
+    public function putMany(array $values, $seconds)
+    {
+        $expiration = $this->toTimestamp($seconds);
+
+        $this->dynamo->batchWriteItem([
+            'RequestItems' => [
+                $this->table => collect($values)->map(function ($value, $key) use ($expiration) {
+                    return [
+                        'PutRequest' => [
+                            'Item' => [
+                                $this->keyAttribute => [
+                                    'S' => $this->prefix.$key,
+                                ],
+                                $this->valueAttribute => [
+                                    $this->type($value) => $this->serialize($value),
+                                ],
+                                $this->expirationAttribute => [
+                                    'N' => (string) $expiration,
+                                ],
+                            ],
+                        ],
+                    ];
+                })->values()->all(),
+            ],
+        ]);
+
+        return true;
+    }
+
+    /**
+     * Store an item in the cache if the key doesn't exist.
+     *
+     * @param  string  $key
+     * @param  mixed  $value
+     * @param  int  $seconds
+     * @return bool
+     */
+    public function add($key, $value, $seconds)
+    {
+        try {
+            $this->dynamo->putItem([
+                'TableName' => $this->table,
+                'Item' => [
+                    $this->keyAttribute => [
+                        'S' => $this->prefix.$key,
+                    ],
+                    $this->valueAttribute => [
+            

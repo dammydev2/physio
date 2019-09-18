@@ -1,0 +1,33 @@
+<?php
+
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Symfony\Component\Translation\Formatter;
+
+use Symfony\Component\Translation\IdentityTranslator;
+use Symfony\Component\Translation\MessageSelector;
+use Symfony\Component\Translation\TranslatorInterface as LegacyTranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
+
+/**
+ * @author Abdellatif Ait boudad <a.aitboudad@gmail.com>
+ */
+class MessageFormatter implements MessageFormatterInterface, IntlFormatterInterface, ChoiceMessageFormatterInterface
+{
+    private $translator;
+    private $intlFormatter;
+
+    /**
+     * @param TranslatorInterface|null $translator An identity translator to use as selector for pluralization
+     */
+    public function __construct($translator = null, IntlFormatterInterface $intlFormatter = null)
+    {
+        if ($translator instanceof MessageSelector) {
+       

@@ -1,0 +1,75 @@
+"1.0\" encoding=\"UTF-8\"?>\n<animal>one</animal>\n<animal>two</animal>"
+      var definition = {
+        items: {
+          type: "string",
+          xml: {
+            name: "animal"
+          }
+        },
+        "default": ["one", "two"],
+        xml: {
+          name: "animals"
+        }
+      }
+
+      expect(sut(definition)).toEqual(expected)
+    })
+
+    it("returns array with default values with wrapped=true", function () {
+      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<animal>one</animal>\n\t<animal>two</animal>\n</animals>"
+      var definition = {
+        items: {
+          type: "string",
+          xml: {
+            name: "animal"
+          }
+        },
+        "default": ["one", "two"],
+        xml: {
+          wrapped: true,
+          name: "animals"
+        }
+      }
+
+      expect(sut(definition)).toEqual(expected)
+    })
+
+    it("returns array with default values", function () {
+      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animal>one</animal>"
+      var definition = {
+        items: {
+          type: "string",
+          "enum": ["one", "two"],
+          xml: {
+            name: "animal"
+          }
+        },
+        xml: {
+          name: "animals"
+        }
+      }
+
+      expect(sut(definition)).toEqual(expected)
+    })
+
+    it("returns array with default values with wrapped=true", function () {
+      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<animals>\n\t<animal>1</animal>\n\t<animal>2</animal>\n</animals>"
+      var definition = {
+        items: {
+          "enum": ["one", "two"],
+          type: "string",
+          xml: {
+            name: "animal"
+          }
+        },
+        "default": ["1", "2"],
+        xml: {
+          wrapped: true,
+          name: "animals"
+        }
+      }
+
+      expect(sut(definition)).toEqual(expected)
+    })
+
+  

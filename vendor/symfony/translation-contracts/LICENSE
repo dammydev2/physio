@@ -1,0 +1,33 @@
+<?php
+
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Symfony\Component\VarDumper\Caster;
+
+use Symfony\Component\VarDumper\Cloner\Stub;
+
+/**
+ * Casts XML resources to array representation.
+ *
+ * @author Nicolas Grekas <p@tchwork.com>
+ */
+class XmlResourceCaster
+{
+    private static $xmlErrors = [
+        XML_ERROR_NONE => 'XML_ERROR_NONE',
+        XML_ERROR_NO_MEMORY => 'XML_ERROR_NO_MEMORY',
+        XML_ERROR_SYNTAX => 'XML_ERROR_SYNTAX',
+        XML_ERROR_NO_ELEMENTS => 'XML_ERROR_NO_ELEMENTS',
+        XML_ERROR_INVALID_TOKEN => 'XML_ERROR_INVALID_TOKEN',
+        XML_ERROR_UNCLOSED_TOKEN => 'XML_ERROR_UNCLOSED_TOKEN',
+        XML_ERROR_PARTIAL_CHAR => 'XML_ERROR_PARTIAL_CHAR',
+        XML_ERROR_TAG_MISMATCH => 'XML_ERROR_TAG_MISMATCH',
+        XML_ERROR_DUPLICATE_ATTRIBUTE => 'XML_ERROR_DUPLICATE_ATTRIBUTE',
+        XML_ERROR_JUNK_AFTER_DOC_ELEMENT => 'XML_

@@ -1,0 +1,48 @@
+<?php
+
+namespace Prettus\Repository\Generators;
+
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Str;
+
+abstract class Generator
+{
+
+    /**
+     * The filesystem instance.
+     *
+     * @var \Illuminate\Filesystem\Filesystem
+     */
+    protected $filesystem;
+
+    /**
+     * The array of options.
+     *
+     * @var array
+     */
+    protected $options;
+
+    /**
+     * The shortname of stub.
+     *
+     * @var string
+     */
+    protected $stub;
+
+
+    /**
+     * Create new instance of this class.
+     *
+     * @param array $options
+     */
+    public function __construct(array $options = [])
+    {
+        $this->filesystem = new Filesystem;
+        $this->options = $options;
+    }
+
+
+    /**
+     * Get the filesystem instance.
+     *
+     * @return \Illuminate\Filesystem

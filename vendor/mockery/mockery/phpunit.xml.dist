@@ -1,0 +1,58 @@
+();
+        foreach ($arguments as $argument) {
+            $formattedArguments[] = self::formatArgument($argument);
+        }
+
+        return $method . '(' . implode(', ', $formattedArguments) . ')';
+    }
+
+    /**
+     * Gets the string representation
+     * of any passed argument.
+     *
+     * @param mixed $argument
+     * @param int $depth
+     *
+     * @return mixed
+     */
+    private static function formatArgument($argument, $depth = 0)
+    {
+        if ($argument instanceof MatcherAbstract) {
+            return (string) $argument;
+        }
+
+        if (is_object($argument)) {
+            return 'object(' . get_class($argument) . ')';
+        }
+
+        if (is_int($argument) || is_float($argument)) {
+            return $argument;
+        }
+
+        if (is_array($argument)) {
+            if ($depth === 1) {
+                $argument = '[...]';
+            } else {
+                $sample = array();
+                foreach ($argument as $key => $value) {
+                    $key = is_int($key) ? $key : "'$key'";
+                    $value = self::formatArgument($value, $depth + 1);
+                    $sample[] = "$key => $value";
+                }
+
+                $argument = "[".implode(", ", $sample)."]";
+            }
+
+            return ((strlen($argument) > 1000) ? substr($argument, 0, 1000).'...]' : $argument);
+        }
+
+        if (is_bool($argument)) {
+            return $argument ? 'true' : 'false';
+        }
+
+        if (is_resource($argument)) {
+            return 'resource(...)';
+        }
+
+        if (is_null($argument)) {
+     

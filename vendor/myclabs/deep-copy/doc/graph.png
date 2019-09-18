@@ -1,0 +1,37 @@
+ (using timestamp).
+ * @method        $this          addRealHour()                                                                       Add one hour to the instance (using timestamp).
+ * @method        $this          subRealHours(int $value = 1)                                                        Sub hours (the $value count passed in) to the instance (using timestamp).
+ * @method        $this          subRealHour()                                                                       Sub one hour to the instance (using timestamp).
+ * @method        $this          addRealDays(int $value = 1)                                                         Add days (the $value count passed in) to the instance (using timestamp).
+ * @method        $this          addRealDay()                                                                        Add one day to the instance (using timestamp).
+ * @method        $this          subRealDays(int $value = 1)                                                         Sub days (the $value count passed in) to the instance (using timestamp).
+ * @method        $this          subRealDay()                                                                        Sub one day to the instance (using timestamp).
+ * @method        $this          addRealWeeks(int $value = 1)                                                        Add weeks (the $value count passed in) to the instance (using timestamp).
+ * @method        $this          addRealWeek()                                                                       Add one week to the instance (using timestamp).
+ * @method        $this          subRealWeeks(int $value = 1)                                                        Sub weeks (the $value count passed in) to the instance (using timestamp).
+ * @method        $this          subRealWeek()                                                                       Sub one week to the instance (using timestamp).
+ * @method        $this          addRealMonths(int $value = 1)                                                       Add months (the $value count passed in) to the instance (using timestamp).
+ * @method        $this          addRealMonth()                                                                      Add one month to the instance (using timestamp).
+ * @method        $this          subRealMonths(int $value = 1)                                                       Sub months (the $value count passed in) to the instance (using timestamp).
+ * @method        $this          subRealMonth()                                                                      Sub one month to the instance (using timestamp).
+ * @method        $this          addRealQuarters(int $value = 1)                                                     Add quarters (the $value count passed in) to the instance (using timestamp).
+ * @method        $this          addRealQuarter()                                                                    Add one quarter to the instance (using timestamp).
+ * @method        $this          subRealQuarters(int $value = 1)                                                     Sub quarters (the $value count passed in) to the instance (using timestamp).
+ * @method        $this          subRealQuarter()                                                                    Sub one quarter to the instance (using timestamp).
+ * @method        $this          addRealYears(int $value = 1)                                                        Add years (the $value count passed in) to the instance (using timestamp).
+ * @method        $this          addRealYear()                                                                       Add one year to the instance (using timestamp).
+ * @method        $this          subRealYears(int $value = 1)                                                        Sub years (the $value count passed in) to the instance (using timestamp).
+ * @method        $this          subRealYear()                                                                       Sub one year to the instance (using timestamp).
+ * @method        $this          addRealDecades(int $value = 1)                                                      Add decades (the $value count passed in) to the instance (using timestamp).
+ * @method        $this          addRealDecade()                                                                     Add one decade to the instance (using timestamp).
+ * @method        $this          subRealDecades(int $value = 1)                                                      Sub decades (the $value count passed in) to the instance (using timestamp).
+ * @method        $this          subRealDecade()                                                                     Sub one decade to the instance (using timestamp).
+ * @method        $this          addRealCenturies(int $value = 1)                                                    Add centuries (the $value count passed in) to the instance (using timestamp).
+ * @method        $this          addRealCentury()                                                                    Add one century to the instance (using timestamp).
+ * @method        $this          subRealCenturies(int $value = 1)                                                    Sub centuries (the $value count passed in) to the instance (using timestamp).
+ * @method        $this          subRealCentury()                                                                    Sub one century to the instance (using timestamp).
+ * @method        $this          addRealMillennia(int $value = 1)                                                    Add millennia (the $value count passed in) to the instance (using timestamp).
+ * @method        $this          addRealMillennium()                                                                 Add one millennium to the instance (using timestamp).
+ * @method        $this          subRealMillennia(int $value = 1)                                                    Sub millennia (the $value count passed in) to the instance (using timestamp).
+ * @method        $this          subRealMillennium()                                                                 Sub one millennium to the instance (using timestamp).
+ * @method        $this          roundYear(float $precision = 1, string $function = "round")                         Round the current instance y

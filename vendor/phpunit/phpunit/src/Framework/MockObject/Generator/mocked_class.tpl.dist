@@ -1,0 +1,53 @@
+is->arguments['notLoadedExtensions'][] = $file . ' is not an extension for PHPUnit';
+
+                    continue;
+                }
+
+                if (!$manifest->isExtensionFor($applicationName, $version)) {
+                    $this->arguments['notLoadedExtensions'][] = $file . ' is not compatible with this version of PHPUnit';
+
+                    continue;
+                }
+            } catch (ManifestException $e) {
+                $this->arguments['notLoadedExtensions'][] = $file . ': ' . $e->getMessage();
+
+                continue;
+            }
+
+            require $file;
+
+            $this->arguments['loadedExtensions'][] = $manifest->getName() . ' ' . $manifest->getVersion()->getVersionString();
+        }
+    }
+
+    private function handleListGroups(TestSuite $suite, bool $exit): int
+    {
+        $this->printVersionString();
+
+        print 'Available test group(s):' . \PHP_EOL;
+
+        $groups = $suite->getGroups();
+        \sort($groups);
+
+        foreach ($groups as $group) {
+            \printf(
+                ' - %s' . \PHP_EOL,
+                $group
+            );
+        }
+
+        if ($exit) {
+            exit(TestRunner::SUCCESS_EXIT);
+        }
+
+        return TestRunner::SUCCESS_EXIT;
+    }
+
+    private function handleListSuites(bool $exit): int
+    {
+        $this->printVersionString();
+
+        print 'Available test suite(s):' . \PHP_EOL;
+
+        $configuration = Configuration::getInstance(
+            $this->argument

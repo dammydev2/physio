@@ -1,0 +1,31 @@
+<?php
+
+namespace InfyOm\Generator\Generators;
+
+use File;
+use Illuminate\Support\Str;
+use InfyOm\Generator\Common\CommandData;
+use InfyOm\Generator\Utils\FileUtil;
+use SplFileInfo;
+
+class MigrationGenerator extends BaseGenerator
+{
+    /** @var CommandData */
+    private $commandData;
+
+    /** @var string */
+    private $path;
+
+    public function __construct($commandData)
+    {
+        $this->commandData = $commandData;
+        $this->path = config('infyom.laravel_generator.path.migration', base_path('database/migrations/'));
+    }
+
+    public function generate()
+    {
+        $templateData = get_template('migration', 'laravel-generator');
+
+        $templateData = fill_template($this->commandData->dynamicVars, $templateData);
+
+        $templateDa

@@ -1,0 +1,30 @@
+<?php declare(strict_types=1);
+
+namespace PhpParser;
+
+use PhpParser\Node\Expr;
+use PhpParser\Node\Scalar\String_;
+
+class NodeTraverserTest extends \PHPUnit\Framework\TestCase
+{
+    public function testNonModifying() {
+        $str1Node = new String_('Foo');
+        $str2Node = new String_('Bar');
+        $echoNode = new Node\Stmt\Echo_([$str1Node, $str2Node]);
+        $stmts    = [$echoNode];
+
+        $visitor = $this->getMockBuilder(NodeVisitor::class)->getMock();
+
+        $visitor->expects($this->at(0))->method('beforeTraverse')->with($stmts);
+        $visitor->expects($this->at(1))->method('enterNode')->with($echoNode);
+        $visitor->expects($this->at(2))->method('enterNode')->with($str1Node);
+        $visitor->expects($this->at(3))->method('leaveNode')->with($str1Node);
+        $visitor->expects($this->at(4))->method('enterNode')->with($str2Node);
+        $visitor->expects($this->at(5))->method('leaveNode')->with($str2Node);
+        $visitor->expects($this->at(6))->method('leaveNode')->with($echoNode);
+        $visitor->expects($this->at(7))->method('afterTraverse')->with($stmts);
+
+        $traverser = new NodeTraverser;
+        $traverser->addVisitor($visitor);
+
+        $this->asse

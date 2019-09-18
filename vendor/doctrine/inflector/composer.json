@@ -1,0 +1,22 @@
+this->assertFalse($cron->isDue(new DateTime($date), 'UTC'));
+        $this->assertFalse($cron->isDue(new DateTime($date), 'Europe/Amsterdam'));
+        $this->assertTrue($cron->isDue(new DateTime($date), 'Asia/Tokyo'));
+
+        date_default_timezone_set($originalTimezone);
+    }
+
+    /**
+     * @covers \Cron\CronExpression::isDue
+     */
+    public function testIsDueHandlesDifferentSuppliedTimezones()
+    {
+        $cron = CronExpression::factory('0 15 * * 3'); //Wednesday at 15:00
+        $date = '2014-01-01 15:00'; //Wednesday
+
+        $this->assertTrue($cron->isDue(new DateTime($date, new DateTimeZone('UTC')), 'UTC'));
+        $this->assertFalse($cron->isDue(new DateTime($date, new DateTimeZone('UTC')), 'Europe/Amsterdam'));
+        $this->assertFalse($cron->isDue(new DateTime($date, new DateTimeZone('UTC')), 'Asia/Tokyo'));
+
+        $this->assertFalse($cron->isDue(new DateTime($date, new DateTimeZone('Europe/Amsterdam')), 'UTC'));
+        $this->assertTrue($cron->isDue(new DateTime($date, new DateTimeZone('Europe/Amsterdam')), 'Europe/Amsterdam'));
+        $this->assertFalse($cron->isDue(new DateTime(

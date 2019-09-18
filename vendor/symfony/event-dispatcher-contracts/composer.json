@@ -1,0 +1,40 @@
+<?php
+
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Symfony\Component\Finder\Tests\Iterator;
+
+use Symfony\Component\Finder\Iterator\FileTypeFilterIterator;
+
+class FileTypeFilterIteratorTest extends RealIteratorTestCase
+{
+    /**
+     * @dataProvider getAcceptData
+     */
+    public function testAccept($mode, $expected)
+    {
+        $inner = new InnerTypeIterator(self::$files);
+
+        $iterator = new FileTypeFilterIterator($inner, $mode);
+
+        $this->assertIterator($expected, $iterator);
+    }
+
+    public function getAcceptData()
+    {
+        $onlyFiles = [
+            'test.py',
+            'foo/bar.tmp',
+            'test.php',
+            '.bar',
+            '.foo/.bar',
+            '.foo/bar',
+            'foo bar',
+  

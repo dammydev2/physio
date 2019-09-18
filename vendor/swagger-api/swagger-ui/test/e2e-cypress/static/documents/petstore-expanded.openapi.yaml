@@ -1,0 +1,120 @@
+e", function (client) {
+        const paramSelector = `tr[data-param-name="arr"]`
+
+        client // open try-it-out
+          .click("#operations-default-get_emptyValueParams")
+          .waitForElementVisible("button.btn.try-out__btn", 5000)
+          .click("button.btn.try-out__btn")
+          .pause(200)
+
+        client // tick "send empty value" box and execute
+          .click(`${paramSelector} .parameter__empty_value_toggle input`)
+          .click("button.btn.execute.opblock-control__btn")
+          .expect.element("textarea.curl").text
+          .to.contain(`GET "http://localhost:3230/emptyValueParams?arr="`)
+      })
+    })
+    describe("modify and send empty behavior", function () {
+      it("should set, unset and send an empty integer value", function (client) {
+        const paramSelector = `tr[data-param-name="int"]`
+        const inputSelector = `${paramSelector} input`
+
+        client // open try-it-out
+          .click("#operations-default-get_emptyValueParams")
+          .waitForElementVisible("button.btn.try-out__btn", 5000)
+          .click("button.btn.try-out__btn")
+          .pause(200)
+
+        client // set parameter, to ensure an initial value is set
+          .setValue(inputSelector, "123")
+          .click("button.btn.execute.opblock-control__btn")
+          .pause(200)
+
+        client // remove initial value, click "send empty", execute again, assert
+          .setValue(inputSelector, "\u0008\u0008\u0008") // backspaces
+          .pause(400)
+          .click(`${paramSelector} .parameter__empty_value_toggle input`)
+          .click("button.btn.execute.opblock-control__btn")
+          .expect.element("textarea.curl").text
+          .to.contain(`GET "http://localhost:3230/emptyValueParams?int="`)
+      })
+      it("should set, unset and send an empty string value", function (client) {
+        const paramSelector = `tr[data-param-name="str"]`
+        const inputSelector = `${paramSelector} input`
+
+        client // open try-it-out
+          .click("#operations-default-get_emptyValueParams")
+          .waitForElementVisible("button.btn.try-out__btn", 5000)
+          .click("button.btn.try-out__btn")
+          .pause(200)
+
+        client // set parameter, to ensure an initial value is set
+          .setValue(inputSelector, "123")
+          .click("button.btn.execute.opblock-control__btn")
+          .pause(200)
+
+        client // remove initial value, click "send empty", execute again, assert
+          .setValue(inputSelector, "\u0008\u0008\u0008") // backspaces
+          .pause(400)
+          .click(`${paramSelector} .parameter__empty_value_toggle input`)
+          .click("button.btn.execute.opblock-control__btn")
+          .expect.element("textarea.curl").text
+          .to.contain(`GET "http://localhost:3230/emptyValueParams?str="`)
+      })
+      it("should set, unset and send an empty number value", function (client) {
+        const paramSelector = `tr[data-param-name="num"]`
+        const inputSelector = `${paramSelector} input`
+
+        client // open try-it-out
+          .click("#operations-default-get_emptyValueParams")
+          .waitForElementVisible("button.btn.try-out__btn", 5000)
+          .click("button.btn.try-out__btn")
+          .pause(200)
+
+        client // set parameter, to ensure an initial value is set
+          .setValue(inputSelector, "123")
+          .click("button.btn.execute.opblock-control__btn")
+          .pause(200)
+
+        client // remove initial value, click "send empty", execute again, assert
+          .setValue(inputSelector, "\u0008\u0008\u0008") // backspaces
+          .pause(400)
+          .click(`${paramSelector} .parameter__empty_value_toggle input`)
+          .click("button.btn.execute.opblock-control__btn")
+          .expect.element("textarea.curl").text
+          .to.contain(`GET "http://localhost:3230/emptyValueParams?num="`)
+      })
+      it("should set, unset and send an empty boolean value", function (client) {
+        const paramSelector = `tr[data-param-name="bool"]`
+        const inputSelector = `${paramSelector} select`
+
+        client // open try-it-out
+          .click("#operations-default-get_emptyValueParams")
+          .waitForElementVisible("button.btn.try-out__btn", 5000)
+          .click("button.btn.try-out__btn")
+          .pause(200)
+
+        client // set parameter, to ensure an initial value is set
+          .click(`${inputSelector} option[value="true"]`)
+          .click("button.btn.execute.opblock-control__btn")
+          .pause(200)
+
+        client // remove initial value, click "send empty", execute again, assert
+          .click(`${inputSelector} option[value=""]`)
+          .pause(400)
+          .click(`${paramSelector} .parameter__empty_value_toggle input`)
+          .click("button.btn.execute.opblock-control__btn")
+          .expect.element("textarea.curl").text
+          .to.contain(`GET "http://localhost:3230/emptyValueParams?bool="`)
+      })
+      it("should set, unset and send an empty array value", function (client) {
+        const paramSelector = `tr[data-param-name="arr"]`
+
+        client // open try-it-out
+          .click("#operations-default-get_emptyValueParams")
+          .waitForElementVisible("button.btn.try-out__btn", 5000)
+          .click("button.btn.try-out__btn")
+          .pause(200)
+
+        client // set parameter, to ensure an initial value is set
+          .click(`${paramSelector} .json-schema-form-

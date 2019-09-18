@@ -1,0 +1,26 @@
+//swagger.io/schema/sample",
+          prefix: "sample",
+          name: "name"
+        }
+      }
+
+      expect(sut(definition)).toEqual("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<sample:name xmlns:sample=\"http://swagger.io/schema/sample\">string</sample:name>")
+    })
+
+    it("returns tag <test:tagname >string</test:tagname> when passing type string and xml:{\"namespace\": \"http://swagger.io/schema/sample\"}", function () {
+      var definition = {
+        type: "string",
+        xml: {
+          namespace: "http://swagger.io/schema/sample",
+          name: "name"
+        }
+      }
+
+      expect(sut(definition)).toEqual("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<name xmlns=\"http://swagger.io/schema/sample\">string</name>")
+    })
+
+    it("returns tag <newtagname>test</newtagname> when passing default value", function () {
+      var expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<newtagname>test</newtagname>"
+      var definition = {
+        type: "string",
+        "default"

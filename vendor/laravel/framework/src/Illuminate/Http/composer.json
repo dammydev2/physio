@@ -1,0 +1,38 @@
+   */
+    public function hasCc($address, $name = null)
+    {
+        return $this->hasRecipient($address, $name, 'cc');
+    }
+
+    /**
+     * Set the recipients of the message.
+     *
+     * @param  object|array|string  $address
+     * @param  string|null  $name
+     * @return $this
+     */
+    public function bcc($address, $name = null)
+    {
+        return $this->setAddress($address, $name, 'bcc');
+    }
+
+    /**
+     * Determine if the given recipient is set on the mailable.
+     *
+     * @param  object|array|string  $address
+     * @param  string|null  $name
+     * @return bool
+     */
+    public function hasBcc($address, $name = null)
+    {
+        return $this->hasRecipient($address, $name, 'bcc');
+    }
+
+    /**
+     * Set the "reply to" address of the message.
+     *
+     * @param  object|array|string  $address
+     * @param  string|null  $name
+     * @return $this
+     */
+    public function rep

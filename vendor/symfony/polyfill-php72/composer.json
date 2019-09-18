@@ -1,0 +1,26 @@
+bleOutputAfterRunDoesNotThrowException()
+    {
+        $p = $this->getProcess('echo foo');
+        $p->disableOutput();
+        $p->run();
+        $p->enableOutput();
+        $p->disableOutput();
+        $this->assertTrue($p->isOutputDisabled());
+    }
+
+    /**
+     * @expectedException \Symfony\Component\Process\Exception\LogicException
+     * @expectedExceptionMessage Output can not be disabled while an idle timeout is set.
+     */
+    public function testDisableOutputWhileIdleTimeoutIsSet()
+    {
+        $process = $this->getProcess('foo');
+        $process->setIdleTimeout(1);
+        $process->disableOutput();
+    }
+
+    /**
+     * @expectedException \Symfony\Component\Process\Exception\LogicException
+     * @expectedExceptionMessage timeout can not be set while the output is disabled.
+     */
+    public f

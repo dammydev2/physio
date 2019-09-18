@@ -1,0 +1,184 @@
+@param string $type
+     * @param int    $pid
+     *
+     * @return string Temporary file name
+     */
+    public function getTempFile($type, $pid)
+    {
+        return \tempnam($this->getRuntimeDir(), $type . '_' . $pid . '_');
+    }
+
+    /**
+     * Get a filename suitable for a FIFO pipe of $type for process $pid.
+     *
+     * The pipe will be created inside the current temporary directory.
+     *
+     * @param string $type
+     * @param int    $pid
+     *
+     * @return string Pipe name
+     */
+    public function getPipe($type, $pid)
+    {
+        return \sprintf('%s/%s_%s', $this->getRuntimeDir(), $type, $pid);
+    }
+
+    /**
+     * Check whether this PHP instance has Readline available.
+     *
+     * @return bool True if Readline is available
+     */
+    public function hasReadline()
+    {
+        return $this->hasReadline;
+    }
+
+    /**
+     * Enable or disable Readline usage.
+     *
+     * @param bool $useReadline
+     */
+    public function setUseReadline($useReadline)
+    {
+        $this->useReadline = (bool) $useReadline;
+    }
+
+    /**
+     * Check whether to use Readline.
+     *
+     * If `setUseReadline` as been set to true, but Readline is not actually
+     * available, this will return false.
+     *
+     * @return bool True if the current Shell should use Readline
+     */
+    public function useReadline()
+    {
+        return isset($this->useReadline) ? ($this->hasReadline && $this->useReadline) : $this->hasReadline;
+    }
+
+    /**
+     * Set the Psy Shell readline service.
+     *
+     * @param Readline $readline
+     */
+    public function setReadline(Readline $readline)
+    {
+        $this->readline = $readline;
+    }
+
+    /**
+     * Get the Psy Shell readline service.
+     *
+     * By default, this service uses (in order of preference):
+     *
+     *  * GNU Readline
+     *  * Libedit
+     *  * A transient array-based readline emulation.
+     *
+     * @return Readline
+     */
+    public function getReadline()
+    {
+        if (!isset($this->readline)) {
+            $className = $this->getReadlineClass();
+            $this->readline = new $className(
+                $this->getHistoryFile(),
+                $this->getHistorySize(),
+                $this->getEraseDuplicates()
+            );
+        }
+
+        return $this->readline;
+    }
+
+    /**
+     * Get the appropriate Readline implementation class name.
+     *
+     * @see self::getReadline
+     *
+     * @return string
+     */
+    private function getReadlineClass()
+    {
+        if ($this->useReadline()) {
+            if (GNUReadline::isSupported()) {
+                return 'Psy\Readline\GNUReadline';
+            } elseif (Libedit::isSupported()) {
+                return 'Psy\Readline\Libedit';
+            } elseif (HoaConsole::isSupported()) {
+                return 'Psy\Readline\HoaConsole';
+            }
+        }
+
+        return 'Psy\Readline\Transient';
+    }
+
+    /**
+     * Enable or disable bracketed paste.
+     *
+     * Note that this only works with readline (not libedit) integration for now.
+     *
+     * @param bool $useBracketedPaste
+     */
+    public function setUseBracketedPaste($useBracketedPaste)
+    {
+        $this->useBracketedPaste = (bool) $useBracketedPaste;
+    }
+
+    /**
+     * Check whether to use bracketed paste with readline.
+     *
+     * When this works, it's magical. Tabs in pastes don't try to autcomplete.
+     * Newlines in paste don't execute code until you get to the end. It makes
+     * readline act like you'd expect when pasting.
+     *
+     * But it often (usually?) does not work. And when it doesn't, it just spews
+     * escape codes all over the place and generally makes things ugly :(
+     *
+     * If `useBracketedPaste` has been set to true, but the current readline
+     * implementation is anything besides GNU readline, this will return false.
+     *
+     * @return bool True if the shell should use bracketed paste
+     */
+    public function useBracketedPaste()
+    {
+        // For now, only the GNU readline implementation supports bracketed paste.
+        $supported = ($this->getReadlineClass() === 'Psy\Readline\GNUReadline');
+
+        return $supported && $this->useBracketedPaste;
+
+        // @todo mebbe turn this on by default some day?
+        // return isset($this->useBracketedPaste) ? ($supported && $this->useBracketedPaste) : $supported;
+    }
+
+    /**
+     * Check whether this PHP instance has Pcntl available.
+     *
+     * @return bool True if Pcntl is available
+     */
+    public function hasPcntl()
+    {
+        return $this->hasPcntl;
+    }
+
+    /**
+     * Enable or disable Pcntl usage.
+     *
+     * @param bool $usePcntl
+     */
+    public function setUsePcntl($usePcntl)
+    {
+        $this->usePcntl = (bool) $usePcntl;
+    }
+
+    /**
+     * Check whether to use Pcntl.
+     *
+     * If `setUsePcntl` has been set to true, but Pcntl is not actually
+     * available, this will return false.
+     *
+     * @return bool True if the current Shell should use Pcntl
+     */
+    public function usePcntl()
+    {
+  

@@ -1,0 +1,31 @@
+<?php
+
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Symfony\Component\HttpFoundation\File\MimeType;
+
+use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
+use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
+
+/**
+ * A singleton mime type guesser.
+ *
+ * By default, all mime type guessers provided by the framework are installed
+ * (if available on the current OS/PHP setup).
+ *
+ * You can register custom guessers by calling the register() method on the
+ * singleton instance. Custom guessers are always called before any default ones.
+ *
+ *     $guesser = MimeTypeGuesser::getInstance();
+ *     $guesser->register(new MyCustomMimeTypeGuesser());
+ *
+ * If you want to change the order of the default guessers, just re-register your
+ * preferred one as a custom one. The last registered guesser is preferred over
+ * previously 

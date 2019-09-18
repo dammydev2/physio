@@ -1,0 +1,44 @@
+se(200)
+
+        client // remove initial value, execute again
+          .click(`${inputSelector} [value=""]`)
+          .pause(200)
+          .click("button.btn.execute.opblock-control__btn")
+          .expect.element("textarea.curl").text
+          .to.contain(`GET "http://localhost:3230/emptyValueParams"`)
+      })
+      it("should set and unset an array value", function (client) {
+        const inputSelector = `tr[data-param-name="arr"]`
+
+        client // open try-it-out
+          .click("#operations-default-get_emptyValueParams")
+          .waitForElementVisible("button.btn.try-out__btn", 5000)
+          .click("button.btn.try-out__btn")
+          .pause(200)
+
+        client // set parameter, to ensure an initial value is set
+          .click(`${inputSelector} .json-schema-form-item-add`)
+          .setValue(`${inputSelector} input`, "asdf")
+          .click("button.btn.execute.opblock-control__btn")
+          .pause(200)
+
+        client // remove initial value, execute again
+          .click(`${inputSelector} .json-schema-form-item-remove`)
+          .pause(200)
+          .click("button.btn.execute.opblock-control__btn")
+          .expect.element("textarea.curl").text
+          .to.contain(`GET "http://localhost:3230/emptyValueParams"`)
+      })
+    })
+    describe("send empty inital value behavior", function () {
+      it("should send an empty integer value", function (client) {
+        const paramSelector = `tr[data-param-name="int"]`
+
+        client // open try-it-out
+          .click("#operations-default-get_emptyValueParams")
+          .waitForElementVisible("button.btn.try-out__btn", 5000)
+          .click("button.btn.try-out__btn")
+          .pause(200)
+
+        client // tick "send empty value" box and execute
+          .click(`${paramSelector}

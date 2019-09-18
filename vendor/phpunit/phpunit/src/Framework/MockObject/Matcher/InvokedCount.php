@@ -1,0 +1,25 @@
+                          = $arguments['processIsolation'] ?? false;
+        $arguments['processUncoveredFilesFromWhitelist']              = $arguments['processUncoveredFilesFromWhitelist'] ?? false;
+        $arguments['randomOrderSeed']                                 = $arguments['randomOrderSeed'] ?? \time();
+        $arguments['registerMockObjectsFromTestArgumentsRecursively'] = $arguments['registerMockObjectsFromTestArgumentsRecursively'] ?? false;
+        $arguments['repeat']                                          = $arguments['repeat'] ?? false;
+        $arguments['reportHighLowerBound']                            = $arguments['reportHighLowerBound'] ?? 90;
+        $arguments['reportLowUpperBound']                             = $arguments['reportLowUpperBound'] ?? 50;
+        $arguments['reportUselessTests']                              = $arguments['reportUselessTests'] ?? true;
+        $arguments['reverseList']                                     = $arguments['reverseList'] ?? false;
+        $arguments['executionOrder']                                  = $arguments['executionOrder'] ?? TestSuiteSorter::ORDER_DEFAULT;
+        $arguments['resolveDependencies']                             = $arguments['resolveDependencies'] ?? false;
+        $arguments['stopOnError']                                     = $arguments['stopOnError'] ?? false;
+        $arguments['stopOnFailure']                                   = $arguments['stopOnFailure'] ?? false;
+        $arguments['stopOnIncomplete']                                = $arguments['stopOnIncomplete'] ?? false;
+        $arguments['stopOnRisky']                                     = $arguments['stopOnRisky'] ?? false;
+        $arguments['stopOnSkipped']                                   = $arguments['stopOnSkipped'] ?? false;
+        $arguments['stopOnWarning']                                   = $arguments['stopOnWarning'] ?? false;
+        $arguments['stopOnDefect']                                    = $arguments['stopOnDefect'] ?? false;
+        $arguments['strictCoverage']                                  = $arguments['strictCoverage'] ?? false;
+        $arguments['testdoxExcludeGroups']                            = $arguments['testdoxExcludeGroups'] ?? [];
+        $arguments['testdoxGroups']                                   = $arguments['testdoxGroups'] ?? [];
+        $arguments['timeoutForLargeTests']                            = $arguments['timeoutForLargeTests'] ?? 60;
+        $arguments['timeoutForMediumTests']                           = $arguments['timeoutForMediumTests'] ?? 10;
+        $arguments['timeoutForSmallTests']                            = $arguments['timeoutForSmallTests'] ?? 1;
+        $arguments['verbose']                   

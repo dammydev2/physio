@@ -1,0 +1,37 @@
+describe("parameters", function() {
+      it("should respect a primitive example value", function(client) {
+        client
+          .click("button.try-out__btn")
+          .assert.value(
+            `div.parameters-container > div > table > tbody > tr > td.col.parameters-col_description > input[type="text"]`,
+            `12345`
+          )
+      })
+    })
+
+    describe("request bodies", function() {
+      it("should correctly consider media type-level examples", function (client) {
+        client
+          .click(`select.content-type option[value="application/json_media-type-level"]`)
+          .assert.containsText(`pre.body-param__example`,
+            dedent(`
+              {
+                "code": "AE1",
+                "name": "Andrew"
+              }
+            `)
+          )
+      })
+      it("should correctly consider schema-level examples", function (client) {
+        client
+          .click(`select.content-type option[value="application/json_schema-level"]`)
+          .assert.containsText(`pre.body-param__example`,
+            dedent(`
+              {
+                "code": "AE1",
+                "name": "Andrew"
+              }
+            `)
+          )
+      })
+      it("should correctly consid

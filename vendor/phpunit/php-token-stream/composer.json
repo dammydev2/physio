@@ -1,0 +1,28 @@
+  static::assertNotEmpty(
+            static::readAttribute($haystackClassOrObject, $haystackAttributeName),
+            $message
+        );
+    }
+
+    /**
+     * Asserts that a value is greater than another value.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    public static function assertGreaterThan($expected, $actual, string $message = ''): void
+    {
+        static::assertThat($actual, static::greaterThan($expected), $message);
+    }
+
+    /**
+     * Asserts that an attribute is greater than another value.
+     *
+     * @param object|string $actualClassOrObject
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     *
+     * @deprecated https://github.com/sebastianbergmann/phpunit/issues/3338
+     */
+    public static function assertAttributeGreater

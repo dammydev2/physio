@@ -1,0 +1,49 @@
+<?php
+
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Symfony\Component\Process\Pipes;
+
+use Symfony\Component\Process\Process;
+
+/**
+ * UnixPipes implementation uses unix pipes as handles.
+ *
+ * @author Romain Neutron <imprec@gmail.com>
+ *
+ * @internal
+ */
+class UnixPipes extends AbstractPipes
+{
+    private $ttyMode;
+    private $ptyMode;
+    private $haveReadSupport;
+
+    public function __construct(?bool $ttyMode, bool $ptyMode, $input, bool $haveReadSupport)
+    {
+        $this->ttyMode = $ttyMode;
+        $this->ptyMode = $ptyMode;
+        $this->haveReadSupport = $haveReadSupport;
+
+        parent::__construct($input);
+    }
+
+    public function __destruct()
+    {
+        $this->close();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDescriptors()
+    {
+        if (!$this->haveReadSupport) {
+            $nullstream = fopen('/dev/null', 

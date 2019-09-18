@@ -1,0 +1,48 @@
+<?php
+
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Symfony\Component\Console\Formatter;
+
+use Symfony\Component\Console\Exception\InvalidArgumentException;
+
+/**
+ * Formatter class for console output.
+ *
+ * @author Konstantin Kudryashov <ever.zet@gmail.com>
+ * @author Roland Franssen <franssen.roland@gmail.com>
+ */
+class OutputFormatter implements WrappableOutputFormatterInterface
+{
+    private $decorated;
+    private $styles = [];
+    private $styleStack;
+
+    /**
+     * Escapes "<" special char in given text.
+     *
+     * @param string $text Text to escape
+     *
+     * @return string Escaped text
+     */
+    public static function escape($text)
+    {
+        $text = preg_replace('/([^\\\\]?)</', '$1\\<', $text);
+
+        return self::escapeTrailingBackslash($text);
+    }
+
+    /**
+     * Escapes trailing "\" in given text.
+     *
+     * @param string $text Text to escape
+     *
+     * @return string Escaped text
+     *

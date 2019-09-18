@@ -1,0 +1,32 @@
+, true, $tzCron);
+        $this->assertEquals('1508151600 : 2017-10-16T07:00:00-04:00 : America/New_York', $dtPrev->format("U \: c \: e"));
+
+    }
+
+
+    /**
+     * @covers \Cron\CronExpression::getPreviousRunDate
+     */
+    public function testCanGetPreviousRunDates()
+    {
+        $cron = CronExpression::factory('* * * * *');
+        $next = $cron->getNextRunDate('now');
+        $two = $cron->getNextRunDate('now', 1);
+        $this->assertEquals($next, $cron->getPreviousRunDate($two));
+
+        $cron = CronExpression::factory('* */2 * * *');
+        $next = $cron->getNextRunDate('now');
+        $two = $cron->getNextRunDate('now', 1);
+        $this->assertEquals($next, $cron->getPreviousRunDate($two));
+
+        $cron = CronExpression::factory('* * * */2 *');
+        $next = $cron->getNextRunDate('now');
+        $two = $cron->getNextRunDate('now', 1);
+        $this->assertEquals($next, $cron->getPreviousRunDate($two));
+    }
+
+    /**
+     * @covers \Cron\CronExpression::getMultipleRunDates
+     */
+    public function testProvidesMultipleRunDates()
+ 

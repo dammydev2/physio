@@ -1,0 +1,68 @@
+eSwagger($templateData);
+        } else {
+            $docsTemplate = get_template('docs.model', 'laravel-generator');
+            $docsTemplate = fill_template($this->commandData->dynamicVars, $docsTemplate);
+
+            $fillables = '';
+            foreach ($this->commandData->relations as $relation) {
+                $fillables .= ' * @property '.$this->getPHPDocType($relation->type, $relation).PHP_EOL;
+            }
+            foreach ($this->commandData->fields as $field) {
+                if ($field->isFillable) {
+                    $fillables .= ' * @property '.$this->getPHPDocType($field->fieldType).' '.$field->name.PHP_EOL;
+                }
+            }
+            $docsTemplate = str_replace('$GENERATE_DATE$', date('F j, Y, g:i a T'), $docsTemplate);
+            $docsTemplate = str_replace('$PHPDOC$', $fillables, $docsTemplate);
+
+            $templateData = str_replace('$DOCS$', $docsTemplate, $templateData);
+        }
+
+        return $templateData;
+    }
+
+    /**
+     * @param $db_type
+     * @param GeneratorFieldRelation|null $relation
+     *
+     * @return string
+     */
+    private function getPHPDocType($db_type, $relation = null)
+    {
+        switch ($db_type) {
+            case 'datetime':
+                return 'string|\Carbon\Carbon';
+            case '1t1':
+                return '\\'.$this->commandData->config->nsModel.'\\'.$relation->inputs[0].' '.camel_case($relation->inputs[0]);
+            case 'mt1':
+                if (isset($relation->inputs[1])) {
+                    $relationName = str_replace('_id', '', strtolower($relation->inputs[1]));
+                } else {
+                    $relationName = $relation->inputs[0];
+                }
+
+                return '\\'.$this->commandData->config->nsModel.'\\'.$relation->inputs[0].' '.camel_case($relationName);
+            case '1tm':
+            case 'mtm':
+            case 'hmt':
+                return '\Illuminate\Database\Eloquent\Collection'.' '.camel_case(str_plural($relation->inputs[0]));
+            default:
+                $fieldData = SwaggerGenerator::getFieldType($db_type);
+                if (!empty($fieldData['fieldType'])) {
+                    return $fieldData['fieldType'];
+                }
+
+                return $db_type;
+        }
+    }
+
+    public function generateSwagger($templateData)
+    {
+        $fieldTypes = SwaggerGenerator::generateTypes($this->commandData->fields);
+
+        $template = get_template('model_docs.model', 'swagger-generator');
+
+        $template = fill_template($this->commandData->dynamicVars, $template);
+
+        $template = str_replace('$REQUIRED_FIELDS$',
+            '"'.implode('"'.', '.'"', $this->generateRequiredFields())

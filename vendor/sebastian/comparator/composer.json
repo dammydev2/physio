@@ -1,0 +1,51 @@
+fromToken = \reset($from)) !== $token) {
+                $diff[] = [\array_shift($from), self::REMOVED];
+            }
+
+            while (($toToken = \reset($to)) !== $token) {
+                $diff[] = [\array_shift($to), self::ADDED];
+            }
+
+            $diff[] = [$token, self::OLD];
+
+            \array_shift($from);
+            \array_shift($to);
+        }
+
+        while (($token = \array_shift($from)) !== null) {
+            $diff[] = [$token, self::REMOVED];
+        }
+
+        while (($token = \array_shift($to)) !== null) {
+            $diff[] = [$token, self::ADDED];
+        }
+
+        foreach ($end as $token) {
+            $diff[] = [$token, self::OLD];
+        }
+
+        if ($this->detectUnmatchedLineEndings($diff)) {
+            \array_unshift($diff, ["#Warning: Strings contain different line endings!\n", self::DIFF_LINE_END_WARNING]);
+        }
+
+        return $diff;
+    }
+
+    /**
+     * Casts variable to string if it is not a string or array.
+     *
+     * @param mixed $input
+     *
+     * @return array|string
+     */
+    private function normalizeDiffInput($input)
+    {
+        if (!\is_array($input) && !\is_string($input)) {
+            return (string) $input;
+        }
+
+        return $input;
+    }
+
+    /**
+     * Checks if input

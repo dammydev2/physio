@@ -1,0 +1,24 @@
+isCurrentMicro()                                                                    Checks if the instance is in the same microsecond as the current moment.
+ * @method        bool           isNextMicro()                                                                       Checks if the instance is in the same microsecond as the current moment next microsecond.
+ * @method        bool           isLastMicro()                                                                       Checks if the instance is in the same microsecond as the current moment last microsecond.
+ * @method        bool           isSameMicrosecond(\DateTimeInterface $date = null)                                  Checks if the given date is in the same microsecond as the instance. If null passed, compare to now (with the same timezone).
+ * @method        bool           isCurrentMicrosecond()                                                              Checks if the instance is in the same microsecond as the current moment.
+ * @method        bool           isNextMicrosecond()                                                                 Checks if the instance is in the same microsecond as the current moment next microsecond.
+ * @method        bool           isLastMicrosecond()                                                                 Checks if the instance is in the same microsecond as the current moment last microsecond.
+ * @method        bool           isCurrentMonth()                                                                    Checks if the instance is in the same month as the current moment.
+ * @method        bool           isNextMonth()                                                                       Checks if the instance is in the same month as the current moment next month.
+ * @method        bool           isLastMonth()                                                                       Checks if the instance is in the same month as the current moment last month.
+ * @method        bool           isCurrentQuarter()                                                                  Checks if the instance is in the same quarter as the current moment.
+ * @method        bool           isNextQuarter()                                                                     Checks if the instance is in the same quarter as the current moment next quarter.
+ * @method        bool           isLastQuarter()                                                                     Checks if the instance is in the same quarter as the current moment last quarter.
+ * @method        bool           isSameDecade(\DateTimeInterface $date = null)                                       Checks if the given date is in the same decade as the instance. If null passed, compare to now (with the same timezone).
+ * @method        bool           isCurrentDecade()                                                                   Checks if the instance is in the same decade as the current moment.
+ * @method        bool           isNextDecade()                                                                      Checks if the instance is in the same decade as the current moment next decade.
+ * @method        bool           isLastDecade()                                                                      Checks if the instance is in the same decade as the current moment last decade.
+ * @method        bool           isSameCentury(\DateTimeInterface $date = null)                                      Checks if the given date is in the same century as the instance. If null passed, compare to now (with the same timezone).
+ * @method        bool           isCurrentCentury()                                                                  Checks if the instance is in the same century as the current moment.
+ * @method        bool           isNextCentury()                                                                     Checks if the instance is in the same century as the current moment next century.
+ * @method        bool           isLastCentury()                                                                     Checks if the instance is in the same century as the current moment last century.
+ * @method        bool           isSameMillennium(\DateTimeInterface $date = null)                                   Checks if the given date is in the same millennium as the instance. If null passed, compare to now (with the same timezone).
+ * @method        bool           isCurrentMillennium()                                                               Checks if the instance is in the same millennium as the current moment.
+ * @method        bool           isNextMillennium()                                                                  Checks if the instance is in the same millennium as the current moment next mille

@@ -1,0 +1,26 @@
+dLines'],
+                    $item['executableLines'],
+                    true
+                ),
+                'numExecutedLines'             => $item['executedLines'],
+                'numExecutableLines'           => $item['executableLines'],
+                'testedMethodsPercent'         => Util::percent(
+                    $numTestedMethods,
+                    1
+                ),
+                'testedMethodsPercentAsString' => Util::percent(
+                    $numTestedMethods,
+                    1,
+                    true
+                ),
+                'crap'                         => $item['crap'],
+            ]
+        );
+    }
+
+    protected function renderSource(FileNode $node): string
+    {
+        $coverageData = $node->getCoverageData();
+        $testData     = $node->getTestData();
+        $codeLines    = $this->loadFile($node->getPath());
+      

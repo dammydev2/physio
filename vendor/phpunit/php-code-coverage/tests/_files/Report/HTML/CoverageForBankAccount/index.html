@@ -1,0 +1,199 @@
+class PHP_TokenWithScopeAndVisibility extends PHP_TokenWithScope
+{
+    /**
+     * @return string
+     */
+    public function getVisibility()
+    {
+        $tokens = $this->tokenStream->tokens();
+
+        for ($i = $this->id - 2; $i > $this->id - 7; $i -= 2) {
+            if (isset($tokens[$i]) &&
+               ($tokens[$i] instanceof PHP_Token_PRIVATE ||
+                $tokens[$i] instanceof PHP_Token_PROTECTED ||
+                $tokens[$i] instanceof PHP_Token_PUBLIC)) {
+                return strtolower(
+                    str_replace('PHP_Token_', '', get_class($tokens[$i]))
+                );
+            }
+            if (isset($tokens[$i]) &&
+              !($tokens[$i] instanceof PHP_Token_STATIC ||
+                $tokens[$i] instanceof PHP_Token_FINAL ||
+                $tokens[$i] instanceof PHP_Token_ABSTRACT)) {
+                // no keywords; stop visibility search
+                break;
+            }
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getKeywords()
+    {
+        $keywords = [];
+        $tokens   = $this->tokenStream->tokens();
+
+        for ($i = $this->id - 2; $i > $this->id - 7; $i -= 2) {
+            if (isset($tokens[$i]) &&
+               ($tokens[$i] instanceof PHP_Token_PRIVATE ||
+                $tokens[$i] instanceof PHP_Token_PROTECTED ||
+                $tokens[$i] instanceof PHP_Token_PUBLIC)) {
+                continue;
+            }
+
+            if (isset($tokens[$i]) &&
+               ($tokens[$i] instanceof PHP_Token_STATIC ||
+                $tokens[$i] instanceof PHP_Token_FINAL ||
+                $tokens[$i] instanceof PHP_Token_ABSTRACT)) {
+                $keywords[] = strtolower(
+                    str_replace('PHP_Token_', '', get_class($tokens[$i]))
+                );
+            }
+        }
+
+        return implode(',', $keywords);
+    }
+}
+
+abstract class PHP_Token_Includes extends PHP_Token
+{
+    /**
+     * @var string
+     */
+    protected $name;
+
+    /**
+     * @var string
+     */
+    protected $type;
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        if ($this->name === null) {
+            $this->process();
+        }
+
+        return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        if ($this->type === null) {
+            $this->process();
+        }
+
+        return $this->type;
+    }
+
+    private function process()
+    {
+        $tokens = $this->tokenStream->tokens();
+
+        if ($tokens[$this->id + 2] instanceof PHP_Token_CONSTANT_ENCAPSED_STRING) {
+            $this->name = trim($tokens[$this->id + 2], "'\"");
+            $this->type = strtolower(
+                str_replace('PHP_Token_', '', get_class($tokens[$this->id]))
+            );
+        }
+    }
+}
+
+class PHP_Token_FUNCTION extends PHP_TokenWithScopeAndVisibility
+{
+    /**
+     * @var array
+     */
+    protected $arguments;
+
+    /**
+     * @var int
+     */
+    protected $ccn;
+
+    /**
+     * @var string
+     */
+    protected $name;
+
+    /**
+     * @var string
+     */
+    protected $signature;
+
+    /**
+     * @var bool
+     */
+    private $anonymous = false;
+
+    /**
+     * @return array
+     */
+    public function getArguments()
+    {
+        if ($this->arguments !== null) {
+            return $this->arguments;
+        }
+
+        $this->arguments = [];
+        $tokens          = $this->tokenStream->tokens();
+        $typeDeclaration = null;
+
+        // Search for first token inside brackets
+        $i = $this->id + 2;
+
+        while (!$tokens[$i - 1] instanceof PHP_Token_OPEN_BRACKET) {
+            $i++;
+        }
+
+        while (!$tokens[$i] instanceof PHP_Token_CLOSE_BRACKET) {
+            if ($tokens[$i] instanceof PHP_Token_STRING) {
+                $typeDeclaration = (string) $tokens[$i];
+            } elseif ($tokens[$i] instanceof PHP_Token_VARIABLE) {
+                $this->arguments[(string) $tokens[$i]] = $typeDeclaration;
+                $typeDeclaration                       = null;
+            }
+
+            $i++;
+        }
+
+        return $this->arguments;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        if ($this->name !== null) {
+            return $this->name;
+        }
+
+        $tokens = $this->tokenStream->tokens();
+
+        $i = $this->id + 1;
+
+        if ($tokens[$i] instanceof PHP_Token_WHITESPACE) {
+            $i++;
+        }
+
+        if ($tokens[$i] instanceof PHP_Token_AMPERSAND) {
+            $i++;
+        }
+
+        if ($tokens[$i + 1] instanceof PHP_Token_OPEN_BRACKET) {
+            $this->name = (string) $tokens[$i];
+        } elseif ($tokens[$i + 1] instanceof PHP_Token_WHITESPACE && $tokens[$i + 2] instanceof PHP_Token_OPEN_BRACKET) {
+            $this->name = (string) $tokens[$i];
+        } else {
+            $this->anonymous = true;
+
+            $this->name = sprintf(
+                'anonymousFunction:%s#%s',
+  

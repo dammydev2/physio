@@ -1,0 +1,36 @@
+/* eslint-env mocha */
+import expect from "expect"
+import { Map, fromJS, OrderedMap } from "immutable"
+import {
+  mapToList,
+  parseSearch,
+  serializeSearch,
+  validatePattern,
+  validateMinLength,
+  validateMaxLength,
+  validateDateTime,
+  validateGuid,
+  validateNumber,
+  validateInteger,
+  validateParam,
+  validateFile,
+  validateMaximum,
+  validateMinimum,
+  fromJSOrdered,
+  getAcceptControllingResponse,
+  createDeepLinkPath,
+  escapeDeepLinkPath,
+  getExtensions,
+  getCommonExtensions,
+  sanitizeUrl,
+  extractFileNameFromContentDispositionHeader,
+  deeplyStripKey,
+  getSampleSchema,
+  paramToIdentifier,
+  paramToValue,
+} from "core/utils"
+import win from "core/window"
+
+describe("utils", function() {
+  
+  describe("mapT

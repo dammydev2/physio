@@ -1,0 +1,45 @@
+ogress($this->max);
+    }
+
+    /**
+     * Outputs the current progress string.
+     */
+    public function display(): void
+    {
+        if (OutputInterface::VERBOSITY_QUIET === $this->output->getVerbosity()) {
+            return;
+        }
+
+        if (null === $this->format) {
+            $this->setRealFormat($this->internalFormat ?: $this->determineBestFormat());
+        }
+
+        $this->overwrite($this->buildLine());
+    }
+
+    /**
+     * Removes the progress bar from the current line.
+     *
+     * This is useful if you wish to write some output
+     * while a progress bar is running.
+     * Call display() to show the progress bar again.
+     */
+    public function clear(): void
+    {
+        if (!$this->overwrite) {
+            return;
+        }
+
+        if (null === $this->format) {
+            $this->setRealFormat($this->internalFormat ?: $this->determineBestFormat());
+        }
+
+        $this->overwrite('');
+    }
+
+    private function setRealFormat(string $format)
+    {
+        // try to use the _nomax variant if available
+        if (!$this->max && null !== self::getFormatDefinition($format.'_nomax')) {
+            $this->format = self::getFormatDefinition($format.'_nomax');
+     

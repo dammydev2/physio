@@ -1,0 +1,5 @@
+del-example section.
+<a name="defaultModelRendering"></a>`defaultModelRendering` | `DEFAULT_MODEL_RENDERING` | `String=["example"*, "model"]`. Controls how the model is shown when the API is first rendered. (The user can always switch the rendering for a given model by clicking the 'Model' and 'Example Value' links.)
+<a name="displayRequestDuration"></a>`displayRequestDuration` | `DISPLAY_REQUEST_DURATION` | `Boolean=false`. Controls the display of the request duration (in milliseconds) for Try-It-Out requests.
+<a name="docExpansion"></a>`docExpansion` | `DOC_EXPANSION` | `String=["list"*, "full", "none"]`. Controls the default expansion setting for the operations and tags. It can be 'list' (expands only the tags), 'full' (expands the tags and operations) or 'none' (expands nothing).
+<a name="filter"></a>`filter` | `FILTER` | `Boolean=false OR String`. If set, enables filtering. The top

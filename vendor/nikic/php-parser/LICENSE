@@ -1,0 +1,39 @@
+}
+;
+
+exit_expr:
+      /* empty */                                           { $$ = null; }
+    | '(' optional_expr ')'                                 { $$ = $2; }
+;
+
+backticks_expr:
+      /* empty */                                           { $$ = array(); }
+    | T_ENCAPSED_AND_WHITESPACE
+          { $$ = array(Scalar\EncapsedStringPart[Scalar\String_::parseEscapeSequences($1, '`')]); }
+    | encaps_list                                           { parseEncapsed($1, '`', true); $$ = $1; }
+;
+
+ctor_arguments:
+      /* empty */                                           { $$ = array(); }
+    | argument_list                                         { $$ = $1; }
+;
+
+constant:
+      name                                                  { $$ = Expr\ConstFetch[$1]; }
+    | class_name_or_var T_PAAMAYIM_NEKUDOTAYIM identifier_ex
+          { $$ = Expr\ClassConstFetch[$1, $3]; }
+    /* We interpret and isolated FOO:: as an unfinished class constant fetch. It could also be
+       an unfinished static property fetch or unfinished scoped call. */
+    | class_name_or_var T_PAAMAYIM_NEKUDOTAYIM error
+          { $$ = Expr\ClassConstFetch[$1, new Expr\Error(stackAttributes(#3))]; $this->errorState = 2; }
+;
+
+array_short_syntax:
+      '[' array_pair_list ']'
+          { $attrs = attributes(); $attrs['kind'] = Expr\Array_::KIND_SHORT;
+            $$ = new Expr\Array_($2, $attrs); }
+;
+
+dereferencable_scalar:
+      T_ARRAY '(' array_pair_list ')'
+          { $attrs = attributes(); $attrs['kind']

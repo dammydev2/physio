@@ -1,0 +1,44 @@
+mat($record);
+            $json = @json_encode(self::$json);
+            $data = base64_encode(utf8_encode($json));
+        }
+
+        if (trim($data) !== '') {
+            $this->sendHeader(self::HEADER_NAME, $data);
+        }
+    }
+
+    /**
+     * Send header string to the client
+     *
+     * @param string $header
+     * @param string $content
+     */
+    protected function sendHeader($header, $content)
+    {
+        if (!headers_sent() && self::$sendHeaders) {
+            header(sprintf('%s: %s', $header, $content));
+        }
+    }
+
+    /**
+     * Verifies if the headers are accepted by the current user agent
+     *
+     * @return bool
+     */
+    protected function headersAccepted()
+    {
+        if (empty($_SERVER['HTTP_USER_AGENT'])) {
+            return false;
+        }
+
+        return preg_match(self::USER_AGENT_REGEX, $_SERVER['HTTP_USER_AGENT']);
+    }
+
+    /**
+     * BC getter for the sendHeaders property that has been made static
+     */
+    public function __get($property)
+    {
+        if ('sendHeaders' !== $property) {
+           

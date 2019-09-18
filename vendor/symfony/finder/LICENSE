@@ -1,0 +1,27 @@
+  $path = $location.substr($path, \strlen($pathPrefix));
+                        break;
+                    }
+                }
+            }
+            $this->headers->set($type, $path);
+            $this->maxlen = 0;
+        } elseif ($request->headers->has('Range')) {
+            // Process the range headers.
+            if (!$request->headers->has('If-Range') || $this->hasValidIfRangeHeader($request->headers->get('If-Range'))) {
+                $range = $request->headers->get('Range');
+
+                list($start, $end) = explode('-', substr($range, 6), 2) + [0];
+
+                $end = ('' === $end) ? $fileSize - 1 : (int) $end;
+
+                if ('' === $start) {
+                    $start = $fileSize - $end;
+                    $end = $fileSize - 1;
+                } else {
+                    $start = (int) $start;
+                }
+
+                if ($start <= $end) {
+                    if ($start < 0 || $end > $fileSize - 1) {
+                        $this->setStatusCode(416);
+                        $this->headers->set('Content-Ran

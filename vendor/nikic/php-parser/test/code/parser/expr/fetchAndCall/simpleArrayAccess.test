@@ -1,0 +1,62 @@
+Default values (static scalar tests)
+-----
+<?php
+
+function a(
+    $b = null,
+    $c = 'foo',
+    $d = A::B,
+    $f = +1,
+    $g = -1.0,
+    $h = array(),
+    $i = [],
+    $j = ['foo'],
+    $k = ['foo', 'bar' => 'baz']
+) {}
+-----
+array(
+    0: Stmt_Function(
+        byRef: false
+        name: Identifier(
+            name: a
+        )
+        params: array(
+            0: Param(
+                type: null
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: b
+                )
+                default: Expr_ConstFetch(
+                    name: Name(
+                        parts: array(
+                            0: null
+                        )
+                    )
+                )
+            )
+            1: Param(
+                type: null
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: c
+                )
+                default: Scalar_String(
+                    value: foo
+                )
+            )
+            2: Param(
+                type: null
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: d
+                )
+                default: Expr_ClassConstFetch(
+                    class: Name(
+                        parts: array(
+                            0: A
+                        )
+                    )

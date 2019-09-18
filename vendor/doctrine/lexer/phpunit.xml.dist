@@ -1,0 +1,24 @@
+s :: at the start or end of an address
+            //with 7 other groups in addition
+            ++$maxGroups;
+        }
+
+        if ($groupCount > $maxGroups) {
+            $this->warnings[IPV6MaxGroups::CODE] = new IPV6MaxGroups();
+        } elseif ($groupCount === $maxGroups) {
+            $this->warnings[IPV6Deprecated::CODE] = new IPV6Deprecated();
+        }
+    }
+
+    protected function doParseDomainPart()
+    {
+        $domain = '';
+        $openedParenthesis = 0;
+        do {
+            $prev = $this->lexer->getPrevious();
+
+            $this->checkNotAllowedChars($this->lexer->token);
+
+            if ($this->lexer->token['type'] === EmailLexer::S_OPENPARENTHESIS) {
+                $this->parseComments();
+                $openedParenthesis += $thi

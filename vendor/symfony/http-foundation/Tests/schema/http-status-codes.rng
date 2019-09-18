@@ -1,0 +1,23 @@
+eturn Response A Response instance
+     *
+     * @throws \LogicException       If one of the listener does not behave as expected
+     * @throws NotFoundHttpException When controller cannot be found
+     */
+    private function handleRaw(Request $request, int $type = self::MASTER_REQUEST)
+    {
+        $this->requestStack->push($request);
+
+        // request
+        $event = new GetResponseEvent($this, $request, $type);
+        $this->dispatcher->dispatch(KernelEvents::REQUEST, $event);
+
+        if ($event->hasResponse()) {
+            return $this->filterResponse($event->getResponse(), $request, $type);
+        }
+
+        // load controller
+        if (false === $controller = $this->resolver->getController($request)) {
+            throw new NotFoundHttpException(sprintf('Unable to find the controller for path "%s". The route is wrongly configured.', $request->getPathInfo()));
+        }
+
+        $event = new FilterControllerEvent($this, 

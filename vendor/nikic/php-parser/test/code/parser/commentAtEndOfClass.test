@@ -1,0 +1,43 @@
+Object access
+-----
+<?php
+
+// property fetch variations
+$a->b;
+$a->b['c'];
+$a->b{'c'};
+
+// method call variations
+$a->b();
+$a->{'b'}();
+$a->$b();
+$a->$b['c']();
+
+// array dereferencing
+$a->b()['c'];
+$a->b(){'c'}; // invalid PHP: drop Support?
+-----
+!!php5
+array(
+    0: Stmt_Expression(
+        expr: Expr_PropertyFetch(
+            var: Expr_Variable(
+                name: a
+                comments: array(
+                    0: // property fetch variations
+                )
+            )
+            name: Identifier(
+                name: b
+            )
+            comments: array(
+                0: // property fetch variations
+            )
+        )
+        comments: array(
+            0: // property fetch variations
+        )
+    )
+    1: Stmt_Expression(
+        expr: Expr_ArrayDimFetch(
+         

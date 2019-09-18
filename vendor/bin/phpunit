@@ -1,0 +1,9 @@
+.php',
+    'Illuminate\\Session\\DatabaseSessionHandler' => $vendorDir . '/laravel/framework/src/Illuminate/Session/DatabaseSessionHandler.php',
+    'Illuminate\\Session\\EncryptedStore' => $vendorDir . '/laravel/framework/src/Illuminate/Session/EncryptedStore.php',
+    'Illuminate\\Session\\ExistenceAwareInterface' => $vendorDir . '/laravel/framework/src/Illuminate/Session/ExistenceAwareInterface.php',
+    'Illuminate\\Session\\FileSessionHandler' => $vendorDir . '/laravel/framework/src/Illuminate/Session/FileSessionHandler.php',
+    'Illuminate\\Session\\Middleware\\AuthenticateSession' => $vendorDir . '/laravel/framework/src/Illuminate/Session/Middleware/AuthenticateSession.php',
+    'Illuminate\\Session\\Middleware\\StartSession' => $vendorDir . '/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php',
+    'Illuminate\\Session\\NullSessionHandler' => $vendorDir . '/laravel/framework/src/Illuminate/Session/NullSessionHandler.php',
+    'Illuminate\\Session\\SessionManager' => $vendorDir . '/laravel/framework/src/Illuminate/Session/Ses

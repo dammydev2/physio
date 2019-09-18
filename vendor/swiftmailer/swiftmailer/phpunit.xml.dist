@@ -1,0 +1,48 @@
+<?php
+
+/*
+ * This file is part of SwiftMailer.
+ * (c) 2004-2009 Chris Corbyn
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+/**
+ * Provides a mechanism for storing data using two keys.
+ *
+ * @author Chris Corbyn
+ */
+interface Swift_KeyCache
+{
+    /** Mode for replacing existing cached data */
+    const MODE_WRITE = 1;
+
+    /** Mode for appending data to the end of existing cached data */
+    const MODE_APPEND = 2;
+
+    /**
+     * Set a string into the cache under $itemKey for the namespace $nsKey.
+     *
+     * @see MODE_WRITE, MODE_APPEND
+     *
+     * @param string $nsKey
+     * @param string $itemKey
+     * @param string $string
+     * @param int    $mode
+     */
+    public function setString($nsKey, $itemKey, $string, $mode);
+
+    /**
+     * Set a ByteStream into the cache under $itemKey for the namespace $nsKey.
+     *
+     * @see MODE_WRITE, MODE_APPEND
+     *
+     * @param string                 $nsKey
+     * @param string                 $itemKey
+     * @param Swift_OutputByteStream $os
+     * @param int                    $mode
+     */
+    public function importFromByteStream($nsKey, $itemKey, Swift_OutputByteStream $os, $mode);
+
+ 

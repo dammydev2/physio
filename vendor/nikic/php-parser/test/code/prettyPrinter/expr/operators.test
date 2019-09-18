@@ -1,0 +1,39 @@
+ame->toCodeString());
+
+        $name = new Name\FullyQualified('foo');
+        $this->assertFalse($name->isUnqualified());
+        $this->assertFalse($name->isQualified());
+        $this->assertTrue($name->isFullyQualified());
+        $this->assertFalse($name->isRelative());
+        $this->assertSame('\foo', $name->toCodeString());
+
+        $name = new Name\Relative('foo');
+        $this->assertFalse($name->isUnqualified());
+        $this->assertFalse($name->isQualified());
+        $this->assertFalse($name->isFullyQualified());
+        $this->assertTrue($name->isRelative());
+        $this->assertSame('namespace\foo', $name->toCodeString());
+    }
+
+    public function testInvalidArg() {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Expected string, array of parts or Name instance');
+        Name::concat('foo', new \stdClass);
+    }
+
+    public function testInvalidEmptyString() {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Name cannot be empty');
+        new Name('');
+    }
+
+    public function testInvalidEmptyArray() {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Name cannot be empty');
+        new Name([]);
+    }
+
+    /** @dataProvider provideTestIsSpecialClassName */
+    public function testIsSpecialClassName($name, $expected) {
+        $name = new Name($name);
+       

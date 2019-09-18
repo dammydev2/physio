@@ -1,0 +1,68 @@
+<?php
+
+namespace Illuminate\Auth;
+
+use Illuminate\Http\Request;
+use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Contracts\Auth\UserProvider;
+
+class TokenGuard implements Guard
+{
+    use GuardHelpers;
+
+    /**
+     * The request instance.
+     *
+     * @var \Illuminate\Http\Request
+     */
+    protected $request;
+
+    /**
+     * The name of the query string item from the request containing the API token.
+     *
+     * @var string
+     */
+    protected $inputKey;
+
+    /**
+     * The name of the token "column" in persistent storage.
+     *
+     * @var string
+     */
+    protected $storageKey;
+
+    /**
+     * Indicates if the API token is hashed in storage.
+     *
+     * @var bool
+     */
+    protected $hash = false;
+
+    /**
+     * Create a new authentication guard.
+     *
+     * @param  \Illuminate\Contracts\Auth\UserProvider  $provider
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string  $inputKey
+     * @param  string  $storageKey
+     * @param  bool  $hash
+     * @return void
+     */
+    public function __construct(
+        UserProvider $provider,
+        Request $request,
+        $inputKey = 'api_token',
+        $storageKey = 'api_token',
+        $hash = false)
+    {
+        $this->hash = $hash;
+        $this->request = $request;
+        $this->provider = $provider;
+        $this->inputKey = $inputKey;
+        $this->storageKey = $storageKey;
+    }
+
+    /**
+     * Get the currently authenticated user.
+     *
+     * @return \Illuminate\Contracts\Au

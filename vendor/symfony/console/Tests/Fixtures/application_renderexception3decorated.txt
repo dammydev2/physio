@@ -1,0 +1,28 @@
+ator has not yet been started.
+     */
+    public function testCannotFinishUnstartedIndicator()
+    {
+        $bar = new ProgressIndicator($this->getOutputStream());
+        $bar->finish('Finished');
+    }
+
+    /**
+     * @dataProvider provideFormat
+     */
+    public function testFormats($format)
+    {
+        $bar = new ProgressIndicator($output = $this->getOutputStream(), $format);
+        $bar->start('Starting...');
+        $bar->advance();
+
+        rewind($output->getStream());
+
+        $this->assertNotEmpty(stream_get_contents($output->getStream()));
+    }
+
+    /**
+     * Provides each defined format.
+     *
+     * @return array
+     */
+    public function provideFormat()

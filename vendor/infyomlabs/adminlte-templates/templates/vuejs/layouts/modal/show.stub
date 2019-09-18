@@ -1,0 +1,40 @@
+<?php
+
+namespace InfyOm\Generator\Generators;
+
+use InfyOm\Generator\Common\CommandData;
+use InfyOm\Generator\Common\GeneratorFieldRelation;
+use InfyOm\Generator\Utils\FileUtil;
+use InfyOm\Generator\Utils\TableFieldsGenerator;
+
+class ModelGenerator extends BaseGenerator
+{
+    /**
+     * Fields not included in the generator by default.
+     *
+     * @var array
+     */
+    protected $excluded_fields = [
+        'created_at',
+        'updated_at',
+    ];
+
+    /** @var CommandData */
+    private $commandData;
+
+    /** @var string */
+    private $path;
+    private $fileName;
+    private $table;
+
+    /**
+     * ModelGenerator constructor.
+     *
+     * @param \InfyOm\Generator\Common\CommandData $commandData
+     */
+    public function __construct(CommandData $commandData)
+    {
+        $this->commandData = $commandData;
+        $this->path = $commandData->config->pathModel;
+        $this->fileName = $this->commandData->modelName.'.php';
+        $this->table = $this->commandData->dynamicVars['$TABLE_NAME$'];

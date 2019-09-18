@@ -1,0 +1,34 @@
+<?php
+/*
+ * This file is part of PharIo\Manifest.
+ *
+ * (c) Arne Blankerts <arne@blankerts.de>, Sebastian Heuer <sebastian@phpeople.de>, Sebastian Bergmann <sebastian@phpunit.de>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace PharIo\Manifest;
+
+use PharIo\Version\AnyVersionConstraint;
+use PharIo\Version\Version;
+use PharIo\Version\VersionConstraint;
+use XMLWriter;
+
+class ManifestSerializer {
+    /**
+     * @var XMLWriter
+     */
+    private $xmlWriter;
+
+    public function serializeToFile(Manifest $manifest, $filename) {
+        file_put_contents(
+            $filename,
+            $this->serializeToString($manifest)
+        );
+    }
+
+    public function serializeToString(Manifest $manifest) {
+        $this->startDocument();
+
+        $this->addContains($manifest->getName(), $manifest->getVersion(), $manifest->getType

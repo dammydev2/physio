@@ -1,0 +1,38 @@
+gsryd', 'Tingstäde', 'Tjautjas/Cavccas', 'Tjuvkil', 'Tjällmo', 'Tjörnarp', 'Toarp', 'Tobo', 'Tofta', 'Toftbyn', 'Tollarp', 'Tollered', 'Tomelilla', 'Torarp', 'Torbjörntorp', 'Torekov', 'Torestorp', 'Torhamn', 'Tormestorp', 'Torna Hällestad', 'Torpsbruk', 'Torpshammar', 'Torreby', 'Torsby', 'Torsby', 'Torsebro', 'Torshälla', 'Torshälla huvud', 'Torsåker', 'Torsång', 'Torsås', 'Tortuna', 'Torup', 'Tosseryd', 'Totebo', 'Totra', 'Tranemo', 'Tranholmen', 'Transtrand', 'Tranås', 'Traryd', 'Trekanten', 'Trelleborg', 'Trollhättan', 'Trosa', 'Trulsegården', 'Trångsviken', 'Tråvad', 'Trädet', 'Träslövsläge', 'Trödje', 'Trönninge', 'Trönninge', 'Tulebo', 'Tumba', 'Tumbo', 'Tumlehed', 'Tun', 'Tuna', 'Tuna', 'Tunadal', 'Tunnerstad', 'Tureholm', 'Tving', 'Tvååker', 'Tvärskog', 'Tvärålund', 'Tygelsjö', 'Tylösand', 'Tyringe', 'Tystberga', 'Tågarp', 'Tånga och Rögle', 'Tångaberg', 'Täby', 'Täfteå', 'Täljö', 'Tällberg', 'Tärnaby', 'Tärnsjö', 'Tävelsås', 'Töcksfors', 'Töllsjö', 'Töre', 'Töreboda', 'Törestorp', 'Tösse',
+        'Ucklum', 'Uddebo', 'Uddeholm', 'Uddevalla', 'Uddheden', 'Ullared', 'Ullatti', 'Ullervad', 'Ullånger', 'Ulricehamn', 'Ulrika', 'Ulvkälla', 'Ulvåker', 'Umeå', 'Unbyn', 'Undenäs', 'Undersåker', 'Unnaryd', 'Upphärad', 'Upplanda', 'Upplands Väsby', 'Uppsala', 'Urshult', 'Ursviken', 'Utansjö', 'Utby', 'Utvälinge',
+        'Vad', 'Vadstena', 'Vaggeryd', 'Vagnhärad', 'Valbo', 'Valdemarsvik', 'Valje', 'Valla', 'Vallargärdet', 'Vallberga', 'Vallda', 'Vallentuna', 'Vallsta', 'Vallvik', 'Vallåkra', 'Valskog', 'Vankiva', 'Vannsätter', 'Vansbro', 'Vansö kyrkby', 'Vaplan', 'Vara', 'Varberg', 'Varekil', 'Vargön', 'Varnhem', 'Vartofta', 'Vassbäck', 'Vassmolösa', 'Vattholma', 'Vattjom', 'Vattnäs', 'Vattubrinken', 'Vaxholm', 'Veberöd', 'Veddige', 'Vedevåg', 'Vedum', 'Vegby', 'Veinge', 'Vejbystrand', 'Velanda', 'Vellinge', 'Vemdalen', 'Vena', 'Venjan', 'Vessigebro', 'Vetlanda', 'Vi', 'Vibble', 'Viby', 'Vickleby', 'Vidja', 'Vidsel', 'Vidöåsen', 'Vik', 'Vika', 'Vikarbyn', 'Viken', 'Vikingstad', 'Vikmanshyttan', 'Viksjöfors', 'Viksäter', 'Vilhelmina', 'Villshärad', 'Vilshult', 'Vimmerby', 'Vinberg', 'Vinbergs kyrkby', 'Vindeln', 'Vingåker', 'Vinninga', 'Vinnö', 'Vinslöv', 'Vintrie', 'Vintrosa', 'Vinäs', 'Virsbo', 'Virserum', 'Visby', 'Viskafors', 'Vislanda', 'Vissefjärda', 'Vistträsk', 'Vitaby', 'Vittangi', 'Vittaryd', 'Vittinge', 'Vittjärv', 'Vittsjö', 'Vittskövle', 'Vollsjö', 'Vrena', 'Vretstorp', 'Vrigstad', 'Vrångö', 'Vuollerim', 'Vålberg', 'Våmhus', 'Vånga', 'Vårdsätra', 'Vårgårda', 'Vårsta', 'Våxtorp', 'Väckelsång', 'Väderstad', 'Väggarp', 'Väjern', 'Väländan', 'Vänersborg', 'Väne-Åsaka', 'Vänge', 'Vännäs', 'Vännäsby', 'Väring', 'Värmdö-Evlinge', 'Värmlandsbro', 'Värnamo', 'Värsås', 'Väröbacka', 'Väse', 'Väskinde', 'Västanvik', 'Västerberg', 'Västerby', 'Västerfärnebo', 'Västerhaninge', 'Västerhejde', 'Västerhus', 'Västerljung', 'Västerlösa', 'Västermyckeläng', 'Västervik', 'Västerås', 'Västibyn', 'Västra Bispgården', 'Västra Bodarna', 'Västra Hagen', 'Västra Husby', 'Västra Ingelstad', 'Västra Karaby', 'Västra Karup', 'Västra Klagstorp', 'Västra Tommarp', 'Västra Ämtervik', 'Växjö',
+        'Yngsjö', 'Ysby', 'Ystad', 'Ytterhogdal', 'Ytternäs och Vreta', 'Yttersjö', 'Ytterån',
+        'Zinkgruvan',
+        'Åby', 'Åby', 'Åbyggeby', 'Åbytorp', 'Åhus', 'Åkarp', 'Åkers styckebruk', 'Åkersberga', 'Ålberga', 'Åled', 'Ålem', 'Åmmeberg', 'Åmot', 'Åmotfors', 'Åmsele', 'Åmynnet', 'Åmål', 'Ånge', 'Ånäset', 'Åre', 'Årjäng', 'Årstad', 'Årsunda', 'Åryd', 'Åryd', 'Ås', 'Ås', 'Åsa', 'Åsarne', 'Åsarp', 'Åsbro', 'Åsby', 'Åseda', 'Åsele', 'Åselstad', 'Åsen', 'Åsenhöga', 'Åsensbruk', 'Åshammar', 'Åsljunga', 'Åstol', 'Åstorp', 'Återvall', 'Åtorp', 'Åtvidaberg',
+        'Älandsbro', 'Älgarås', 'Älghult', 'Älmhult', 'Älmsta', 'Älta', 'Älvdalen', 'Älvkarleby', 'Älvnäs', 'Älvsbyn', 'Älvsered', 'Älvängen', 'Äng', 'Änge', 'Ängelholm', 'Ängsholmen', 'Ängsvik', 'Äppelbo', 'Ärla', 'Äsköping', 'Äspered', 'Äsperöd', 'Ätran',
+        'Öbonäs', 'Öckerö', 'Ödeborg', 'Ödeshög', 'Ödsmål', 'Ödåkra', 'Öggestorp', 'Öjersjö', 'Ölmanäs', 'Ölmbrotorp', 'Ölme', 'Ölmstad', 'Ölsta', 'Önneköp', 'Önnestad', 'Örbyhus', 'Örebro', 'Öregrund', 'Örkelljunga', 'Örnsköldsvik', 'Örserum', 'Örsjö', 'Örslösa', 'Örsundsbro', 'Örtagården', 'Örtofta', 'Örviken', 'Ösmo', 'Östadkulle', 'Östansjö', 'Östavall', 'Österbybruk', 'Österbymo', 'Österforse', 'Österfärnebo', 'Österhagen och Bergliden', 'Österslöv', 'Österstad', 'Östersund', 'Östervåla', 'Östhammar', 'Östhamra', 'Östmark', 'Östnor', 'Östorp och Ådran', 'Östra Bispgården', 'Östra Frölunda', 'Östra Grevie', 'Östra Husby', 'Östra Kallfors', 'Östra Karup', 'Östra Ljungby', 'Östra Ryd', 'Östra Sönnarslöv', 'Östra Tommarp', 'Östra Ånneröd', 'Östraby', 'Överboda', 'Överhörnäs', 'Överkalix', 'Överlida', 'Övertorneå', 'Överum', 'Övre Soppero', 'Övre Svartlå', 'Öxabäck', 'Öxeryd'
+    );
+
+    protected static $cityFormats = array(
+        '{{cityName}}'
+    );
+
+    protected static $state = array();
+
+    protected static $stateAbbr = array();
+
+    protected static $country = array(
+        'Afghanistan', 'Albanien', 'Algeriet', 'Amerikanska Jungfruöarna', 'Amerikanska Samoa', 'Andorra', 'Angola', 'Anguilla', 'Antarktis', 'Antigua och Barbuda', 'Argentina', 'Armenien', 'Aruba', 'Australien', 'Azerbajdzjan',
+        'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belgien', 'Belize', 'Benin', 'Bermuda', 'Bhutan', 'Bolivia', 'Bosnien och Hercegovina', 'Botswana', 'Bouvetön', 'Brasilien', 'Brittiska Indiska oceanöarna', 'Brittiska Jungfruöarna', 'Brunei', 'Bulgarien', 'Burkina Faso', 'Burundi',
+        'Caymanöarna', 'Centralafrikanska republiken', 'Chile', 'Colombia', 'Cooköarna', 'Costa Rica', 'Cypern',
+        'Danmark', 'Djibouti', 'Dominica', 'Dominikanska republiken',
+        'Ecuador', 'Egypten', 'Ekvatorialguinea', 'El Salvador', 'Elfenbenskusten', 'Eritrea', 'Estland', 'Etiopien',
+        'Falklandsöarna', 'Fiji', 'Filippinerna', 'Finland', 'Frankrike', 'Franska Guyana', 'Franska Polynesien', 'Franska Sydterritorierna', 'Färöarna', 'Förenade Arabemiraten',
+        'Gabon', 'Gambia', 'Georgien', 'Ghana', 'Gibraltar', 'Grekland', 'Grenada', 'Grönland', 'Guadeloupe', 'Guam', 'Guatemala', 'Guernsey', 'Guinea', 'Guinea-Bissau', 'Guyana',
+        'Haiti', 'Heard- och McDonaldöarna', 'Honduras', 'Hongkong (S.A.R. Kina)',
+        'Indien', 'Indonesien', 'Irak', 'Iran', 'Irland', 'Island', 'Isle of Man', 'Israel', 'Italien',
+        'Jamaica', 'Japan', 'Jemen', 'Jersey', 'Jordanien', 'Julön',
+        'Kambodja', 'Kamerun', 'Kanada', 'Kap Verde', 'Kazakstan', 'Kenya', 'Kina', 'Kirgizistan', 'Kiribati', 'Kokosöarna', 'Komorerna', 'Kongo-Brazzaville', 'Kongo-Kinshasa', 'Kroatien', 'Kuba', 'Kuwait',
+        'Laos', 'Lesotho', 'Lettland', 'Libanon', 'Liberia', 'Libyen', 'Liechtenstein', 'Litauen', 'Luxemburg',
+        'Macao (S.A.R. Kina)', 'Madagaskar', 'Makedonien', 'Malawi', 'Malaysia', 'Maldiverna', 'Mali', 'Malta', 'Marocko', 'Marshallöarna', 'Martinique', 'Mauretanien', 'Mauritius', 'Mayotte', 'Mexiko', 'Mikronesien', 'Moldavien', 'Monaco', 'Mongoliet', 'Montenegro', 'Montserrat', 'Moçambique', 'Myanmar',
+        'Namibia', 'Nauru', 'Nederländerna', 'Nederländska Antillerna', 'Nepal', 'Nicaragua', 'Niger', 'Nigeria', 'Niue', 'Nordkorea', 'Nordmarianerna', 'Norfolkön', 'Norge', 'Nya Kaledonien', 'Nya Zeeland',
+        'Oman',
+        'Pakistan', 'Palau', 'Palestinska territoriet', 'Panama', 'Papua Nya Guinea', 'Paraguay', 'Peru', 'Pitcairn', 'Polen', 'Portugal', 'Puerto Rico',
+        'Qatar',
+        'Rumänien', 'Rwanda', 'Ryssland', 'Réunion',
+        'S:t

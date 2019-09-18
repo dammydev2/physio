@@ -1,0 +1,29 @@
+{
+    "name": "illuminate/mail",
+    "description": "The Illuminate Mail package.",
+    "license": "MIT",
+    "homepage": "https://laravel.com",
+    "support": {
+        "issues": "https://github.com/laravel/framework/issues",
+        "source": "https://github.com/laravel/framework"
+    },
+    "authors": [
+        {
+            "name": "Taylor Otwell",
+            "email": "taylor@laravel.com"
+        }
+    ],
+    "require": {
+        "php": "^7.1.3",
+        "ext-json": "*",
+        "erusev/parsedown": "^1.7",
+        "illuminate/container": "5.8.*",
+        "illuminate/contracts": "5.8.*",
+        "illuminate/support": "5.8.*",
+        "psr/log": "^1.0",
+        "swiftmailer/swiftmailer": "^6.0",
+        "tijsverkoyen/css-to-inline-styles": "^2.2.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ill

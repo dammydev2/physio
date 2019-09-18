@@ -1,0 +1,34 @@
+<?php
+
+namespace InfyOm\Generator\Commands\API;
+
+use InfyOm\Generator\Commands\BaseCommand;
+use InfyOm\Generator\Common\CommandData;
+use InfyOm\Generator\Generators\API\APITestGenerator;
+use InfyOm\Generator\Generators\RepositoryTestGenerator;
+use InfyOm\Generator\Generators\TestTraitGenerator;
+
+class TestsGeneratorCommand extends BaseCommand
+{
+    /**
+     * The console command name.
+     *
+     * @var string
+     */
+    protected $name = 'infyom.api:tests';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Create tests command';
+
+    /**
+     * Create a new command instance.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->commandData = new Command

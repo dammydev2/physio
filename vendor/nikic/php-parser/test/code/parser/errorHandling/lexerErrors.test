@@ -1,0 +1,65 @@
+                                               key: null
+                                                value: Scalar_String(
+                                                    value: udef
+                                                )
+                                                byRef: false
+                                            )
+                                            1: Expr_ArrayItem(
+                                                key: null
+                                                value: Scalar_String(
+                                                    value: id
+                                                )
+                                                byRef: false
+                                            )
+                                        )
+                                    )
+                                    byRef: false
+                                    unpack: false
+                                )
+                            )
+                        )
+                        dim: Scalar_LNumber(
+                            value: 1
+                        )
+                    )
+                    args: array(
+                    )
+                )
+                args: array(
+                    0: Arg(
+                        value: Scalar_String(
+                            value: var_dump
+                        )
+                        byRef: false
+                        unpack: false
+                    )
+                )
+            )
+            args: array(
+                0: Arg(
+                    value: Scalar_LNumber(
+                        value: 5
+                    )
+                    byRef: false
+                    unpack: false
+                )
+            )
+        )
+    )
+    4: Stmt_Expression(
+        expr: Expr_FuncCall(
+            name: Expr_FuncCall(
+                name: Expr_FuncCall(
+                    name: Expr_Closure(
+                        static: false
+                        byRef: false
+                        params: array(
+                            0: Param(
+                                type: null
+                                byRef: false
+                                variadic: false
+                                var: Expr_Variable(
+                                    name: x
+                                )
+                                default: null
+            

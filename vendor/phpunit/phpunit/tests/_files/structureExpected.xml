@@ -1,0 +1,17 @@
+$class):
+                $path = config('repository.generator.paths.interfaces', 'Repositories');
+                break;
+            case ('presenters' === $class):
+                $path = config('repository.generator.paths.presenters', 'Presenters');
+                break;
+            case ('transformers' === $class):
+                $path = config('repository.generator.paths.transformers', 'Transformers');
+                break;
+            case ('validators' === $class):
+                $path = config('repository.generator.paths.validators', 'Validators');
+                break;
+            case ('controllers' === $class):
+                $path = config('repository.generator.paths.controllers', 'Http\Controllers');
+                break;
+            case ('provider' === $class):
+                $path = config('repository.generator.

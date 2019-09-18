@@ -1,0 +1,57 @@
+Ternary operator
+-----
+<?php
+
+// ternary
+$a ? $b : $c;
+$a ?: $c;
+
+// precedence
+$a ? $b : $c ? $d : $e;
+$a ? $b : ($c ? $d : $e);
+
+// null coalesce
+$a ?? $b;
+$a ?? $b ?? $c;
+$a ?? $b ? $c : $d;
+$a && $b ?? $c;
+-----
+array(
+    0: Stmt_Expression(
+        expr: Expr_Ternary(
+            cond: Expr_Variable(
+                name: a
+                comments: array(
+                    0: // ternary
+                )
+            )
+            if: Expr_Variable(
+                name: b
+            )
+            else: Expr_Variable(
+                name: c
+            )
+            comments: array(
+                0: // ternary
+            )
+        )
+        comments: array(
+            0: // ternary
+        )
+    )
+    1: Stmt_Expression(
+        expr: Expr_Ternary(
+            cond: Expr_Variable(
+                name: a
+            )
+            if: null
+            else: Expr_Variable(
+                name: c
+            )
+        )
+    )
+    2: Stmt_Expression(
+        expr: Expr_Ternary(
+            cond: Expr_Ternary(
+                cond: Expr_Variable(
+                 

@@ -1,0 +1,12 @@
+bject(Closure))
+#16 /Library/WebServer/Documents/physio/vendor/laravel/framework/src/Illuminate/Support/Traits/ForwardsCalls.php(23): Illuminate\\Database\\Eloquent\\Builder->create(Array)
+#17 /Library/WebServer/Documents/physio/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(1614): Illuminate\\Database\\Eloquent\\Model->forwardCallTo(Object(Illuminate\\Database\\Eloquent\\Builder), 'create', Array)
+#18 /Library/WebServer/Documents/physio/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(1626): Illuminate\\Database\\Eloquent\\Model->__call('create', Array)
+#19 /Library/WebServer/Documents/physio/app/Http/Controllers/OrtController.php(131): Illuminate\\Database\\Eloquent\\Model::__callStatic('create', Array)
+#20 [internal function]: App\\Http\\Controllers\\OrtController->ortPage3(Object(Illuminate\\Http\\Request))
+#21 /Library/WebServer/Documents/physio/vendor/laravel/framework/src/Illuminate/Routing/Controller.php(54): call_user_func_array(Array, Array)
+#22 /Library/WebServer/Documents/physio/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(45): Illuminate\\Routing\\Controller->callAction('ortPage3', Array)
+#23 /Library/WebServer/Documents/physio/vendor/laravel/framework/src/Illuminate/Routing/Route.php(219): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\OrtController), 'ortPage3')
+#24 /Library/WebServer/Documents/physio/vendor/laravel/framework/src/Illuminate/Routing/Route.php(176): Illuminate\\Routing\\Route->runController()
+#25 /Library/WebServer/Documents/physio/vendor/laravel/framework/src/Illuminate/Routing/Router.php(680): Illuminate\\Routing\\Route->run()
+#26 /Library/WebServer/Documents/physio/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php(30): Illuminate\\Routing\

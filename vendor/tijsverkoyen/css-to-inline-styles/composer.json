@@ -1,0 +1,16 @@
+[![Build Status](https://img.shields.io/travis/zircote/swagger-php/master.svg?style=flat-square)](https://travis-ci.org/zircote/swagger-php)
+[![Total Downloads](https://img.shields.io/packagist/dt/zircote/swagger-php.svg?style=flat-square)](https://packagist.org/packages/zircote/swagger-php)
+[![License](https://img.shields.io/badge/license-Apache-blue.svg?style=flat-square)](LICENSE-2.0.txt)
+
+# swagger-php
+
+Generate interactive [Swagger](http://swagger.io) documentation for your RESTful API using [doctrine annotations](http://doctrine-common.readthedocs.org/en/latest/reference/annotations.html).
+
+## Features
+
+ - Compatible with the Swagger 2.0 specification.
+ - Exceptional error reporting (with hints, context)
+ - Extracts information from code & existing phpdoc annotations.
+ - Command-line interface available.
+
+## Insta

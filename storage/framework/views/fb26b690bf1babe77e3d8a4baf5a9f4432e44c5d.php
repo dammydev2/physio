@@ -1,0 +1,8 @@
+.php(335): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(8, 'Array to string...', '/Library/WebSer...', 335, Array)
+#1 /Library/WebServer/Documents/physio/vendor/laravel/framework/src/Illuminate/Database/QueryException.php(56): Illuminate\\Support\\Str::replaceArray('?', Array, 'insert into `or...')
+#2 /Library/WebServer/Documents/physio/vendor/laravel/framework/src/Illuminate/Database/QueryException.php(39): Illuminate\\Database\\QueryException->formatMessage('insert into `or...', Array, Object(ErrorException))
+#3 /Library/WebServer/Documents/physio/vendor/laravel/framework/src/Illuminate/Database/Connection.php(665): Illuminate\\Database\\QueryException->__construct('insert into `or...', Array, Object(ErrorException))
+#4 /Library/WebServer/Documents/physio/vendor/laravel/framework/src/Illuminate/Database/Connection.php(624): Illuminate\\Database\\Connection->runQueryCallback('insert into `or...', Array, Object(Closure))
+#5 /Library/WebServer/Documents/physio/vendor/laravel/framework/src/Illuminate/Database/Connection.php(459): Illuminate\\Database\\Connection->run('insert into `or...', Array, Object(Closure))
+#6 /Library/WebServer/Documents/physio/vendor/laravel/framework/src/Illuminate/Database/Connection.php(411): Illuminate\\Database\\Connection->statement('insert into `or...', Array)
+#7 /Library/WebServer/Documents/physio/vendor/laravel/framework/src/Illuminate/Database/

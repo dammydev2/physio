@@ -1,0 +1,19 @@
+try {
+            $question = new ChoiceQuestion('Who are your favorite superheros?', $heroes, '');
+            $question->setMultiselect(true);
+            $questionHelper->ask($this->createStreamableInputInterfaceMock($inputStream, false), $this->createOutputInterface(), $question);
+        } catch (\InvalidArgumentException $e) {
+            $this->assertSame('Value "" is invalid', $e->getMessage());
+        }
+    }
+
+    public function testAsk()
+    {
+        $dialog = new QuestionHelper();
+
+        $inputStream = $this->getInputStream("\n8AM\n");
+
+        $question = new Question('What time is it?', '2PM');
+        $this->assertEquals('2PM', $dialog->ask($this->createStreamableInputInterfaceMock($inputStream), $this->createOutputInterface(), $question));
+
+        $question 

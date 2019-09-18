@@ -1,0 +1,60 @@
+
+        return $this;
+    }
+
+    /**
+     * Returns the password.
+     *
+     * @return string password
+     */
+    public function getPassword()
+    {
+        return $this->safeStorage->retrieveSafely('password');
+    }
+
+    /**
+     * Set the ftp password.
+     *
+     * @param string $password
+     *
+     * @return $this
+     */
+    public function setPassword($password)
+    {
+        $this->safeStorage->storeSafely('password', $password);
+
+        return $this;
+    }
+
+    /**
+     * Returns the amount of seconds before the connection will timeout.
+     *
+     * @return int
+     */
+    public function getTimeout()
+    {
+        return $this->timeout;
+    }
+
+    /**
+     * Set the amount of seconds before the connection should timeout.
+     *
+     * @param int $timeout
+     *
+     * @return $this
+     */
+    public function setTimeout($timeout)
+    {
+        $this->timeout = (int) $timeout;
+
+        return $this;
+    }
+
+    /**
+     * Return the FTP system type.
+     *
+     * @return string
+     */
+    public function getSystemType()
+    {
+        return $thi

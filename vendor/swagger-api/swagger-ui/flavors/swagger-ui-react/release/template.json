@@ -1,0 +1,28 @@
+import React, { Component } from "react"
+import PropTypes from "prop-types"
+import ImPropTypes from "react-immutable-proptypes"
+import Im from "immutable"
+
+// More readable, just iterate over maps, only
+const eachMap = (iterable, fn) => iterable.valueSeq().filter(Im.Map.isMap).map(fn)
+
+export default class Parameters extends Component {
+
+  static propTypes = {
+    parameters: ImPropTypes.list.isRequired,
+    specActions: PropTypes.object.isRequired,
+    getComponent: PropTypes.func.isRequired,
+    specSelectors: PropTypes.object.isRequired,
+    fn: PropTypes.object.isRequired,
+    tryItOutEnabled: PropTypes.bool,
+    allowTryItOut: PropTypes.bool,
+    onTryoutClick: PropTypes.func,
+    onCancelClick: PropTypes.func,
+    onChangeKey: PropTypes.array,
+    pathMethod: PropTypes.array.isRequired,
+    getConfigs: PropTypes.func.isRequired,
+    specPath: ImPropTypes.list.isRequired,
+  }
+
+
+  static d

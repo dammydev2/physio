@@ -1,0 +1,35 @@
+ : null;
+
+        foreach ($requirements as $placeholder => $requirement) {
+            if (\is_int($placeholder)) {
+                @trigger_error(sprintf('A placeholder name must be a string (%d given). Did you forget to specify the placeholder key for the requirement "%s" of route "%s" in "%s"?', $placeholder, $requirement, $name, $path), E_USER_DEPRECATED);
+            }
+        }
+
+        if (isset($config['controller'])) {
+            $defaults['_controller'] = $config['controller'];
+        }
+
+        if (\is_array($config['path'])) {
+            $route = new Route('', $defaults, $requirements, $options, $host, $schemes, $methods, $condition);
+
+            foreach ($config['path'] as $locale => $path) {
+                $localizedRoute = clone $route;
+                $localizedRoute->setDefault('_locale', $locale);
+                $localizedRoute->setDefault('_canonical_route', $name);
+                $localizedRoute->setPath($path);
+                $collection->add($name.'.'.$locale, $localizedRoute);
+            }
+        } else {
+            $route = new Route($config['path'], $defaults, $requirements, $options, $host, $schemes, $methods, $condition);
+            $collection->add($name, $route);
+        }
+    }
+
+    /**
+     * Parses an import and adds the routes in the resource to the RouteCollection.
+     *
+     * @param RouteCollection $collection A RouteCollection instance
+     * @param array           $config     Route definition
+     * @param string          $path       Full path of the YAML file being processed
+     * @param string          $file       Loaded file na

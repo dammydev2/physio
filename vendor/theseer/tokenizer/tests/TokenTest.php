@@ -1,0 +1,12 @@
+'')
+ * @method static void nullOrFile($value, $message = '')
+ * @method static void nullOrDirectory($value, $message = '')
+ * @method static void nullOrReadable($value, $message = '')
+ * @method static void nullOrWritable($value, $message = '')
+ * @method static void nullOrClassExists($value, $message = '')
+ * @method static void nullOrSubclassOf($value, $class, $message = '')
+ * @method static void nullOrInterfaceExists($value, $message = '')
+ * @method static void nullOrImplementsInterface($value, $interface, $message = '')
+ * @method static void nullOrPropertyExists($value, $property, $message = '')
+ * @method static void nullOrPropertyNotExists($value, $property, $message = '')
+ * @method static void nullOrMethodExists($value, $method, $message

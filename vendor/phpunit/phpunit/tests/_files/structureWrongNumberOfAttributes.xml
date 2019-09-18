@@ -1,0 +1,42 @@
+<?php
+
+namespace Prettus\Repository\Generators;
+
+use Prettus\Repository\Generators\Migrations\SchemaParser;
+
+/**
+ * Class ModelGenerator
+ * @package Prettus\Repository\Generators
+ */
+class ModelGenerator extends Generator
+{
+
+    /**
+     * Get stub name.
+     *
+     * @var string
+     */
+    protected $stub = 'model';
+
+    /**
+     * Get root namespace.
+     *
+     * @return string
+     */
+    public function getRootNamespace()
+    {
+        return parent::getRootNamespace() . parent::getConfigGeneratorClassPath($this->getPathConfigNode());
+    }
+
+    /**
+     * Get generator path config node.
+     *
+     * @return string
+     */
+    public function getPathConfigNode()
+    {
+        return 'models';
+    }
+
+    /**
+     * Get destination path for generated fi

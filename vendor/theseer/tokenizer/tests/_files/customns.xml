@@ -1,0 +1,191 @@
+$class, $message = '')
+    {
+        if (!($value instanceof $class)) {
+            static::reportInvalidArgument(sprintf(
+                $message ?: 'Expected an instance of %2$s. Got: %s',
+                static::typeToString($value),
+                $class
+            ));
+        }
+    }
+
+    public static function notInstanceOf($value, $class, $message = '')
+    {
+        if ($value instanceof $class) {
+            static::reportInvalidArgument(sprintf(
+                $message ?: 'Expected an instance other than %2$s. Got: %s',
+                static::typeToString($value),
+                $class
+            ));
+        }
+    }
+
+    public static function isInstanceOfAny($value, array $classes, $message = '')
+    {
+        foreach ($classes as $class) {
+            if ($value instanceof $class) {
+                return;
+            }
+        }
+
+        static::reportInvalidArgument(sprintf(
+            $message ?: 'Expected an instance of any of %2$s. Got: %s',
+            static::typeToString($value),
+            implode(', ', array_map(array('static', 'valueToString'), $classes))
+        ));
+    }
+
+    public static function isEmpty($value, $message = '')
+    {
+        if (!empty($value)) {
+            static::reportInvalidArgument(sprintf(
+                $message ?: 'Expected an empty value. Got: %s',
+                static::valueToString($value)
+            ));
+        }
+    }
+
+    public static function notEmpty($value, $message = '')
+    {
+        if (empty($value)) {
+            static::reportInvalidArgument(sprintf(
+                $message ?: 'Expected a non-empty value. Got: %s',
+                static::valueToString($value)
+            ));
+        }
+    }
+
+    public static function null($value, $message = '')
+    {
+        if (null !== $value) {
+            static::reportInvalidArgument(sprintf(
+                $message ?: 'Expected null. Got: %s',
+                static::valueToString($value)
+            ));
+        }
+    }
+
+    public static function notNull($value, $message = '')
+    {
+        if (null === $value) {
+            static::reportInvalidArgument(
+                $message ?: 'Expected a value other than null.'
+            );
+        }
+    }
+
+    public static function true($value, $message = '')
+    {
+        if (true !== $value) {
+            static::reportInvalidArgument(sprintf(
+                $message ?: 'Expected a value to be true. Got: %s',
+                static::valueToString($value)
+            ));
+        }
+    }
+
+    public static function false($value, $message = '')
+    {
+        if (false !== $value) {
+            static::reportInvalidArgument(sprintf(
+                $message ?: 'Expected a value to be false. Got: %s',
+                static::valueToString($value)
+            ));
+        }
+    }
+
+    public static function ip($value, $message = '')
+    {
+        if (false === filter_var($value, FILTER_VALIDATE_IP)) {
+            static::reportInvalidArgument(sprintf(
+                $message ?: 'Expected a value to be an IP. Got: %s',
+                static::valueToString($value)
+            ));
+        }
+    }
+
+    public static function ipv4($value, $message = '')
+    {
+        if (false === filter_var($value, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+            static::reportInvalidArgument(sprintf(
+                $message ?: 'Expected a value to be an IPv4. Got: %s',
+                static::valueToString($value)
+            ));
+        }
+    }
+
+    public static function ipv6($value, $message = '')
+    {
+        if (false === filter_var($value, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+            static::reportInvalidArgument(sprintf(
+                $message ?: 'Expected a value to be an IPv6. Got %s',
+                static::valueToString($value)
+            ));
+        }
+    }
+
+    public static function eq($value, $value2, $message = '')
+    {
+        if ($value2 != $value) {
+            static::reportInvalidArgument(sprintf(
+                $message ?: 'Expected a value equal to %2$s. Got: %s',
+                static::valueToString($value),
+                static::valueToString($value2)
+            ));
+        }
+    }
+
+    public static function notEq($value, $value2, $message = '')
+    {
+        if ($value2 == $value) {
+            static::reportInvalidArgument(sprintf(
+                $message ?: 'Expected a different value than %s.',
+                static::valueToString($value2)
+            ));
+        }
+    }
+
+    public static function same($value, $value2, $message = '')
+    {
+        if ($value2 !== $value) {
+            static::reportInvalidArgument(sprintf(
+                $message ?: 'Expected a value identical to %2$s. Got: %s',
+                static::valueToString($value),
+                static::valueToString($value2)
+            ));
+        }
+    }
+
+    public static function notSame($value, $value2, $message = '')
+    {
+        if ($value2 === $value) {
+            static::reportInvalidArgument(sprintf(
+                $message ?: 'Expected a value not identical to %s.',
+                static::valueToString($value2)
+            ));
+        }
+    }
+
+    public static function greaterThan($value, $limit, $message = '')
+    {
+        if ($value <= $limit) {
+            static::reportInvalidArgument(sprintf(
+                $message ?: 'Expected a value greater than %2$s. Got: %s',
+                static::valueToString($value),
+                static::valueToString($limit)
+            ));
+        }
+    }
+
+    public static function greaterThanEq($value, $limit, $message = '')
+    {
+        if ($value < $limit) {
+            static::reportInvalidArgument(sprintf(
+                $message ?: 'Expected a value greater than or equal to %2$s. Got: %s',
+                static::valueToString($value),
+                static::valueToString($limit)
+            ));
+        }
+    }
+
+    

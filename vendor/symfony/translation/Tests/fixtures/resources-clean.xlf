@@ -1,0 +1,28 @@
+      'columnNumber' => $dom->columnNumber,
+            'offset' => $dom->offset,
+            'relatedNode' => $dom->relatedNode,
+            'uri' => $dom->uri ? new LinkStub($dom->uri, $dom->lineNumber) : $dom->uri,
+        ];
+
+        return $a;
+    }
+
+    public static function castDocumentType(\DOMDocumentType $dom, array $a, Stub $stub, $isNested)
+    {
+        $a += [
+            'name' => $dom->name,
+            'entities' => $dom->entities,
+            'notations' => $dom->notations,
+            'publicId' => $dom->publicId,
+            'systemId' => $dom->systemId,
+            'internalSubset' => $dom->internalSubset,
+        ];
+
+        return $a;
+    }
+
+    public static function castNotation(\DOMNotation $dom, array $a, Stub $stub, $isNested)
+    {
+        $a += [
+            'publicId' => $dom->publicId,
+            's

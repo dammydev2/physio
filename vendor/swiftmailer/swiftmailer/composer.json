@@ -1,0 +1,43 @@
+        $count = 0;
+        $time = time();
+        foreach ($directoryIterator as $file) {
+            $file = $file->getRealPath();
+
+            if ('.message' != substr($file, -8)) {
+                continue;
+            }
+
+            /* We try a rename, it's an atomic operation, and avoid locking the file */
+            if (rename($file, $file.'.sending')) {
+                $message = unserialize(file_get_contents($file.'.sending'));
+
+                $count += $transport->send($message, $failedRecipients);
+
+                unlink($file.'.sending');
+            } else {
+                /* This message has just been catched by another process */
+                continue;
+            }
+
+            if ($this->getMessageLimit() && $count >= $this->getMessageLimit()) {
+                break;
+            }
+
+            if ($this->getTimeLimit() && (time() - $time) >= $this->getTimeLimit()) {
+                break;
+            }
+        }
+
+        return $count;
+    }
+
+    /**
+     * Returns a random string needed to generate a fileName for the queue.
+     *
+     * @param int $count
+     *
+     * @return string
+     */
+    protected function getRandomString($count)
+    {
+        // This string M

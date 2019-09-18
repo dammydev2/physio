@@ -1,0 +1,9 @@
+nate\\Support\\Facades\\Hash' => $vendorDir . '/laravel/framework/src/Illuminate/Support/Facades/Hash.php',
+    'Illuminate\\Support\\Facades\\Input' => $vendorDir . '/laravel/framework/src/Illuminate/Support/Facades/Input.php',
+    'Illuminate\\Support\\Facades\\Lang' => $vendorDir . '/laravel/framework/src/Illuminate/Support/Facades/Lang.php',
+    'Illuminate\\Support\\Facades\\Log' => $vendorDir . '/laravel/framework/src/Illuminate/Support/Facades/Log.php',
+    'Illuminate\\Support\\Facades\\Mail' => $vendorDir . '/laravel/framework/src/Illuminate/Support/Facades/Mail.php',
+    'Illuminate\\Support\\Facades\\Notification' => $vendorDir . '/laravel/framework/src/Illuminate/Support/Facades/Notification.php',
+    'Illuminate\\Support\\Facades\\Password' => $vendorDir . '/laravel/framework/src/Illuminate/Support/Facades/Password.php',
+    'Illuminate\\Support\\Facades\\Queue' => $vendorDir . '/laravel/framework/src/Illuminate/Support/Facades/Queue.php',
+    'Illuminate\\Support\\Facades\\Redirect' => $vendorDir . '/laravel/framework/src/Illuminate/Supp

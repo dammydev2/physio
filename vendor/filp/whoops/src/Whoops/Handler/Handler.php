@@ -1,0 +1,13 @@
+der to ignore unreadable and special files [\#565](https://github.com/fzaninotto/Faker/pull/565) ([svrnm](https://github.com/svrnm))
+* Fixed Dutch (nl\_NL) Address and Person providers [\#560](https://github.com/fzaninotto/Faker/pull/560) ([killerog](https://github.com/killerog))
+* Fixed Dutch (nl\_NL) Person provider [\#559](https://github.com/fzaninotto/Faker/pull/559) ([pauledenburg](https://github.com/pauledenburg))
+* Added Russian (ru\_RU) Bank names provider [\#553](https://github.com/fzaninotto/Faker/pull/553) ([wizardjedi](https://github.com/wizardjedi))
+* Added mobile phone function in French (fr\_FR) provider [\#552](https://github.com/fzaninotto/Faker/pull/552) ([kletellier](https://github.com/kletellier))
+* Added phpdoc for new magic methods in Generator to help IntelliSense completion [\#550](https://github.com/fzaninotto/Faker/pull/550) ([stof](https://github.com/stof))
+* Fixed File provider bug 'The first argument to copy() function cannot be a directory' [\#547](https://github.com/fzaninotto/Faker/pull/547) ([svrnm](https://github.com/svrnm))
+* Added new Brazilian (pt\_BR) Providers [\#545](https://github.com/fzaninotto/Faker/pull/545) ([igorsantos07](https://github.com/igorsantos07))
+* Fixed ability to seed the generator [\#543](https://github.com/fzaninotto/Faker/pull/543) ([schmengler](https://github.com/schmengler))
+* Added streetAddress formatter to Russian (ru\_RU) provider [\#542](https://github.com/fzaninotto/Faker/pull/542) ([ZAYEC77](https://github.com/ZAYEC77))
+* Fixed Internet provider warning "Could not create transliterator"* [\#541](https://github.com/fzaninotto/Faker/pull/541) ([fonsecas72](https://github.com/fonsecas72))
+* Fixed Spanish for Argentina (es\_AR) Address provider [\#540](https://github.com/fzaninotto/Faker/pull/540) ([ivanmirson](https://github.com/ivanmirson))
+* Fixed region names in French 

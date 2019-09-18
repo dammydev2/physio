@@ -1,0 +1,51 @@
+   if (!(\is_array($array) || $array instanceof ArrayAccess)) {
+            throw InvalidArgumentHelper::factory(
+                2,
+                'array or ArrayAccess'
+            );
+        }
+
+        $constraint = new ArraySubset($subset, $checkForObjectIdentity);
+
+        static::assertThat($array, $constraint, $message);
+    }
+
+    /**
+     * Asserts that an array does not have a specified key.
+     *
+     * @param int|string        $key
+     * @param array|ArrayAccess $array
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    public static function assertArrayNotHasKey($key, $array, string $message = ''): void
+    {
+        if (!(\is_int($key) || \is_string($key))) {
+            throw InvalidArgumentHelper::factory(
+                1,
+                'integer or string'
+            );
+        }
+
+        if (!(\is_array($array) || $array instanceof ArrayAccess)) {
+            throw InvalidArgumentHelper::factory(
+                2,
+                'array or ArrayAccess'
+            );
+        }
+
+        $constraint = new LogicalNot(
+            new ArrayHasKey($key)
+        );
+
+        static::assertThat($array, $constraint, $message);
+    }
+
+    /**
+     * Asserts that a haystack contains a needle.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    public static function

@@ -1,0 +1,33 @@
+nGetByIdTryBtn")
+            .waitForElementVisible("@petOperationGetByTagExecuteBtn", 1000)
+            .setValue("@petOperationGetByIdParameter", "abc")
+            .click("@petOperationGetByIdExecuteBtn")
+            .waitForElementVisible("@petOperationGetByIdResultsBox")
+            .assert.containsText("@petOperationGetByIdParameter", "abc")
+            .assert.cssClassPresent("@petOperationGetByIdParameter", "invalid")
+            .assert.attributeEquals("@petOperationGetByIdParameter", "title", "Value must be an integer")
+            .click("@petOperationGetByTagTryBtn")
+            .assert.cssClassNotPresent("@petOperationGetByTagTryBtn", "cancel")
+
+        client.end()
+    })
+
+    it("render delete /pet api container", function (client) {
+        apiWrapper.waitForElementVisible("@petOperationDeleteContainer")
+            .assert.containsText("@petOperationDeleteTitle", "/pet/{petId}")
+            .click("@petOperationDeleteCollpase")
+            .waitForElementVisible("@petOperationDeleteCollapseContainer", 3000)
+            .click("@petOperationDeleteTryBtn")
+            .waitForElementVisible("@petOperationDeleteExecuteBtn", 1000)
+            .click("@petOperationDeleteTryBtn")
+            .assert.cssClassNotPresent("@petOperationDeleteTryBtn", "cancel")
+
+        client.end()
+    })
+
+    it("Testing delete /pet api Mock data", function (client) {
+        apiWrapper.waitForElementVisible("@petOperationDeleteContainer", 3000)
+            .click("@petOperationDeleteCollpase")
+            .waitForElementVisible("@petOperationDeleteCollapseContainer", 3000)
+            .click("@petOperationDeleteTryBtn")
+            .waitForElementVisible("@petOperationDelete

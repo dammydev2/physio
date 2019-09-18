@@ -1,0 +1,28 @@
+String($result->failureCount(), 'Failures', $color);
+            $this->writeCountString($result->warningCount(), 'Warnings', $color);
+            $this->writeCountString($result->skippedCount(), 'Skipped', $color);
+            $this->writeCountString($result->notImplementedCount(), 'Incomplete', $color);
+            $this->writeCountString($result->riskyCount(), 'Risky', $color);
+            $this->writeWithColor($color, '.');
+        }
+    }
+
+    protected function writeProgress(string $progress): void
+    {
+        if ($this->debug) {
+            return;
+        }
+
+        $this->write($progress);
+        $this->column++;
+        $this->numTestsRun++;
+
+        if ($this->column == $this->maxColumn || $this->numTestsRun == $this->numTests) {
+            if ($this->numTestsRun == $this->numTests) {
+                $this->write(\str_repeat(' ', $this->maxColumn - $this->column));
+            }
+
+            $this->write(
+                \sprintf(
+                    ' %' . $this->numTestsWidth . 'd / %' .
+     

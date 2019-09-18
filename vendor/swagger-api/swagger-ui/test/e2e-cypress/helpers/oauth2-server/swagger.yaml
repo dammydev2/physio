@@ -1,0 +1,24 @@
+describe("feature: OpenAPI 3 allowEmptyValue", function () {
+  beforeEach(function (client, done) {
+    client
+      .url("localhost:3230")
+      .page.main()
+
+    client.waitForElementVisible(".download-url-input:not([disabled])", 5000)
+      .clearValue(".download-url-input")
+      .setValue(".download-url-input", "/test-specs/features/allow-empty-value.openapi.yaml")
+      .click("button.download-url-button")
+      .waitForElementVisible(".opblock", 10000)
+
+    done()
+  })
+
+  afterEach(function (client, done) {
+    done()
+  })
+
+  describe("regular parameters", function () {
+    it("should set and unset an integer value", function (client) {
+      const inputSelector = `tr[data-param-name="int"] input`
+
+  

@@ -1,0 +1,47 @@
+/* eslint-env mocha */
+import expect from "expect"
+import { fromJS } from "immutable"
+import { preauthorizeBasic, preauthorizeApiKey } from "corePlugins/auth"
+import { authorize } from "corePlugins/auth/actions"
+
+const S2_SYSTEM = {
+  authActions: {
+    authorize
+  },
+  specSelectors: {
+    isOAS3: () => false,
+    specJson: () => {
+      return fromJS({
+        swagger: "2.0",
+        securityDefinitions: {
+          "APIKeyHeader": {
+            "type": "apiKey",
+            "in": "header",
+            "name": "X-API-Key"
+          },
+          "basicAuth": {
+            "type": "basic"
+          }
+        }
+      })
+    }
+  }
+}
+
+const OAI3_SYSTEM = {
+  authActions: {
+    authorize
+  },
+  specSelectors: {
+    isOAS3: () => true,
+    specJson: () => {
+      return fromJS({
+        openapi: "3.0.0",
+        components: {
+          securitySchemes: {
+            basicAuth: {
+              type: "http",
+              scheme: "basic"
+            },
+            APIKeyHeader: {
+              type: "apiKey"

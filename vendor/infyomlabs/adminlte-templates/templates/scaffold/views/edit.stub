@@ -1,0 +1,21 @@
+<?php
+
+namespace InfyOm\Generator\Commands\VueJs;
+
+use InfyOm\Generator\Commands\BaseCommand;
+use InfyOm\Generator\Common\CommandData;
+use InfyOm\Generator\Generators\MigrationGenerator;
+use InfyOm\Generator\Generators\ModelGenerator;
+use InfyOm\Generator\Generators\RepositoryGenerator;
+use InfyOm\Generator\Generators\Scaffold\MenuGenerator;
+use InfyOm\Generator\Generators\VueJs\APIRequestGenerator;
+use InfyOm\Generator\Generators\VueJs\ControllerGenerator;
+use InfyOm\Generator\Generators\VueJs\ModelJsConfigGenerator;
+use InfyOm\Generator\Generators\VueJs\RoutesGenerator;
+use InfyOm\Generator\Generators\VueJs\ViewGenerator;
+
+class VueJsGeneratorCommand extends BaseCommand
+{
+    /**
+     * The console command name.
+     

@@ -1,0 +1,49 @@
+<?php declare(strict_types=1);
+
+namespace PhpParser\Node;
+
+class NameTest extends \PHPUnit\Framework\TestCase
+{
+    public function testConstruct() {
+        $name = new Name(['foo', 'bar']);
+        $this->assertSame(['foo', 'bar'], $name->parts);
+
+        $name = new Name('foo\bar');
+        $this->assertSame(['foo', 'bar'], $name->parts);
+
+        $name = new Name($name);
+        $this->assertSame(['foo', 'bar'], $name->parts);
+    }
+
+    public function testGet() {
+        $name = new Name('foo');
+        $this->assertSame('foo', $name->getFirst());
+        $this->assertSame('foo', $name->getLast());
+
+        $name = new Name('foo\bar');
+        $this->assertSame('foo', $name->getFirst());
+        $this->assertSame('bar', $name->getLast());
+    }
+
+    public function testToString() {
+        $name = new Name('Foo\Bar');
+
+        $this->assertSame('Foo\Bar', (string) $name);
+        $this->assertSame('Foo\Bar', $name->toString());
+        $this->assertSame('foo\bar', $name->toLowerString());
+    }
+
+    public function testSlice() {
+        $name = new Name('foo\bar\baz');
+        $this->assertEquals(new Name('foo\bar\baz'), $name->slice(0));
+        $this->assertEquals(new Name('bar\baz'), $name->slice(1));
+        $this->assertNull($name->slice(3));
+        $this->assertEquals(new Name('foo\bar\baz'), $name->slice(-3));
+        $this->assertEquals(new Name('bar\baz'), $name->slice(-2));
+        $this->assertEquals(new Name('foo\bar'), $name->slice(0, -1));
+        $this->assertNull($name->slice(0, -3));
+        $this->assertEquals(new Name('bar'), $name->slice(1, -1));
+        $this->assertNull($name->slice(1, -2));
+        $this->assertEquals(new Name('bar'), $name->slice(-2, 1));
+        $this->assertEquals(new Name('bar'), $name->slice(-2, -1));
+    

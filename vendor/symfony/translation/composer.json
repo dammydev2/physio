@@ -1,0 +1,47 @@
+AND_WHITESPACE:
+                case T_CONSTANT_ENCAPSED_STRING:
+                    if ('' === $docToken) {
+                        $message .= PhpStringTokenParser::parse($t[1]);
+                    } else {
+                        $docPart = $t[1];
+                    }
+                    break;
+                case T_END_HEREDOC:
+                    $message .= PhpStringTokenParser::parseDocString($docToken, $docPart);
+                    $docToken = '';
+                    $docPart = '';
+                    break;
+                case T_WHITESPACE:
+                    break;
+                default:
+                    break 2;
+            }
+        }
+
+        return $message;
+    }
+
+    /**
+     * Extracts trans message from PHP tokens.
+     *
+     * @param array            $tokens
+     * @param MessageCatalogue $catalog
+     */
+    protected function parseTokens($tokens, MessageCatalogue $catalog)
+    {
+        $tokenIterator = new \ArrayIterator($tokens);
+
+        for ($key = 0; $key < $tokenIterator->count(); ++$key) {
+            foreach ($this->sequences as $sequence) {
+                $message = '';
+                $domain = 'messages';
+                $tokenIterator->seek($key);
+
+                foreach ($sequence as $sequenceKey => $item) {
+                    $this->seekToNextRelevantToken($tokenIterator);
+
+                    if ($this->normalizeToken($tokenIterator->current()) === $item) {
+                        $tokenIterator->next();
+                        continue;
+                    } elseif (self::MESSAGE_TOKEN === $item) {
+                        $message = $this->getValue

@@ -1,0 +1,10 @@
+([theofidry](https://github.com/theofidry))
+- Added Hebrew (he\_IL) locale [\#633](https://github.com/fzaninotto/Faker/pull/633) ([yonirom](https://github.com/yonirom))
+- Updated `seed` to accept non-integer seeds [\#632](https://github.com/fzaninotto/Faker/pull/632) ([theofidry](https://github.com/theofidry))
+- Added DocBlock to `Factory::create()` [\#631](https://github.com/fzaninotto/Faker/pull/631) ([tonynelson19](https://github.com/tonynelson19))
+- Added `jobTitle` generator [\#630](https://github.com/fzaninotto/Faker/pull/630) ([gregoryduckworth](https://github.com/gregoryduckworth))
+- Updated Chinese (zh\_CN) `Person` provider to generate more correct names [\#628](https://github.com/fzaninotto/Faker/pull/628) ([phoenixgao](https://github.com/phoenixgao))
+- Updated Brazilian (pt\_BR) `cellphone` formatter to make it more flexible [\#623](https://github.com/fzaninotto/Faker/pull/623) ([igorsantos07](https://github.com/igorsantos07))
+- Add Arabic for Saudi Arabia (ar\_SA) locale [\#618](https://github.com/fzaninotto/Faker/pull/618) ([ibrasho](https://github.com/ibrasho))
+- Updated en\_US phone numbers [\#615](https://github.com/fzaninotto/Faker/pull/615) ([okj579](https://github.com/okj579))
+- Fixed typos in variable names and exceptions [\#614](https://github.com/fzaninotto/Faker/pull/614) ([pborreli](https://github.com/pbor

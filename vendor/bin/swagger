@@ -1,0 +1,9 @@
+UnauthorizedException.php',
+    'Illuminate\\Validation\\ValidatesWhenResolvedTrait' => $vendorDir . '/laravel/framework/src/Illuminate/Validation/ValidatesWhenResolvedTrait.php',
+    'Illuminate\\Validation\\ValidationData' => $vendorDir . '/laravel/framework/src/Illuminate/Validation/ValidationData.php',
+    'Illuminate\\Validation\\ValidationException' => $vendorDir . '/laravel/framework/src/Illuminate/Validation/ValidationException.php',
+    'Illuminate\\Validation\\ValidationRuleParser' => $vendorDir . '/laravel/framework/src/Illuminate/Validation/ValidationRuleParser.php',
+    'Illuminate\\Validation\\ValidationServiceProvider' => $vendorDir . '/laravel/framework/src/Illuminate/Validation/ValidationServiceProvider.php',
+    'Illuminate\\Validation\\Validator' => $vendorDir . '/laravel/framework/src/Illuminate/Validation/Validator.php',
+    'Illuminate\\View\\Compilers\\BladeCompiler' => $vendorDir . '/laravel/framework/src/Illuminate/View/Compilers/BladeCompiler.php',
+    'Illuminate\\View\\Compilers\\Compiler' => $vendorDir . '/laravel/framewor

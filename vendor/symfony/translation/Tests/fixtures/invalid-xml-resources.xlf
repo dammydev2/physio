@@ -1,0 +1,28 @@
+<?php
+
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Symfony\Component\VarDumper\Caster;
+
+use Symfony\Component\VarDumper\Cloner\Stub;
+
+/**
+ * Casts DOM related classes to array representation.
+ *
+ * @author Nicolas Grekas <p@tchwork.com>
+ */
+class DOMCaster
+{
+    private static $errorCodes = [
+        DOM_PHP_ERR => 'DOM_PHP_ERR',
+        DOM_INDEX_SIZE_ERR => 'DOM_INDEX_SIZE_ERR',
+        DOMSTRING_SIZE_ERR => 'DOMSTRING_SIZE_ERR',
+        DOM_HIERARCHY_REQUEST_ERR => 'DOM_HIERARCHY_REQUEST_ERR',
+        DOM_WRONG_DOCUMENT_ERR => 'DOM_WRONG_DOCUM

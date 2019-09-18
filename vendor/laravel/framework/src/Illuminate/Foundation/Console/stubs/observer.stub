@@ -1,0 +1,41 @@
+<?php
+
+namespace Illuminate\Foundation\Testing\Concerns;
+
+use Illuminate\Support\Arr;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Testing\Constraints\HasInDatabase;
+use PHPUnit\Framework\Constraint\LogicalNot as ReverseConstraint;
+use Illuminate\Foundation\Testing\Constraints\SoftDeletedInDatabase;
+
+trait InteractsWithDatabase
+{
+    /**
+     * Assert that a given where condition exists in the database.
+     *
+     * @param  string  $table
+     * @param  array  $data
+     * @param  string  $connection
+     * @return $this
+     */
+    protected function assertDatabaseHas($table, array $data, $connection = null)
+    {
+        $this->assertThat(
+            $table, new HasInDatabase($this->getConnection($connection), $data)
+        );
+
+        return $this;
+    }
+
+    /**
+     * Assert that a given where condition does not exist in the database.
+     *
+     * @param  string  $table
+     * @param  array  $data
+     * @param  string  $connection
+     * @return $this
+     */
+    protected function assertDatabaseMissing($table, array $data, $connection = null)
+    {
+        $constraint = new ReverseConstraint(
+            new HasInDatabase($this->getCo

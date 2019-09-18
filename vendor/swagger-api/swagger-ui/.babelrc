@@ -1,0 +1,30 @@
+egrity": "sha512-1MkrZNvWTKCaigbn+W15elq2BB/L22nqrSY5DKlo3X6+vclJm8Bb5djXJBmEX6fS3+zCh/F4VBK5Z2KxJt4s2Q==",
+      "dev": true,
+      "requires": {
+        "once": "^1.4.0"
+      }
+    },
+    "enhanced-resolve": {
+      "version": "3.4.1",
+      "resolved": "https://registry.npmjs.org/enhanced-resolve/-/enhanced-resolve-3.4.1.tgz",
+      "integrity": "sha1-BCHjOf1xQZs9oT0Smzl5BAIwR24=",
+      "dev": true,
+      "requires": {
+        "graceful-fs": "^4.1.2",
+        "memory-fs": "^0.4.0",
+        "object-assign": "^4.0.1",
+        "tapable": "^0.2.7"
+      }
+    },
+    "entities": {
+      "version": "1.1.1",
+      "resolved": "https://registry.npmjs.org/entities/-/entities-1.1.1.tgz",
+      "integrity": "sha1-blwtClYhtdra7O+AuQ7ftc13cvA=",
+      "dev": true
+    },
+    "enzyme": {
+      "version": "2.9.1",
+      "resolved": "https://registry.npmjs.org/enzyme/-/enzyme-2.9.1.tgz",
+      "integrity": "sha1-B9XOaRJBJA+4F78sSxjW5TAkDfY=",
+      "dev": true,
+      "require

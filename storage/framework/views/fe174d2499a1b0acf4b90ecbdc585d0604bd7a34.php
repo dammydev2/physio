@@ -1,0 +1,10 @@
+Database\\Connection->runQueryCallback('insert into `or...', Array, Object(Closure))
+#1 /Library/WebServer/Documents/physio/vendor/laravel/framework/src/Illuminate/Database/Connection.php(459): Illuminate\\Database\\Connection->run('insert into `or...', Array, Object(Closure))
+#2 /Library/WebServer/Documents/physio/vendor/laravel/framework/src/Illuminate/Database/Connection.php(411): Illuminate\\Database\\Connection->statement('insert into `or...', Array)
+#3 /Library/WebServer/Documents/physio/vendor/laravel/framework/src/Illuminate/Database/Query/Processors/Processor.php(32): Illuminate\\Database\\Connection->insert('insert into `or...', Array)
+#4 /Library/WebServer/Documents/physio/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(2657): Illuminate\\Database\\Query\\Processors\\Processor->processInsertGetId(Object(Illuminate\\Database\\Query\\Builder), 'insert into `or...', Array, 'id')
+#5 /Library/WebServer/Documents/physio/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(1347): Illuminate\\Database\\Query\\Builder->insertGetId(Array, 'id')
+#6 /Library/WebServer/Documents/physio/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(835): Illuminate\\Database\\Eloquent\\Builder->__call('insertGetId', Array)
+#7 /Library/WebServer/Documents/physio/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(800): Illuminate\\Database\\Eloquent\\Model->insertAndSetId(Object(Illuminate\\Database\\Eloquent\\Builder), Array)
+#8 /Library/WebServer/Documents/physio/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(663): Illuminate\\Database\\Eloquent\\Model->performInsert(Object(Illuminate\\Database\\Eloquent\\Builder))
+#9 /Library/WebServer/Documents/physio/vendor/laravel/

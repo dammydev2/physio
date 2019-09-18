@@ -1,0 +1,9 @@
+s\\ManagesLoops' => $vendorDir . '/laravel/framework/src/Illuminate/View/Concerns/ManagesLoops.php',
+    'Illuminate\\View\\Concerns\\ManagesStacks' => $vendorDir . '/laravel/framework/src/Illuminate/View/Concerns/ManagesStacks.php',
+    'Illuminate\\View\\Concerns\\ManagesTranslations' => $vendorDir . '/laravel/framework/src/Illuminate/View/Concerns/ManagesTranslations.php',
+    'Illuminate\\View\\Engines\\CompilerEngine' => $vendorDir . '/laravel/framework/src/Illuminate/View/Engines/CompilerEngine.php',
+    'Illuminate\\View\\Engines\\Engine' => $vendorDir . '/laravel/framework/src/Illuminate/View/Engines/Engine.php',
+    'Illuminate\\View\\Engines\\EngineResolver' => $vendorDir . '/laravel/framework/src/Illuminate/View/Engines/EngineResolver.php',
+    'Illuminate\\View\\Engines\\FileEngine' => $vendorDir . '/laravel/framework/src/Illuminate/View/Engines/FileEngine.php',
+    'Illuminate\\View\\Engines\\PhpEngine' => $vendorDir . '/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php',
+    'Illuminate\\View\\Factory' => $vendorDir . '/laravel

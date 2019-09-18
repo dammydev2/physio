@@ -1,0 +1,45 @@
+<?php
+
+namespace Faker\Provider;
+
+use Faker\Generator;
+use Faker\DefaultGenerator;
+use Faker\UniqueGenerator;
+use Faker\ValidGenerator;
+
+class Base
+{
+    /**
+     * @var \Faker\Generator
+     */
+    protected $generator;
+
+    /**
+     * @var \Faker\UniqueGenerator
+     */
+    protected $unique;
+
+    /**
+     * @param \Faker\Generator $generator
+     */
+    public function __construct(Generator $generator)
+    {
+        $this->generator = $generator;
+    }
+
+    /**
+     * Returns a random number between 0 and 9
+     *
+     * @return integer
+     */
+    public static function randomDigit()
+    {
+        return mt_rand(0, 9);
+    }
+
+    /**
+     * Returns a random number between 1 and 9
+     *
+     * @return integer
+     */
+    public static function randomDigitNotNull

@@ -1,0 +1,33 @@
+fects = \array_reverse($defects);
+        }
+
+        foreach ($defects as $defect) {
+            $this->printDefect($defect, $i++);
+        }
+
+        $this->defectListPrinted = true;
+    }
+
+    protected function printDefect(TestFailure $defect, int $count): void
+    {
+        $this->printDefectHeader($defect, $count);
+        $this->printDefectTrace($defect);
+    }
+
+    protected function printDefectHeader(TestFailure $defect, int $count): void
+    {
+        $this->write(
+            \sprintf(
+                "\n%d) %s\n",
+                $count,
+                $defect->getTestName()
+            )
+        );
+    }
+
+    protected function printDefectTrace(TestFailure $defect): void
+    {
+        $e = $defect->thrownException();
+        $this->write((string) $e);
+
+        while ($e = $e->getPre

@@ -1,0 +1,31 @@
+<?php
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Symfony\Component\VarDumper\Caster;
+
+use Symfony\Component\VarDumper\Cloner\Stub;
+
+/**
+ * Casts XmlReader class to array representation.
+ *
+ * @author Baptiste Clavié <clavie.b@gmail.com>
+ */
+class XmlReaderCaster
+{
+    private static $nodeTypes = [
+        \XMLReader::NONE => 'NONE',
+        \XMLReader::ELEMENT => 'ELEMENT',
+        \XMLReader::ATTRIBUTE => 'ATTRIBUTE',
+        \XMLReader::TEXT => 'TEXT',
+        \XMLReader::CDATA => 'CDATA',
+        \XMLReader::ENTITY_REF => 'ENTITY_REF',
+        \XMLReader::ENTITY => 'ENTITY',
+        \XMLReader::PI => 'PI (Processing Instruction)',
+        \XMLReader::COMMENT => 'COMMEN

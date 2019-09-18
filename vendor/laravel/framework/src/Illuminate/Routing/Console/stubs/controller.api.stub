@@ -1,0 +1,55 @@
+<?php
+
+namespace Illuminate\Support;
+
+use ArrayAccess;
+use JsonSerializable;
+use Illuminate\Contracts\Support\Jsonable;
+use Illuminate\Contracts\Support\Arrayable;
+
+class Fluent implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
+{
+    /**
+     * All of the attributes set on the fluent instance.
+     *
+     * @var array
+     */
+    protected $attributes = [];
+
+    /**
+     * Create a new fluent instance.
+     *
+     * @param  array|object  $attributes
+     * @return void
+     */
+    public function __construct($attributes = [])
+    {
+        foreach ($attributes as $key => $value) {
+            $this->attributes[$key] = $value;
+        }
+    }
+
+    /**
+     * Get an attribute from the fluent instance.
+     *
+     * @param  string  $key
+     * @param  mixed   $default
+     * @return mixed
+     */
+    public function get($key, $default = null)
+    {
+        if (array_key_exists($key, $this->attributes)) {
+            return $this->attributes[$key];
+        }
+
+        return value($default);
+    }
+
+    /**
+     * Get the attributes from the fluent instance.
+     *
+     * @return array
+     */
+    public function getAttributes()
+    {
+        return $this->a

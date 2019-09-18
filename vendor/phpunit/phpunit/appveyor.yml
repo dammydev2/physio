@@ -1,0 +1,59 @@
+NFIGURATION_FILE'] ?? '';
+
+            $var = [
+                'composerAutoload'                           => $composerAutoload,
+                'phar'                                       => $phar,
+                'filename'                                   => $class->getFileName(),
+                'className'                                  => $class->getName(),
+                'collectCodeCoverageInformation'             => $coverage,
+                'data'                                       => $data,
+                'dataName'                                   => $dataName,
+                'dependencyInput'                            => $dependencyInput,
+                'constants'                                  => $constants,
+                'globals'                                    => $globals,
+                'include_path'                               => $includePath,
+                'included_files'                             => $includedFiles,
+                'iniSettings'                                => $iniSettings,
+                'isStrictAboutTestsThatDoNotTestAnything'    => $isStrictAboutTestsThatDoNotTestAnything,
+                'isStrictAboutOutputDuringTests'             => $isStrictAboutOutputDuringTests,
+                'enforcesTimeLimit'                          => $enforcesTimeLimit,
+                'isStrictAboutTodoAnnotatedTests'            => $isStrictAboutTodoAnnotatedTests,
+                'isStrictAboutResourceUsageDuringSmallTests' => $isStrictAboutResourceUsageDuringSmallTests,
+                'codeCoverageFilter'                         => $codeCoverageFilter,
+                'configurationFilePath'                      => $configurationFilePath,
+                'name'                                       => $this->getName(false),
+            ];
+
+            if (!$runEntireClass) {
+                $var['methodName'] = $this->name;
+            }
+
+            $template->setVar(
+                $var
+            );
+
+            $php = AbstractPhpProcess::factory();
+            $php->runTestJob($template->render(), $this, $result);
+        } else {
+            $result->run($this);
+        }
+
+        if (isset($oldErrorHandlerSetting)) {
+            $result->convertErrorsToExceptions($oldErrorHandlerSetting);
+        }
+
+        $this->result = null;
+
+        return $result;
+    }
+
+    /**
+     * @throws \Throwable
+     */
+    public function runBare(): void
+    {
+        $this->numAssertions = 0;
+
+        $this->snapshotGlobalState();
+        $this->startOutputBuffering();
+        \clearstatcache(

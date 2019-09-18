@@ -1,0 +1,636 @@
+    $this->status        = BaseTestRunner::STATUS_WARNING;
+            $this->statusMessage = $e->getMessage();
+        } catch (AssertionFailedError $e) {
+            $this->status        = BaseTestRunner::STATUS_FAILURE;
+            $this->statusMessage = $e->getMessage();
+        } catch (PredictionException $e) {
+            $this->status        = BaseTestRunner::STATUS_FAILURE;
+            $this->statusMessage = $e->getMessage();
+        } catch (Throwable $_e) {
+            $e                   = $_e;
+            $this->status        = BaseTestRunner::STATUS_ERROR;
+            $this->statusMessage = $_e->getMessage();
+        }
+
+        $this->mockObjects = [];
+        $this->prophet     = null;
+
+        // Tear down the fixture. An exception raised in tearDown() will be
+        // caught and passed on when no exception was raised before.
+        try {
+            if ($hasMetRequirements) {
+                foreach ($hookMethods['after'] as $method) {
+                    $this->$method();
+                }
+
+                if ($this->inIsolation) {
+                    foreach ($hookMethods['afterClass'] as $method) {
+                        $this->$method();
+                    }
+                }
+            }
+        } catch (Throwable $_e) {
+            $e = $e ?? $_e;
+        }
+
+        try {
+            $this->stopOutputBuffering();
+        } catch (RiskyTestError $_e) {
+            $e = $e ?? $_e;
+        }
+
+        if (isset($_e)) {
+            $this->status        = BaseTestRunner::STATUS_ERROR;
+            $this->statusMessage = $_e->getMessage();
+        }
+
+        \clearstatcache();
+
+        if ($currentWorkingDirectory != \getcwd()) {
+            \chdir($currentWorkingDirectory);
+        }
+
+        $this->restoreGlobalState();
+        $this->unregisterCustomComparators();
+        $this->cleanupIniSettings();
+        $this->cleanupLocaleSettings();
+
+        // Perform assertion on output.
+        if (!isset($e)) {
+            try {
+                if ($this->outputExpectedRegex !== null) {
+                    $this->assertRegExp($this->outputExpectedRegex, $this->output);
+                } elseif ($this->outputExpectedString !== null) {
+                    $this->assertEquals($this->outputExpectedString, $this->output);
+                }
+            } catch (Throwable $_e) {
+                $e = $_e;
+            }
+        }
+
+        // Workaround for missing "finally".
+        if (isset($e)) {
+            if ($e instanceof PredictionException) {
+                $e = new AssertionFailedError($e->getMessage());
+            }
+
+            $this->onNotSuccessfulTest($e);
+        }
+    }
+
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @param string[] $dependencies
+     */
+    public function setDependencies(array $dependencies): void
+    {
+        $this->dependencies = $dependencies;
+    }
+
+    public function getDependencies(): array
+    {
+        return $this->dependencies;
+    }
+
+    public function hasDependencies(): bool
+    {
+        return \count($this->dependencies) > 0;
+    }
+
+    public function setDependencyInput(array $dependencyInput): void
+    {
+        $this->dependencyInput = $dependencyInput;
+    }
+
+    public function setBeStrictAboutChangesToGlobalState(?bool $beStrictAboutChangesToGlobalState): void
+    {
+        $this->beStrictAboutChangesToGlobalState = $beStrictAboutChangesToGlobalState;
+    }
+
+    public function setBackupGlobals(?bool $backupGlobals): void
+    {
+        if ($this->backupGlobals === null && $backupGlobals !== null) {
+            $this->backupGlobals = $backupGlobals;
+        }
+    }
+
+    public function setBackupStaticAttributes(?bool $backupStaticAttributes): void
+    {
+        if ($this->backupStaticAttributes === null && $backupStaticAttributes !== null) {
+            $this->backupStaticAttributes = $backupStaticAttributes;
+        }
+    }
+
+    public function setRunTestInSeparateProcess(bool $runTestInSeparateProcess): void
+    {
+        if ($this->runTestInSeparateProcess === null) {
+            $this->runTestInSeparateProcess = $runTestInSeparateProcess;
+        }
+    }
+
+    public function setRunClassInSeparateProcess(bool $runClassInSeparateProcess): void
+    {
+        if ($this->runClassInSeparateProcess === null) {
+            $this->runClassInSeparateProcess = $runClassInSeparateProcess;
+        }
+    }
+
+    public function setPreserveGlobalState(bool $preserveGlobalState): void
+    {
+        $this->preserveGlobalState = $preserveGlobalState;
+    }
+
+    public function setInIsolation(bool $inIsolation): void
+    {
+        $this->inIsolation = $inIsolation;
+    }
+
+    public function isInIsolation(): bool
+    {
+        return $this->inIsolation;
+    }
+
+    public function getResult()
+    {
+        return $this->testResult;
+    }
+
+    public function setResult($result): void
+    {
+        $this->testResult = $result;
+    }
+
+    public function setOutputCallback(callable $callback): void
+    {
+        $this->outputCallback = $callback;
+    }
+
+    public function getTestResultObject(): ?TestResult
+    {
+        return $this->result;
+    }
+
+    public function setTestResultObject(TestResult $result): void
+    {
+        $this->result = $result;
+    }
+
+    public function registerMockObject(MockObject $mockObject): void
+    {
+        $this->mockObjects[] = $mockObject;
+    }
+
+    /**
+     * Returns a builder object to create mock objects using a fluent interface.
+     *
+     * @param string|string[] $className
+     */
+    public function getMockBuilder($className): MockBuilder
+    {
+        return new MockBuilder($this, $className);
+    }
+
+    public function addToAssertionCount(int $count): void
+    {
+        $this->numAssertions += $count;
+    }
+
+    /**
+     * Returns the number of assertions performed by this test.
+     */
+    public function getNumAssertions(): int
+    {
+        return $this->numAssertions;
+    }
+
+    public function usesDataProvider(): bool
+    {
+        return !empty($this->data);
+    }
+
+    public function dataDescription(): string
+    {
+        return \is_string($this->dataName) ? $this->dataName : '';
+    }
+
+    /**
+     * @return int|string
+     */
+    public function dataName()
+    {
+        return $this->dataName;
+    }
+
+    public function registerComparator(Comparator $comparator): void
+    {
+        ComparatorFactory::getInstance()->register($comparator);
+
+        $this->customComparators[] = $comparator;
+    }
+
+    public function getDataSetAsString(bool $includeData = true): string
+    {
+        $buffer = '';
+
+        if (!empty($this->data)) {
+            if (\is_int($this->dataName)) {
+                $buffer .= \sprintf(' with data set #%d', $this->dataName);
+            } else {
+                $buffer .= \sprintf(' with data set "%s"', $this->dataName);
+            }
+
+            $exporter = new Exporter;
+
+            if ($includeData) {
+                $buffer .= \sprintf(' (%s)', $exporter->shortenedRecursiveExport($this->data));
+            }
+        }
+
+        return $buffer;
+    }
+
+    /**
+     * Gets the data set of a TestCase.
+     */
+    public function getProvidedData(): array
+    {
+        return $this->data;
+    }
+
+    public function addWarning(string $warning): void
+    {
+        $this->warnings[] = $warning;
+    }
+
+    /**
+     * Override to run the test and assert its state.
+     *
+     * @throws AssertionFailedError
+     * @throws Exception
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\ObjectEnumerator\InvalidArgumentException
+     * @throws Throwable
+     */
+    protected function runTest()
+    {
+        if ($this->name === null) {
+            throw new Exception(
+                'PHPUnit\Framework\TestCase::$name must not be null.'
+            );
+        }
+
+        $testArguments = \array_merge($this->data, $this->dependencyInput);
+
+        $this->registerMockObjectsFromTestArguments($testArguments);
+
+        try {
+            $testResult = $this->{$this->name}(...\array_values($testArguments));
+        } catch (Throwable $exception) {
+            if (!$this->checkExceptionExpectations($exception)) {
+                throw $exception;
+            }
+
+            if ($this->expectedException !== null) {
+                $this->assertThat(
+                    $exception,
+                    new ExceptionConstraint(
+                        $this->expectedException
+                    )
+                );
+            }
+
+            if ($this->expectedExceptionMessage !== null) {
+                $this->assertThat(
+                    $exception,
+                    new ExceptionMessage(
+                        $this->expectedExceptionMessage
+                    )
+                );
+            }
+
+            if ($this->expectedExceptionMessageRegExp !== null) {
+                $this->assertThat(
+                    $exception,
+                    new ExceptionMessageRegularExpression(
+                        $this->expectedExceptionMessageRegExp
+                    )
+                );
+            }
+
+            if ($this->expectedExceptionCode !== null) {
+                $this->assertThat(
+                    $exception,
+                    new ExceptionCode(
+                        $this->expectedExceptionCode
+                    )
+                );
+            }
+
+            return;
+        }
+
+        if ($this->expectedException !== null) {
+            $this->assertThat(
+                null,
+                new ExceptionConstraint(
+                    $this->expectedException
+                )
+            );
+        } elseif ($this->expectedExceptionMessage !== null) {
+            $this->numAssertions++;
+
+            throw new AssertionFailedError(
+                \sprintf(
+                    'Failed asserting that exception with message "%s" is thrown',
+                    $this->expectedExceptionMessage
+                )
+            );
+        } elseif ($this->expectedExceptionMessageRegExp !== null) {
+            $this->numAssertions++;
+
+            throw new AssertionFailedError(
+                \sprintf(
+                    'Failed asserting that exception with message matching "%s" is thrown',
+                    $this->expectedExceptionMessageRegExp
+                )
+            );
+        } elseif ($this->expectedExceptionCode !== null) {
+            $this->numAssertions++;
+
+            throw new AssertionFailedError(
+                \sprintf(
+                    'Failed asserting that exception with code "%s" is thrown',
+                    $this->expectedExceptionCode
+                )
+            );
+        }
+
+        return $testResult;
+    }
+
+    /**
+     * This method is a wrapper for the ini_set() function that automatically
+     * resets the modified php.ini setting to its original value after the
+     * test is run.
+     *
+     * @throws Exception
+     */
+    protected function iniSet(string $varName, $newValue): void
+    {
+        $currentValue = \ini_set($varName, $newValue);
+
+        if ($currentValue !== false) {
+            $this->iniSettings[$varName] = $currentValue;
+        } else {
+            throw new Exception(
+                \sprintf(
+                    'INI setting "%s" could not be set to "%s".',
+                    $varName,
+                    $newValue
+                )
+            );
+        }
+    }
+
+    /**
+     * This method is a wrapper for the setlocale() function that automatically
+     * resets the locale to its original value after the test is run.
+     *
+     * @throws Exception
+     */
+    protected function setLocale(...$args): void
+    {
+        if (\count($args) < 2) {
+            throw new Exception;
+        }
+
+        [$category, $locale] = $args;
+
+        if (\defined('LC_MESSAGES')) {
+            $categories[] = \LC_MESSAGES;
+        }
+
+        if (!\in_array($category, self::LOCALE_CATEGORIES, true)) {
+            throw new Exception;
+        }
+
+        if (!\is_array($locale) && !\is_string($locale)) {
+            throw new Exception;
+        }
+
+        $this->locale[$category] = \setlocale($category, 0);
+
+        $result = \setlocale(...$args);
+
+        if ($result === false) {
+            throw new Exception(
+                'The locale functionality is not implemented on your platform, ' .
+                'the specified locale does not exist or the category name is ' .
+                'invalid.'
+            );
+        }
+    }
+
+    /**
+     * Returns a test double for the specified class.
+     *
+     * @param string|string[] $originalClassName
+     *
+     * @throws Exception
+     * @throws \InvalidArgumentException
+     */
+    protected function createMock($originalClassName): MockObject
+    {
+        return $this->getMockBuilder($originalClassName)
+                    ->disableOriginalConstructor()
+                    ->disableOriginalClone()
+                    ->disableArgumentCloning()
+                    ->disallowMockingUnknownTypes()
+                    ->getMock();
+    }
+
+    /**
+     * Returns a configured test double for the specified class.
+     *
+     * @param string|string[] $originalClassName
+     *
+     * @throws Exception
+     * @throws \InvalidArgumentException
+     */
+    protected function createConfiguredMock($originalClassName, array $configuration): MockObject
+    {
+        $o = $this->createMock($originalClassName);
+
+        foreach ($configuration as $method => $return) {
+            $o->method($method)->willReturn($return);
+        }
+
+        return $o;
+    }
+
+    /**
+     * Returns a partial test double for the specified class.
+     *
+     * @param string|string[] $originalClassName
+     * @param string[]        $methods
+     *
+     * @throws Exception
+     * @throws \InvalidArgumentException
+     */
+    protected function createPartialMock($originalClassName, array $methods): MockObject
+    {
+        return $this->getMockBuilder($originalClassName)
+                    ->disableOriginalConstructor()
+                    ->disableOriginalClone()
+                    ->disableArgumentCloning()
+                    ->disallowMockingUnknownTypes()
+                    ->setMethods(empty($methods) ? null : $methods)
+                    ->getMock();
+    }
+
+    /**
+     * Returns a test proxy for the specified class.
+     *
+     * @throws Exception
+     * @throws \InvalidArgumentException
+     */
+    protected function createTestProxy(string $originalClassName, array $constructorArguments = []): MockObject
+    {
+        return $this->getMockBuilder($originalClassName)
+                    ->setConstructorArgs($constructorArguments)
+                    ->enableProxyingToOriginalMethods()
+                    ->getMock();
+    }
+
+    /**
+     * Mocks the specified class and returns the name of the mocked class.
+     *
+     * @param string $originalClassName
+     * @param array  $methods
+     * @param string $mockClassName
+     * @param bool   $callOriginalConstructor
+     * @param bool   $callOriginalClone
+     * @param bool   $callAutoload
+     * @param bool   $cloneArguments
+     *
+     * @throws Exception
+     * @throws ReflectionException
+     * @throws \InvalidArgumentException
+     */
+    protected function getMockClass($originalClassName, $methods = [], array $arguments = [], $mockClassName = '', $callOriginalConstructor = false, $callOriginalClone = true, $callAutoload = true, $cloneArguments = false): string
+    {
+        $mock = $this->getMockObjectGenerator()->getMock(
+            $originalClassName,
+            $methods,
+            $arguments,
+            $mockClassName,
+            $callOriginalConstructor,
+            $callOriginalClone,
+            $callAutoload,
+            $cloneArguments
+        );
+
+        return \get_class($mock);
+    }
+
+    /**
+     * Returns a mock object for the specified abstract class with all abstract
+     * methods of the class mocked. Concrete methods are not mocked by default.
+     * To mock concrete methods, use the 7th parameter ($mockedMethods).
+     *
+     * @param string $originalClassName
+     * @param string $mockClassName
+     * @param bool   $callOriginalConstructor
+     * @param bool   $callOriginalClone
+     * @param bool   $callAutoload
+     * @param array  $mockedMethods
+     * @param bool   $cloneArguments
+     *
+     * @throws Exception
+     * @throws ReflectionException
+     * @throws \InvalidArgumentException
+     */
+    protected function getMockForAbstractClass($originalClassName, array $arguments = [], $mockClassName = '', $callOriginalConstructor = true, $callOriginalClone = true, $callAutoload = true, $mockedMethods = [], $cloneArguments = false): MockObject
+    {
+        $mockObject = $this->getMockObjectGenerator()->getMockForAbstractClass(
+            $originalClassName,
+            $arguments,
+            $mockClassName,
+            $callOriginalConstructor,
+            $callOriginalClone,
+            $callAutoload,
+            $mockedMethods,
+            $cloneArguments
+        );
+
+        $this->registerMockObject($mockObject);
+
+        return $mockObject;
+    }
+
+    /**
+     * Returns a mock object based on the given WSDL file.
+     *
+     * @param string $wsdlFile
+     * @param string $originalClassName
+     * @param string $mockClassName
+     * @param bool   $callOriginalConstructor
+     * @param array  $options                 An array of options passed to SOAPClient::_construct
+     *
+     * @throws Exception
+     * @throws ReflectionException
+     * @throws \InvalidArgumentException
+     */
+    protected function getMockFromWsdl($wsdlFile, $originalClassName = '', $mockClassName = '', array $methods = [], $callOriginalConstructor = true, array $options = []): MockObject
+    {
+        if ($originalClassName === '') {
+            $fileName          = \pathinfo(\basename(\parse_url($wsdlFile)['path']), \PATHINFO_FILENAME);
+            $originalClassName = \preg_replace('/[^a-zA-Z0-9_]/', '', $fileName);
+        }
+
+        if (!\class_exists($originalClassName)) {
+            eval(
+                $this->getMockObjectGenerator()->generateClassFromWsdl(
+                    $wsdlFile,
+                    $originalClassName,
+                    $methods,
+                    $options
+                )
+            );
+        }
+
+        $mockObject = $this->getMockObjectGenerator()->getMock(
+            $originalClassName,
+            $methods,
+            ['', $options],
+            $mockClassName,
+            $callOriginalConstructor,
+            false,
+            false
+        );
+
+        $this->registerMockObject($mockObject);
+
+        return $mockObject;
+    }
+
+    /**
+     * Returns a mock object for the specified trait with all abstract methods
+     * of the trait mocked. Concrete methods to mock can be specified with the
+     * `$mockedMethods` parameter.
+     *
+     * @param string $traitName
+     * @param string $mockClassName
+     * @param bool   $callOriginalConstructor
+     * @param bool   $callOriginalClone
+     * @param bool   $callAutoload
+     * @param array  $mockedMethods
+     * @param bool   $cloneArguments
+     *
+     * @throws Exception
+     * @throws ReflectionException
+     * @throws \InvalidAr

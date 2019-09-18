@@ -1,0 +1,27 @@
+e keys?
+            if (isset($data[$realKey])) {
+                $stmt = new ArrayStatement($data[$realKey]);
+            } elseif (array_key_exists($realKey, $data)) {
+                $stmt = new ArrayStatement([]);
+            }
+        }
+
+        if (! isset($stmt)) {
+            $stmt = new ResultCacheStatement($this->executeQuery($query, $params, $types), $resultCache, $cacheKey, $realKey, $qcp->getLifetime());
+        }
+
+        $stmt->setFetchMode($this->defaultFetchMode);
+
+        return $stmt;
+    }
+
+    /**
+     * Executes an, optionally parametrized, SQL query and returns the result,
+     * applying a given projection/transformation function on each row of the result.
+     *
+     * @param string  $query    The SQL query to execute.
+     * @param mixed[] $params   The parameters, if any.
+     * @param Closure $function The transformation function that is applied on each row.
+     *                           The function receives a single parameter, an array, that
+     *                           represents a row of the result set.
+     *

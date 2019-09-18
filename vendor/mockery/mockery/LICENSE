@@ -1,0 +1,64 @@
+ainer(), 'mock'), $args);
+    }
+
+    /**
+     * Static shortcut to \Mockery\Container::self().
+     *
+     * @throws LogicException
+     *
+     * @return \Mockery\MockInterface
+     */
+    public static function self()
+    {
+        if (is_null(self::$_container)) {
+            throw new \LogicException('You have not declared any mocks yet');
+        }
+
+        return self::$_container->self();
+    }
+
+    /**
+     * Static shortcut to closing up and verifying all mocks in the global
+     * container, and resetting the container static variable to null.
+     *
+     * @return void
+     */
+    public static function close()
+    {
+        foreach (self::$_filesToCleanUp as $fileName) {
+            @unlink($fileName);
+        }
+        self::$_filesToCleanUp = [];
+
+        if (is_null(self::$_container)) {
+            return;
+        }
+
+        $container = self::$_container;
+        self::$_container = null;
+
+        $container->mockery_teardown();
+        $container->mockery_close();
+    }
+
+    /**
+     * Static fetching of a mock associated with a name or explicit class poser.
+     *
+     * @param string $name
+     *
+     * @return \Mockery\Mock
+     */
+    public static function fetchMock($name)
+    {
+        return self::$_container->fetchMock($name);
+    }
+
+    /**
+     * Lazy loader and getter for
+     * the container property.
+     *
+     * @return Mockery\Container
+     */
+    public static function getContainer()
+    {
+        if (is_null(self::$_con

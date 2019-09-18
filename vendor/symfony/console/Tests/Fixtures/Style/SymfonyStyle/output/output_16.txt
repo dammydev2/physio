@@ -1,0 +1,19 @@
+>parse() parses long options',
+            ],
+            [
+                ['--foo' => 'bar'],
+                [new InputOption('foo', 'f', InputOption::VALUE_OPTIONAL, '', 'default')],
+                ['foo' => 'bar'],
+                '->parse() parses long options with a default value',
+            ],
+            [
+                [],
+                [new InputOption('foo', 'f', InputOption::VALUE_OPTIONAL, '', 'default')],
+                ['foo' => 'default'],
+                '->parse() uses the default value for long options with value optional which are not passed',
+            ],
+            [
+                ['--foo' => null],
+                [new InputOption('foo', 'f', InputOption::VALUE_OPTIONAL, '', 'default')],
+                ['foo' => null],
+                '->parse() parses long options with a def

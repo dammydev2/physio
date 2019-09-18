@@ -1,0 +1,8 @@
+/Illuminate/Routing/Matching/ValidatorInterface.php',
+    'Illuminate\\Routing\\MiddlewareNameResolver' => $vendorDir . '/laravel/framework/src/Illuminate/Routing/MiddlewareNameResolver.php',
+    'Illuminate\\Routing\\Middleware\\SubstituteBindings' => $vendorDir . '/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php',
+    'Illuminate\\Routing\\Middleware\\ThrottleRequests' => $vendorDir . '/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequests.php',
+    'Illuminate\\Routing\\Middleware\\ThrottleRequestsWithRedis' => $vendorDir . '/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequestsWithRedis.php',
+    'Illuminate\\Routing\\Middleware\\ValidateSignature' => $vendorDir . '/laravel/framework/src/Illuminate/Routing/Middleware/ValidateSignature.php',
+    'Illuminate\\Routing\\PendingResourceRegistration' => $vendorDir . '/laravel/framework/src/Illuminate/Routing/PendingResourceRegistration.php',
+    'Illuminate\\Routing\\Pipeline' => $vendorDir . '/laravel/framework/src/Illuminate/Routing/Pipeline.php

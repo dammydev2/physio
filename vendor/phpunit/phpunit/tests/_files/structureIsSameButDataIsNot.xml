@@ -1,0 +1,43 @@
+<?php
+
+namespace Prettus\Repository\Generators;
+
+use Prettus\Repository\Generators\Migrations\NameParser;
+use Prettus\Repository\Generators\Migrations\SchemaParser;
+use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
+
+/**
+ * Class MigrationGenerator
+ * @package Prettus\Repository\Generators
+ */
+class MigrationGenerator extends Generator
+{
+
+    /**
+     * Get stub name.
+     *
+     * @var string
+     */
+    protected $stub = 'migration/plain';
+
+
+    /**
+     * Get base path of destination file.
+     *
+     * @return string
+     */
+    public function getBasePath()
+    {
+        return base_path() . '/database/migrations/';
+    }
+
+
+    /**
+     * Get destination path for generated file.
+     *
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->getBasePath() . $this->getFileName() . '.php';
+   

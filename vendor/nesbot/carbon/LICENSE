@@ -1,0 +1,7 @@
+                                                           Add one day to the instance (using date interval).
+ * @method        $this          subDays(int $value = 1)                                                             Sub days (the $value count passed in) to the instance (using date interval).
+ * @method        $this          subDay()                                                                            Sub one day to the instance (using date interval).
+ * @method        $this          addHours(int $value = 1)                                                            Add hours (the $value count passed in) to the instance (using date interval).
+ * @method        $this          addHour()                                                                           Add one hour to the instance (using date interval).
+ * @method        $this          subHours(int $value = 1)                                                            Sub hours (the $value count passed in) to the instance (using date interval).
+ * @method        $th

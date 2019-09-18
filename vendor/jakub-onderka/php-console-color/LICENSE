@@ -1,0 +1,40 @@
+guments = [])
+    {
+        $result = $this->raw($ability, $arguments);
+
+        if ($result instanceof Response) {
+            return $result;
+        }
+
+        return $result ? $this->allow() : $this->deny();
+    }
+
+    /**
+     * Get the raw result from the authorization callback.
+     *
+     * @param  string  $ability
+     * @param  array|mixed  $arguments
+     * @return mixed
+     */
+    public function raw($ability, $arguments = [])
+    {
+        $arguments = Arr::wrap($arguments);
+
+        $user = $this->resolveUser();
+
+        // First we will call the "before" callbacks for the Gate. If any of these give
+        // back a non-null response, we will immediately return that result in order
+        // to let the developers override all checks for some authorization cases.
+        $result = $this->callBeforeCallbacks(
+            $user, $ability, $arguments
+        );
+
+        if (is_null($result)) {
+            $result = $this->callAuthCallback($user, $ability, $arguments);
+        }
+
+        // After calling the authorization callback, we will call the "after" callbacks
+        // that are registered with the Gate, which allows a developer to do logging
+        // if that is required for this application. Then we'll return the result.
+        return $this->callAfterCallbacks(
+          

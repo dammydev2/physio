@@ -1,0 +1,55 @@
+<?php
+/**
+ * Whoops - php errors for cool kids
+ * @author Filipe Dobreira <http://github.com/filp>
+ */
+
+namespace Whoops\Util;
+
+use Symfony\Component\VarDumper\Caster\Caster;
+use Symfony\Component\VarDumper\Cloner\AbstractCloner;
+use Symfony\Component\VarDumper\Cloner\VarCloner;
+use Symfony\Component\VarDumper\Dumper\HtmlDumper;
+use Whoops\Exception\Frame;
+
+/**
+ * Exposes useful tools for working with/in templates
+ */
+class TemplateHelper
+{
+    /**
+     * An array of variables to be passed to all templates
+     * @var array
+     */
+    private $variables = [];
+
+    /**
+     * @var HtmlDumper
+     */
+    private $htmlDumper;
+
+    /**
+     * @var HtmlDumperOutput
+     */
+    private $htmlDumperOutput;
+
+    /**
+     * @var AbstractCloner
+     */
+    private $cloner;
+
+    /**
+     * @var string
+     */
+    private $applicationRootPath;
+
+    public function __construct()
+    {
+        // root path for ordinary composer projects
+        $this->applicationRootPath = dirname(dirname(dirname(dirname(dirname(dirname(__DIR__))))));
+    }
+
+    /**
+     * Escapes a string for output in an HTML document
+     *
+     * @param  str

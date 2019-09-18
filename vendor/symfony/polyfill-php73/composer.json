@@ -1,0 +1,19 @@
+parameters = [], $referenceType = self::ABSOLUTE_PATH)`
+   now accepts more values and you should use the constants defined in `UrlGeneratorInterface` for
+   claritiy. The old method calls with a Boolean parameter will continue to work because they
+   equal the signature using the constants.
+
+2.1.0
+-----
+
+ * added RequestMatcherInterface
+ * added RequestContext::fromRequest()
+ * the UrlMatcher does not throw a \LogicException anymore when the required
+   scheme is not the current one
+ * added TraceableUrlMatcher
+ * added the possibility to define options, default values and requirements
+   for placeholders in prefix, including imported routes
+ * added RouterInterface::getRouteCollection
+ * [BC BREAK] the UrlMatcher urldecodes the route parameters only once, they
+   were decoded twice before. Note that the `urldecode()` calls have been
+   changed for a 

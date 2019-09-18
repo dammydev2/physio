@@ -1,0 +1,68 @@
+                                                        Checks if the instance is in the same century as the current moment last century.
+ * @method        bool           isSameMillennium(\DateTimeInterface $date = null)                                   Checks if the given date is in the same millennium as the instance. If null passed, compare to now (with the same timezone).
+ * @method        bool           isCurrentMillennium()                                                               Checks if the instance is in the same millennium as the current moment.
+ * @method        bool           isNextMillennium()                                                                  Checks if the instance is in the same millennium as the current moment next millennium.
+ * @method        bool           isLastMillennium()                                                                  Checks if the instance is in the same millennium as the current moment last millennium.
+ * @method        $this          years(int $value)                                                                   Set current instance year to the given value.
+ * @method        $this          year(int $value)                                                                    Set current instance year to the given value.
+ * @method        $this          setYears(int $value)                                                                Set current instance year to the given value.
+ * @method        $this          setYear(int $value)                                                                 Set current instance year to the given value.
+ * @method        $this          months(int $value)                                                                  Set current instance month to the given value.
+ * @method        $this          month(int $value)                                                                   Set current instance month to the given value.
+ * @method        $this          setMonths(int $value)                                                               Set current instance month to the given value.
+ * @method        $this          setMonth(int $value)                                                                Set current instance month to the given value.
+ * @method        $this          days(int $value)                                                                    Set current instance day to the given value.
+ * @method        $this          day(int $value)                                                                     Set current instance day to the given value.
+ * @method        $this          setDays(int $value)                                                                 Set current instance day to the given value.
+ * @method        $this          setDay(int $value)                                                                  Set current instance day to the given value.
+ * @method        $this          hours(int $value)                                                                   Set current instance hour to the given value.
+ * @method        $this          hour(int $value)                                                                    Set current instance hour to the given value.
+ * @method        $this          setHours(int $value)                                                                Set current instance hour to the given value.
+ * @method        $this          setHour(int $value)                                                                 Set current instance hour to the given value.
+ * @method        $this          minutes(int $value)                                                                 Set current instance minute to the given value.
+ * @method        $this          minute(int $value)                                                                  Set current instance minute to the given value.
+ * @method        $this          setMinutes(int $value)                                                              Set current instance minute to the given value.
+ * @method        $this          setMinute(int $value)                                                               Set current instance minute to the given value.
+ * @method        $this          seconds(int $value)                                                                 Set current instance second to the given value.
+ * @method        $this          second(int $value)                                                                  Set current instance second to the given value.
+ * @method        $this          setSeconds(int $value)                                                              Set current instance second to the given value.
+ * @method        $this          setSecond(int $value)                                                               Set current instance second to the given value.
+ * @method        $this          millis(int $value)                                                                  Set current instance millisecond to the given value.
+ * @method        $this          milli(int $value)                                                                   Set current instance millisecond to the given value.
+ * @method        $this          setMillis(int $value)                                                               Set current instance millisecond to the given value.
+ * @method        $this          setMilli(int $value)                                                                Set current instance millisecond to the given value.
+ * @method        $this          milliseconds(int $value)                                                            Set current instance millisecond to the given value.
+ * @method        $this          millisecond(int $value)                                                             Set current instance millisecond to the given value.
+ * @method        $this          setMilliseconds(int $value)                                                         Set current instance millisecond to the given value.
+ * @method        $this          setMillisecond(int $value)                                                          Set current instance millisecond to the given value.
+ * @method        $this          micros(int $value)                                                                  Set current instance microsecond to the given value.
+ * @method        $this          micro(int $value)                                                                   Set current instance microsecond to the given value.
+ * @method        $this          setMicros(int $value)                                                               Set current instance microsecond to the given value.
+ * @method        $this          setMicro(int $value)                                                                Set current instance microsecond to the given value.
+ * @method        $this          microseconds(int $value)                                                            Set current instance microsecond to the given value.
+ * @method        $this          microsecond(int $value)                                                             Set current instance microsecond to the given value.
+ * @method        $this          setMicroseconds(int $value)                                                         Set current instance microsecond to the given value.
+ * @method        $this          setMicrosecond(int $value)                                                          Set current instance microsecond to the given value.
+ * @method        $this          addYears(int $value = 1)                                                            Add years (the $value count passed in) to the instance (using date interval).
+ * @method        $this          addYear()                                                                           Add one year to the instance (using date interval).
+ * @method        $this          subYears(int $value = 1)                                                            Sub years (the $value count passed in) to the instance (using date interval).
+ * @method        $this          subYear()                                                                           Sub one year to the instance (using date interval).
+ * @method        $this          addYearsWithOverflow(int $value = 1)                                                Add years (the $value count passed in) to the instance (using date interval) with overflow explicitly allowed.
+ * @method        $this          addYearWithOverflow()                                                               Add one year to the instance (using date interval) with overflow explicitly allowed.
+ * @method        $this          subYearsWithOverflow(int $value = 1)                                                Sub years (the $value count passed in) to the instance (using date interval) with overflow explicitly allowed.
+ * @method        $this          subYearWithOverflow()                                                               Sub one year to the instance (using date interval) with overflow explicitly allowed.
+ * @method        $this          addYearsWithoutOverflow(int $value = 1)                                             Add years (the $value count passed in) to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          addYearWithoutOverflow()                                                            Add one year to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          subYearsWithoutOverflow(int $value = 1)                                             Sub years (the $value count passed in) to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          subYearWithoutOverflow()                                                            Sub one year to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          addYearsWithNoOverflow(int $value = 1)                                              Add years (the $value count passed in) to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          addYearWithNoOverflow()                                                             Add one year to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          subYearsWithNoOverflow(int $value = 1)                                              Sub years (the $value count passed in) to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          subYearWithNoOverflow()                                                             Sub one year to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          addYearsNoOverflow(int $value = 1)                                                  Add years (the $value count passed in) to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          addYearNoOverflow()                                                                 Add one year to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          subYearsNoOverflow(int $value = 1)                                                  Sub years (the $value count passed in) to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          subYearNoOverflow()                                                                 Sub one year to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          addMonths(int $value = 1)                                                           Add months (the $value count passed in) to the instance (using date interval).
+ * @method        $this          addMonth()                                                                          Add one month to the instance (using date interval).
+ * @method        $this          subMonths(int $value = 1)                                                           Sub months (the $value count passed in) to the instance (using date interval).

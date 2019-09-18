@@ -1,0 +1,33 @@
+<?php declare(strict_types=1);
+
+namespace PhpParser\Lexer;
+
+use PhpParser\ErrorHandler;
+use PhpParser\LexerTest;
+use PhpParser\Parser\Tokens;
+
+class EmulativeTest extends LexerTest
+{
+    protected function getLexer(array $options = []) {
+        return new Emulative($options);
+    }
+
+    /**
+     * @dataProvider provideTestReplaceKeywords
+     */
+    public function testReplaceKeywords($keyword, $expectedToken) {
+        $lexer = $this->getLexer();
+        $lexer->startLexing('<?php ' . $keyword);
+
+        $this->assertSame($expectedToken, $lexer->getNextToken());
+        $this->assertSame(0, $lexer->getNextToken());
+    }
+
+    /**
+     * @dataProvider provideTestReplaceKeywords
+     */
+    public function testNoReplaceKeywordsAfterObjectOperator($keyword) {
+        $lexer = $this->getLexer();
+        $lexer->startLexing('<?php ->' . $keyword);
+
+        $this->assertSame(Tokens

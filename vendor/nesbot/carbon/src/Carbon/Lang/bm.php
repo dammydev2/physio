@@ -1,0 +1,67 @@
+<?php
+
+/**
+ * This file is part of the Carbon package.
+ *
+ * (c) Brian Nesbitt <brian@nesbot.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+/*
+ * Authors:
+ * - Josh Soref
+ * - François B
+ * - Nasser Ghiasi
+ * - JD Isaacks
+ * - Hossein Jabbari
+ * - nimamo
+ * - hafezdivandari
+ */
+return [
+    'year' => ':count سال',
+    'a_year' => 'یک سال'.'|:count '.'سال',
+    'y' => ':count سال',
+    'month' => ':count ماه',
+    'a_month' => 'یک ماه'.'|:count '.'ماه',
+    'm' => ':count ماه',
+    'week' => ':count هفته',
+    'a_week' => 'یک هفته'.'|:count '.'هفته',
+    'w' => ':count هفته',
+    'day' => ':count روز',
+    'a_day' => 'یک روز'.'|:count '.'روز',
+    'd' => ':count روز',
+    'hour' => ':count ساعت',
+    'a_hour' => 'یک دقیقهیک ساعت'.'|:count '.'ساعت',
+    'h' => ':count ساعت',
+    'minute' => ':count دقیقه',
+    'a_minute' => 'یک دقیقه'.'|:count '.'دقیقه',
+    'min' => ':count دقیقه',
+    'second' => ':count ثانیه|چند ثانیه',
+    's' => ':count ثانیه',
+    'ago' => ':time پیش',
+    'from_now' => 'در :time',
+    'after' => ':time پس از',
+    'before' => ':time پیش از',
+    'formats' => [
+        'LT' => 'OH:Om',
+        'LTS' => 'OH:Om:Os',
+        'L' => 'OD/OM/OY',
+        'LL' => 'OD MMMM OY',
+        'LLL' => 'OD MMMM OY OH:Om',
+        'LLLL' => 'dddd, OD MMMM OY OH:Om',
+    ],
+    'calendar' => [
+        'sameDay' => '[امروز ساعت] LT',
+        'nextDay' => '[فردا ساعت] LT',
+        'nextWeek' => 'dddd [ساعت] LT',
+        'lastDay' => '[دیروز ساعت] LT',
+        'lastWeek' => 'dddd [پیش] [ساعت] LT',
+        'sameElse' => 'L',
+    ],
+    'ordinal' => ':timeم',
+    'meridiem' => ['قبل از ظهر', 'بعد از ظهر'],
+    'months' => ['ژانویه', 'فوریه', 'مارس', 'آوریل', 'مه', 'ژوئن', 'ژوئیه', 'اوت', 'سپتامبر', 'اکتبر', 'نوامبر', 'دسامبر'],
+    'months_short' => ['ژانویه', 'فوریه', 'مارس', 'آوریل', 'مه', 'ژوئن', 'ژوئیه', 'اوت', 'سپتامبر', 'اکتبر', 'نوامبر', 'دسامبر'],
+    'weekdays' => ['یکشنبه', 'دوشنبه', 'سه‌شنب�

@@ -1,0 +1,8 @@
+mandStarting.php',
+    'Illuminate\\Console\\GeneratorCommand' => $vendorDir . '/laravel/framework/src/Illuminate/Console/GeneratorCommand.php',
+    'Illuminate\\Console\\OutputStyle' => $vendorDir . '/laravel/framework/src/Illuminate/Console/OutputStyle.php',
+    'Illuminate\\Console\\Parser' => $vendorDir . '/laravel/framework/src/Illuminate/Console/Parser.php',
+    'Illuminate\\Console\\Scheduling\\CacheEventMutex' => $vendorDir . '/laravel/framework/src/Illuminate/Console/Scheduling/CacheEventMutex.php',
+    'Illuminate\\Console\\Scheduling\\CacheSchedulingMutex' => $vendorDir . '/laravel/framework/src/Illuminate/Console/Scheduling/CacheSchedulingMutex.php',
+    'Illuminate\\Console\\Scheduling\\CallbackEvent' => $vendorDir . '/laravel/framework/src/Illuminate/Console/Scheduling/CallbackEvent.php',
+    'Illuminate\\Console\\Scheduling\\CommandBuilder' => $vendorDir

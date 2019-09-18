@@ -1,0 +1,307 @@
+ssBar($output = $this->getOutputStream());
+        $bar->start();
+        $bar->advance(4);
+        $bar->advance(4);
+        $bar->advance(-2);
+
+        rewind($output->getStream());
+        $this->assertEquals(
+            '    0 [>---------------------------]'.
+            $this->generateOutput('    4 [---->-----------------------]').
+            $this->generateOutput('    8 [-------->-------------------]').
+            $this->generateOutput('    6 [------>---------------------]'),
+            stream_get_contents($output->getStream())
+        );
+    }
+
+    public function testRegressMultipleTimes()
+    {
+        $bar = new ProgressBar($output = $this->getOutputStream());
+        $bar->start();
+        $bar->advance(3);
+        $bar->advance(3);
+        $bar->advance(-1);
+        $bar->advance(-2);
+
+        rewind($output->getStream());
+        $this->assertEquals(
+            '    0 [>---------------------------]'.
+            $this->generateOutput('    3 [--->------------------------]').
+            $this->generateOutput('    6 [------>---------------------]').
+            $this->generateOutput('    5 [----->----------------------]').
+            $this->generateOutput('    3 [--->------------------------]'),
+            stream_get_contents($output->getStream())
+        );
+    }
+
+    public function testRegressBelowMin()
+    {
+        $bar = new ProgressBar($output = $this->getOutputStream(), 10);
+        $bar->setProgress(1);
+        $bar->advance(-1);
+        $bar->advance(-1);
+
+        rewind($output->getStream());
+        $this->assertEquals(
+            '  1/10 [==>-------------------------]  10%'.
+            $this->generateOutput('  0/10 [>---------------------------]   0%'),
+            stream_get_contents($output->getStream())
+        );
+    }
+
+    public function testFormat()
+    {
+        $expected =
+            '  0/10 [>---------------------------]   0%'.
+            $this->generateOutput(' 10/10 [============================] 100%').
+            $this->generateOutput(' 10/10 [============================] 100%')
+        ;
+
+        // max in construct, no format
+        $bar = new ProgressBar($output = $this->getOutputStream(), 10);
+        $bar->start();
+        $bar->advance(10);
+        $bar->finish();
+
+        rewind($output->getStream());
+        $this->assertEquals($expected, stream_get_contents($output->getStream()));
+
+        // max in start, no format
+        $bar = new ProgressBar($output = $this->getOutputStream());
+        $bar->start(10);
+        $bar->advance(10);
+        $bar->finish();
+
+        rewind($output->getStream());
+        $this->assertEquals($expected, stream_get_contents($output->getStream()));
+
+        // max in construct, explicit format before
+        $bar = new ProgressBar($output = $this->getOutputStream(), 10);
+        $bar->setFormat('normal');
+        $bar->start();
+        $bar->advance(10);
+        $bar->finish();
+
+        rewind($output->getStream());
+        $this->assertEquals($expected, stream_get_contents($output->getStream()));
+
+        // max in start, explicit format before
+        $bar = new ProgressBar($output = $this->getOutputStream());
+        $bar->setFormat('normal');
+        $bar->start(10);
+        $bar->advance(10);
+        $bar->finish();
+
+        rewind($output->getStream());
+        $this->assertEquals($expected, stream_get_contents($output->getStream()));
+    }
+
+    public function testCustomizations()
+    {
+        $bar = new ProgressBar($output = $this->getOutputStream(), 10);
+        $bar->setBarWidth(10);
+        $bar->setBarCharacter('_');
+        $bar->setEmptyBarCharacter(' ');
+        $bar->setProgressCharacter('/');
+        $bar->setFormat(' %current%/%max% [%bar%] %percent:3s%%');
+        $bar->start();
+        $bar->advance();
+
+        rewind($output->getStream());
+        $this->assertEquals(
+            '  0/10 [/         ]   0%'.
+            $this->generateOutput('  1/10 [_/        ]  10%'),
+            stream_get_contents($output->getStream())
+        );
+    }
+
+    public function testDisplayWithoutStart()
+    {
+        $bar = new ProgressBar($output = $this->getOutputStream(), 50);
+        $bar->display();
+
+        rewind($output->getStream());
+        $this->assertEquals(
+            '  0/50 [>---------------------------]   0%',
+            stream_get_contents($output->getStream())
+        );
+    }
+
+    public function testDisplayWithQuietVerbosity()
+    {
+        $bar = new ProgressBar($output = $this->getOutputStream(true, StreamOutput::VERBOSITY_QUIET), 50);
+        $bar->display();
+
+        rewind($output->getStream());
+        $this->assertEquals(
+            '',
+            stream_get_contents($output->getStream())
+        );
+    }
+
+    public function testFinishWithoutStart()
+    {
+        $bar = new ProgressBar($output = $this->getOutputStream(), 50);
+        $bar->finish();
+
+        rewind($output->getStream());
+        $this->assertEquals(
+            ' 50/50 [============================] 100%',
+            stream_get_contents($output->getStream())
+        );
+    }
+
+    public function testPercent()
+    {
+        $bar = new ProgressBar($output = $this->getOutputStream(), 50);
+        $bar->start();
+        $bar->display();
+        $bar->advance();
+        $bar->advance();
+
+        rewind($output->getStream());
+        $this->assertEquals(
+            '  0/50 [>---------------------------]   0%'.
+            $this->generateOutput('  0/50 [>---------------------------]   0%').
+            $this->generateOutput('  1/50 [>---------------------------]   2%').
+            $this->generateOutput('  2/50 [=>--------------------------]   4%'),
+            stream_get_contents($output->getStream())
+        );
+    }
+
+    public function testOverwriteWithShorterLine()
+    {
+        $bar = new ProgressBar($output = $this->getOutputStream(), 50);
+        $bar->setFormat(' %current%/%max% [%bar%] %percent:3s%%');
+        $bar->start();
+        $bar->display();
+        $bar->advance();
+
+        // set shorter format
+        $bar->setFormat(' %current%/%max% [%bar%]');
+        $bar->advance();
+
+        rewind($output->getStream());
+        $this->assertEquals(
+            '  0/50 [>---------------------------]   0%'.
+            $this->generateOutput('  0/50 [>---------------------------]   0%').
+            $this->generateOutput('  1/50 [>---------------------------]   2%').
+            $this->generateOutput('  2/50 [=>--------------------------]'),
+            stream_get_contents($output->getStream())
+        );
+    }
+
+    public function testOverwriteWithSectionOutput()
+    {
+        $sections = [];
+        $stream = $this->getOutputStream(true);
+        $output = new ConsoleSectionOutput($stream->getStream(), $sections, $stream->getVerbosity(), $stream->isDecorated(), new OutputFormatter());
+
+        $bar = new ProgressBar($output, 50);
+        $bar->start();
+        $bar->display();
+        $bar->advance();
+        $bar->advance();
+
+        rewind($output->getStream());
+        $this->assertEquals(
+            '  0/50 [>---------------------------]   0%'.PHP_EOL.
+            "\x1b[1A\x1b[0J".'  0/50 [>---------------------------]   0%'.PHP_EOL.
+            "\x1b[1A\x1b[0J".'  1/50 [>---------------------------]   2%'.PHP_EOL.
+            "\x1b[1A\x1b[0J".'  2/50 [=>--------------------------]   4%'.PHP_EOL,
+            stream_get_contents($output->getStream())
+        );
+    }
+
+    public function testOverwriteMultipleProgressBarsWithSectionOutputs()
+    {
+        $sections = [];
+        $stream = $this->getOutputStream(true);
+        $output1 = new ConsoleSectionOutput($stream->getStream(), $sections, $stream->getVerbosity(), $stream->isDecorated(), new OutputFormatter());
+        $output2 = new ConsoleSectionOutput($stream->getStream(), $sections, $stream->getVerbosity(), $stream->isDecorated(), new OutputFormatter());
+
+        $progress = new ProgressBar($output1, 50);
+        $progress2 = new ProgressBar($output2, 50);
+
+        $progress->start();
+        $progress2->start();
+
+        $progress2->advance();
+        $progress->advance();
+
+        rewind($stream->getStream());
+
+        $this->assertEquals(
+            '  0/50 [>---------------------------]   0%'.PHP_EOL.
+            '  0/50 [>---------------------------]   0%'.PHP_EOL.
+            "\x1b[1A\x1b[0J".'  1/50 [>---------------------------]   2%'.PHP_EOL.
+            "\x1b[2A\x1b[0J".'  1/50 [>---------------------------]   2%'.PHP_EOL.
+            "\x1b[1A\x1b[0J".'  1/50 [>---------------------------]   2%'.PHP_EOL.
+            '  1/50 [>---------------------------]   2%'.PHP_EOL,
+            stream_get_contents($stream->getStream())
+        );
+    }
+
+    public function testMultipleSectionsWithCustomFormat()
+    {
+        $sections = [];
+        $stream = $this->getOutputStream(true);
+        $output1 = new ConsoleSectionOutput($stream->getStream(), $sections, $stream->getVerbosity(), $stream->isDecorated(), new OutputFormatter());
+        $output2 = new ConsoleSectionOutput($stream->getStream(), $sections, $stream->getVerbosity(), $stream->isDecorated(), new OutputFormatter());
+
+        ProgressBar::setFormatDefinition('test', '%current%/%max% [%bar%] %percent:3s%% Fruitcake marzipan toffee. Cupcake gummi bears tart dessert ice cream chupa chups cupcake chocolate bar sesame snaps. Croissant halvah cookie jujubes powder macaroon. Fruitcake bear claw bonbon jelly beans oat cake pie muffin Fruitcake marzipan toffee.');
+
+        $progress = new ProgressBar($output1, 50);
+        $progress2 = new ProgressBar($output2, 50);
+        $progress2->setFormat('test');
+
+        $progress->start();
+        $progress2->start();
+
+        $progress->advance();
+        $progress2->advance();
+
+        rewind($stream->getStream());
+
+        $this->assertEquals('  0/50 [>---------------------------]   0%'.PHP_EOL.
+            ' 0/50 [>]   0% Fruitcake marzipan toffee. Cupcake gummi bears tart dessert ice cream chupa chups cupcake chocolate bar sesame snaps. Croissant halvah cookie jujubes powder macaroon. Fruitcake bear claw bonbon jelly beans oat cake pie muffin Fruitcake marzipan toffee.'.PHP_EOL.
+            "\x1b[4A\x1b[0J".' 0/50 [>]   0% Fruitcake marzipan toffee. Cupcake gummi bears tart dessert ice cream chupa chups cupcake chocolate bar sesame snaps. Croissant halvah cookie jujubes powder macaroon. Fruitcake bear claw bonbon jelly beans oat cake pie muffin Fruitcake marzipan toffee.'.PHP_EOL.
+            "\x1b[3A\x1b[0J".'  1/50 [>---------------------------]   2%'.PHP_EOL.
+            ' 0/50 [>]   0% Fruitcake marzipan toffee. Cupcake gummi bears tart dessert ice cream chupa chups cupcake chocolate bar sesame snaps. Croissant halvah cookie jujubes powder macaroon. Fruitcake bear claw bonbon jelly beans oat cake pie muffin Fruitcake marzipan toffee.'.PHP_EOL.
+            "\x1b[3A\x1b[0J".' 1/50 [>]   2% Fruitcake marzipan toffee. Cupcake gummi bears tart dessert ice cream chupa chups cupcake chocolate bar sesame snaps. Croissant halvah cookie jujubes powder macaroon. Fruitcake bear claw bonbon jelly beans oat cake pie muffin Fruitcake marzipan toffee.'.PHP_EOL,
+            stream_get_contents($stream->getStream())
+        );
+    }
+
+    public function testStartWithMax()
+    {
+        $bar = new ProgressBar($output = $this->getOutputStream());
+        $bar->setFormat('%current%/%max% [%bar%]');
+        $bar->start(50);
+        $bar->advance();
+
+        rewind($output->getStream());
+        $this->assertEquals(
+            ' 0/50 [>---------------------------]'.
+            $this->generateOutput(' 1/50 [>---------------------------]'),
+            stream_get_contents($output->getStream())
+        );
+    }
+
+    public function testSetCurrentProgress()
+    {
+        $bar = new ProgressBar($output = $this->getOutputStream(), 50);
+        $bar->start();
+        $bar->display();
+        $bar->advance();
+        $bar->setProgress(15);
+        $bar->setProgress(25);
+
+        rewind($output->getStream());
+        $this->assertEquals(
+            '  0/50 [>---------------------------]   0%'.
+            $this->generateOutput('  0/50 [>---------------------------]   0%').
+            $this->generateOutput('  1/50 [>---------------------------]   2%').
+            $this->generateOutput(' 15/50 [========>-------------------]  30%').
+            $this->generateOutput(' 25/50 [==============>-------------]  50%'),
+     

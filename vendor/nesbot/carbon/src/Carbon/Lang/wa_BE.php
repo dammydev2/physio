@@ -1,0 +1,8 @@
+flow(int $value = 1)                                           Sub decades (the $value count passed in) to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          subDecadeWithoutOverflow()                                                          Sub one decade to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          addDecadesWithNoOverflow(int $value = 1)                                            Add decades (the $value count passed in) to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          addDecadeWithNoOverflow()                                                           Add one decade to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          subDecadesWithNoOverflow(int $value = 1)                                            Sub decades (the $value count passed in) to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          subDecadeWithNoOverflow()                                                           Sub one decade to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          addDecadesNoOverflow(int $value = 1)                                                Add decades (the $value count passed in) to the instance (using date interval) with overflow explicitly forbidden.
+ * @method        $this          addDecadeNoOverflow()                                                               Add one decade to the instance (using date interval) with overflow explicitly fo

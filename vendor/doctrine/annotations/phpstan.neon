@@ -1,0 +1,41 @@
+amespaceVersion();
+
+        return sprintf('%s[%s][%s]', $this->namespace, $id, $namespaceVersion);
+    }
+
+    /**
+     * Returns the namespace cache key.
+     */
+    private function getNamespaceCacheKey() : string
+    {
+        return sprintf(self::DOCTRINE_NAMESPACE_CACHEKEY, $this->namespace);
+    }
+
+    /**
+     * Returns the namespace version.
+     */
+    private function getNamespaceVersion() : int
+    {
+        if ($this->namespaceVersion !== null) {
+            return $this->namespaceVersion;
+        }
+
+        $namespaceCacheKey      = $this->getNamespaceCacheKey();
+        $this->namespaceVersion = (int) $this->doFetch($namespaceCacheKey) ?: 1;
+
+        return $this->namespaceVersion;
+    }
+
+    /**
+     * Default implementation of doFetchMultiple. Each driver that supports multi-get should owerwrite it.
+     *
+     * @param array $keys Array of keys to retrieve from cache
+     * @return array Array of values retrieved for the given keys.
+     */
+    protected function doFetchMultiple(array $keys)
+    {
+        $returnValues = [];
+
+        foreach ($keys as $key) {
+            $item = $this->doFetch($key);
+            if ($item === false && ! $this->d

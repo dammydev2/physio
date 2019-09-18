@@ -1,0 +1,44 @@
+<?php
+
+namespace Cron\Tests;
+
+use Cron\HoursField;
+use DateTime;
+use DateTimeImmutable;
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @author Michael Dowling <mtdowling@gmail.com>
+ */
+class HoursFieldTest extends TestCase
+{
+    /**
+     * @covers \Cron\HoursField::validate
+     */
+    public function testValidatesField()
+    {
+        $f = new HoursField();
+        $this->assertTrue($f->validate('1'));
+        $this->assertTrue($f->validate('00'));
+        $this->assertTrue($f->validate('01'));
+        $this->assertTrue($f->validate('*'));
+        $this->assertFalse($f->validate('*/3,1,1-12'));
+    }
+
+    /**
+     * @covers \Cron\HoursField::isSatisfiedBy
+     */
+    public function testChecksIfSatisfied()
+    {
+        $f = new HoursField();
+        $this->assertTrue($f->isSatisfiedBy(new DateTime(), '?'));
+        $this->assertTrue($f->isSatisfiedBy(new DateTimeImmutable(), '?'));
+    }
+
+    /**
+     * @covers \Cron\HoursField::increment
+     */
+    public function testIncrementsDate()
+    {
+        $d = new DateTime('2011-03-15 11:15:00');
+       

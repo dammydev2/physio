@@ -1,0 +1,27 @@
+ration
+     */
+    public function testIntegrationOfUnitTestCasesPatch(string $expected, string $from, string $to): void
+    {
+        $this->doIntegrationTestPatch($expected, $from, $to);
+    }
+
+    public function provideOutputBuildingCases(): array
+    {
+        return StrictUnifiedDiffOutputBuilderDataProvider::provideOutputBuildingCases();
+    }
+
+    public function provideSample(): array
+    {
+        return StrictUnifiedDiffOutputBuilderDataProvider::provideSample();
+    }
+
+    public function provideBasicDiffGeneration(): array
+    {
+        return StrictUnifiedDiffOutputBuilderDataProvider::provideBasicDiffGeneration();
+    }
+
+    public function provideFilePairs(): array
+    {
+        $cases     = [];
+        $fromFile  = __FILE__;
+        $vendorDir = \realpath

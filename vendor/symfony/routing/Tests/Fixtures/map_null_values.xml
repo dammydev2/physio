@@ -1,0 +1,30 @@
+<?php
+
+/**
+ * This file has been auto-generated
+ * by the Symfony Routing Component.
+ */
+
+return [
+    false, // $matchHost
+    [ // $staticRoutes
+    ],
+    [ // $regexpList
+        0 => '{^(?'
+                .'|/(en|fr)/(?'
+                    .'|admin/post(?'
+                        .'|(*:32)'
+                        .'|/(?'
+                            .'|new(*:46)'
+                            .'|(\\d+)(*:58)'
+                            .'|(\\d+)/edit(*:75)'
+                            .'|(\\d+)/delete(*:94)'
+                        .')'
+                    .')'
+                    .'|blog(?'
+                        .'|(*:110)'
+                        .'|/(?'
+                            .'|rss\\.xml(*:130)'
+                            .'|p(?'
+                                .'|age/([^/]++)(*:154)'
+                          

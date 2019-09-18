@@ -1,0 +1,32 @@
+<?php
+
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Symfony\Component\VarDumper\Cloner;
+
+/**
+ * @author Nicolas Grekas <p@tchwork.com>
+ */
+class VarCloner extends AbstractCloner
+{
+    private static $gid;
+    private static $arrayCache = [];
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function doClone($var)
+    {
+        $len = 1;                       // Length of $queue
+        $pos = 0;                       // Number of cloned items past the minimum depth
+        $refsCounter = 0;               // Hard references counter
+        $queue = [[$var]];    // This breadth-first queue is the return value
+        $indexedArrays = [];       // Map of queue indexes that hold numerically indexed arrays
+        $hardRefs = [];            // Map of original zval ids to stub objects

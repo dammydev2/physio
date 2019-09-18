@@ -1,0 +1,31 @@
+<?php
+
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Symfony\Component\VarDumper\Caster;
+
+use Ds\Collection;
+use Ds\Map;
+use Ds\Pair;
+use Symfony\Component\VarDumper\Cloner\Stub;
+
+/**
+ * Casts Ds extension classes to array representation.
+ *
+ * @author Jáchym Toušek <enumag@gmail.com>
+ */
+class DsCaster
+{
+    public static function castCollection(Collection $c, array $a, Stub $stub, bool $isNested): array
+    {
+        $a[Caster::PREFIX_VIRTUAL.'count'] = $c->count();
+        $a[Caster::PREFIX_VIRTUAL.'capacity'] = $c->capacity();
+
+        

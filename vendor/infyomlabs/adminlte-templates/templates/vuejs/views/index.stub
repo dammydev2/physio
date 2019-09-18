@@ -1,0 +1,62 @@
+
+                $replace .= infy_nl_tab()."const UPDATED_AT = $updated_at;\n";
+            }
+        }
+
+        return str_replace('$TIMESTAMPS$', $replace, $templateData);
+    }
+
+    private function generateRules()
+    {
+        $dont_require_fields = config('infyom.laravel_generator.options.hidden_fields', [])
+                + config('infyom.laravel_generator.options.excluded_fields', []);
+
+        $rules = [];
+
+        foreach ($this->commandData->fields as $field) {
+            if ($field->isNotNull && empty($field->validations) && !in_array($field->name, $dont_require_fields)) {
+                $field->validations = 'required';
+            }
+            if (!empty($field->validations)) {
+                $rule = "'".$field->name."' => '".$field->validations."'";
+                $rules[] = $rule;
+            }
+        }
+
+        return $rules;
+    }
+
+    public function generateCasts()
+    {
+        $casts = [];
+
+        $timestamps = TableFieldsGenerator::getTimestampFieldNames();
+
+        foreach ($this->commandData->fields as $field) {
+            if (in_array($field->name, $timestamps)) {
+                continue;
+            }
+
+            $rule = "'".$field->name."' => ";
+
+            switch (strtolower($field->fieldType)) {
+                case 'integer':
+                case 'increments':
+                case 'smallinteger':
+                case 'long':
+                case 'biginteger':
+                    $rule .= "'integer'";
+                    break;
+                case 'double':
+                    $rule .= "'double'";
+                    break;
+                case 'float':
+                case 'decimal':
+                    $rule .= "'float'";
+                    break;
+                case 'boolean':
+                    $rule .= "'boolean'";
+                    break;
+                case 'datetime':
+                case 'datetimetz':
+              

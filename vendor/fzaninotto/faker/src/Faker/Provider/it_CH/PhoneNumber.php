@@ -1,0 +1,4 @@
+che la stessa Facoltà Medicea di Parigi riconobbe essere quello il bulbo rigeneratore dei capelli e della danza pirrica. E per questo io lo volli ammaestrare nel ballo nonché nei relativi salti dei cerchi e delle botti foderate di foglio. Ammiratelo, e poi giudicatelo! Prima però di prendere cognato da voi, permettete, o signori, che io v’inviti al diurno spettacolo di domani sera: ma nell’apoteosi che il tempo piovoso minacciasse acqua, allora lo spettacolo invece di domani sera, sarà posticipato a domattina, alle ore undici antimeridiane del pomeriggio».
+E qui il direttore fece un’altra profondissima riverenza: quindi rivolgendosi a Pinocchio, gli disse:
+– Animo, Pinocchio!... Avanti di dar principio ai vostri esercizi, salutate questo rispettabile pubblico, cavalieri, dame e ragazzi!
+Pinocchio, ubbidiente, piegò subito i due ginocchi davanti, fino a terra, e rimase inginocchiat

@@ -1,0 +1,120 @@
+            ]);
+
+            return true;
+        } catch (DynamoDbException $e) {
+            if (Str::contains($e->getMessage(), 'ConditionalCheckFailed')) {
+                return false;
+            }
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Increment the value of an item in the cache.
+     *
+     * @param  string  $key
+     * @param  mixed  $value
+     * @return int|bool
+     */
+    public function increment($key, $value = 1)
+    {
+        try {
+            $response = $this->dynamo->updateItem([
+                'TableName' => $this->table,
+                'Key' => [
+                    $this->keyAttribute => [
+                        'S' => $this->prefix.$key,
+                    ],
+                ],
+                'ConditionExpression' => 'attribute_exists(#key) AND #expires_at > :now',
+                'UpdateExpression' => 'SET #value = #value + :amount',
+                'ExpressionAttributeNames' => [
+                    '#key' => $this->keyAttribute,
+                    '#value' => $this->valueAttribute,
+                    '#expires_at' => $this->expirationAttribute,
+                ],
+                'ExpressionAttributeValues' => [
+                    ':now' => [
+                        'N' => (string) Carbon::now()->getTimestamp(),
+                    ],
+                    ':amount' => [
+                        'N' => (string) $value,
+                    ],
+                ],
+                'ReturnValues' => 'UPDATED_NEW',
+            ]);
+
+            return (int) $response['Attributes'][$this->valueAttribute]['N'];
+        } catch (DynamoDbException $e) {
+            if (Str::contains($e->getMessage(), 'ConditionalCheckFailed')) {
+                return false;
+            }
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Decrement the value of an item in the cache.
+     *
+     * @param  string  $key
+     * @param  mixed  $value
+     * @return int|bool
+     */
+    public function decrement($key, $value = 1)
+    {
+        try {
+            $response = $this->dynamo->updateItem([
+                'TableName' => $this->table,
+                'Key' => [
+                    $this->keyAttribute => [
+                        'S' => $this->prefix.$key,
+                    ],
+                ],
+                'ConditionExpression' => 'attribute_exists(#key) AND #expires_at > :now',
+                'UpdateExpression' => 'SET #value = #value - :amount',
+                'ExpressionAttributeNames' => [
+                    '#key' => $this->keyAttribute,
+                    '#value' => $this->valueAttribute,
+                    '#expires_at' => $this->expirationAttribute,
+                ],
+                'ExpressionAttributeValues' => [
+                    ':now' => [
+                        'N' => (string) Carbon::now()->getTimestamp(),
+                    ],
+                    ':amount' => [
+                        'N' => (string) $value,
+                    ],
+                ],
+                'ReturnValues' => 'UPDATED_NEW',
+            ]);
+
+            return (int) $response['Attributes'][$this->valueAttribute]['N'];
+        } catch (DynamoDbException $e) {
+            if (Str::contains($e->getMessage(), 'ConditionalCheckFailed')) {
+                return false;
+            }
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Store an item in the cache indefinitely.
+     *
+     * @param  string  $key
+     * @param  mixed  $value
+     * @return bool
+     */
+    public function forever($key, $value)
+    {
+        return $this->put($key, $value, now()->addYears(5));
+    }
+
+    /**
+     * Get a lock instance.
+     *
+     * @param  string  $name
+     * @param  int  $seconds
+ 

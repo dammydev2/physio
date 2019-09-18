@@ -1,0 +1,13 @@
+ator' => $vendorDir . '/laravel/framework/src/Illuminate/Pagination/LengthAwarePaginator.php',
+    'Illuminate\\Pagination\\PaginationServiceProvider' => $vendorDir . '/laravel/framework/src/Illuminate/Pagination/PaginationServiceProvider.php',
+    'Illuminate\\Pagination\\Paginator' => $vendorDir . '/laravel/framework/src/Illuminate/Pagination/Paginator.php',
+    'Illuminate\\Pagination\\UrlWindow' => $vendorDir . '/laravel/framework/src/Illuminate/Pagination/UrlWindow.php',
+    'Illuminate\\Pipeline\\Hub' => $vendorDir . '/laravel/framework/src/Illuminate/Pipeline/Hub.php',
+    'Illuminate\\Pipeline\\Pipeline' => $vendorDir . '/laravel/framework/src/Illuminate/Pipeline/Pipeline.php',
+    'Illuminate\\Pipeline\\PipelineServiceProvider' => $vendorDir . '/laravel/framework/src/Illuminate/Pipeline/PipelineServiceProvider.php',
+    'Illuminate\\Queue\\BeanstalkdQueue' => $vendorDir . '/laravel/framework/src/Illuminate/Queue/BeanstalkdQueue.php',
+    'Illuminate\\Queue\\CallQueuedClosure' => $vendorDir . '/laravel/framework/src/Illuminate/Queue/CallQueuedClosure.php',
+    'Illuminate\\Queue\\CallQueuedHandler' => $vendorDir . '/laravel/framework/src/Illuminate/Queue/CallQueuedHandler.php',
+    'Illuminate\\Queue\\Capsule\\Manager' => $vendorDir . '/laravel/framework/src/Illuminate/Queue/Capsule/Manager.php',
+    'Illuminate\\Queue\\Connectors\\BeanstalkdConnector' => $vendorDir . '/laravel/framework/src/Illuminate/Queue/Connectors/BeanstalkdConnector.php',
+    'Illuminate\\Queue\\Connectors\\ConnectorIn

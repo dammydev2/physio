@@ -1,0 +1,28 @@
+
+            'qux_12_0.php',
+            'qux_2_0.php',
+        ]), $finder->in(self::$tmpDir)->getIterator());
+
+        $finder = $this->buildFinder();
+        $this->assertSame($finder, $finder->depth('<= 0'));
+        $this->assertIterator($this->toAbsolute(['foo',
+            'test.php',
+            'test.py',
+            'toto',
+            'foo bar',
+            'qux',
+            'qux_0_1.php',
+            'qux_1000_1.php',
+            'qux_1002_0.php',
+            'qux_10_2.php',
+            'qux_12_0.php',
+            'qux_2_0.php',
+        ]), $finder->in(self::$tmpDir)->getIterator());
+
+        $finder = $this->buildFinder();
+        $this->assertSame($finder, $finder->depth('>= 1'));
+        $this->assertIterator($this->toAbsolute([
+            'foo/bar.tmp',
+            'qux/baz_100_1.py',
+            'qux/baz_1_2.py',
+        ]), $finder->in(self::$tmpDir)->getIterat

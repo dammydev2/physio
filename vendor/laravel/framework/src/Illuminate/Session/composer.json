@@ -1,0 +1,45 @@
+<?php
+
+namespace Illuminate\Support;
+
+use Countable;
+use JsonSerializable;
+use Illuminate\Contracts\Support\Jsonable;
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Contracts\Support\MessageProvider;
+use Illuminate\Contracts\Support\MessageBag as MessageBagContract;
+
+class MessageBag implements Arrayable, Countable, Jsonable, JsonSerializable, MessageBagContract, MessageProvider
+{
+    /**
+     * All of the registered messages.
+     *
+     * @var array
+     */
+    protected $messages = [];
+
+    /**
+     * Default format for message output.
+     *
+     * @var string
+     */
+    protected $format = ':message';
+
+    /**
+     * Create a new message bag instance.
+     *
+     * @param  array  $messages
+     * @return void
+     */
+    public function __construct(array $messages = [])
+    {
+        foreach ($messages as $key => $value) {
+            $value = $value instanceof Arrayable ? $value->toArray() : (array) $value;
+
+            $this->messages[$key] = array_unique($value);
+        }
+    }
+
+    /**
+     * Get the keys present in the message bag.
+ 

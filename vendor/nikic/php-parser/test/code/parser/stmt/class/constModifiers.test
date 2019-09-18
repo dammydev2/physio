@@ -1,0 +1,41 @@
+ $factory = new BuilderFactory;
+        $node = $factory->namespace('Name\Space')
+            ->addStmt($factory->use('Foo\Bar\SomeOtherClass'))
+            ->addStmt($factory->use('Foo\Bar')->as('A'))
+            ->addStmt($factory->useFunction('strlen'))
+            ->addStmt($factory->useConst('PHP_VERSION'))
+            ->addStmt($factory
+                ->class('SomeClass')
+                ->extend('SomeOtherClass')
+                ->implement('A\Few', '\Interfaces')
+                ->makeAbstract()
+
+                ->addStmt($factory->useTrait('FirstTrait'))
+
+                ->addStmt($factory->useTrait('SecondTrait', 'ThirdTrait')
+                    ->and('AnotherTrait')
+                    ->with($factory->traitUseAdaptation('foo')->as('bar'))
+                    ->with($factory->traitUseAdaptation('AnotherTrait', 'baz')->as('test'))
+                    ->with($factory->traitUseAdaptation('AnotherTrait', 'func')->insteadof('SecondTrait')))
+
+                ->addStmt($factory->method('firstMethod'))
+
+                ->addStmt($factory->method('someMethod')
+                    ->makePublic()
+                    ->makeAbstract()
+                    ->addParam($factory->param('someParam')->setType('SomeClass'))
+                    ->setDocComment('/**
+                                      * This method does something.
+                                      *
+                                      * @param SomeClass And takes a parameter
+                                      */'))
+
+                ->addStmt($factory->method('anotherMethod')
+                    ->makeProtected()
+                    ->addParam($factory->param('someParam')->setDefault('test'))
+                    ->addStmt(new Expr\Print_(new Expr\Variable('someParam'))))
+
+                ->addStmt($factory->property('someProperty')->makeProtected())
+                ->addStmt($factory->property('anotherProperty')
+                    ->makePrivate()
+           

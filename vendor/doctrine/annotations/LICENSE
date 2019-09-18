@@ -1,0 +1,52 @@
+<?php
+
+namespace Doctrine\Common\Cache;
+
+use function array_combine;
+use function array_key_exists;
+use function array_map;
+use function sprintf;
+
+/**
+ * Base class for cache provider implementations.
+ *
+ */
+abstract class CacheProvider implements Cache, FlushableCache, ClearableCache, MultiOperationCache
+{
+    public const DOCTRINE_NAMESPACE_CACHEKEY = 'DoctrineNamespaceCacheKey[%s]';
+
+    /**
+     * The namespace to prefix all cache ids with.
+     *
+     * @var string
+     */
+    private $namespace = '';
+
+    /**
+     * The namespace version.
+     *
+     * @var int|null
+     */
+    private $namespaceVersion;
+
+    /**
+     * Sets the namespace to prefix all cache ids with.
+     *
+     * @param string $namespace
+     *
+     * @return void
+     */
+    public function setNamespace($namespace)
+    {
+        $this->namespace        = (string) $namespace;
+        $this->namespaceVersion = null;
+    }
+
+    /**
+     * Retrieves the namespace that prefixes all cache ids.
+     *
+     * @return string
+     */
+    public function getNamespace()
+    {
+        r

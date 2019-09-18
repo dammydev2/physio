@@ -1,0 +1,99 @@
+<?php declare(strict_types=1);
+
+namespace PhpParser;
+
+use PhpParser\Node\Expr;
+use PhpParser\Node\Scalar;
+use PhpParser\Node\Scalar\String_;
+use PhpParser\Node\Stmt;
+
+abstract class ParserTest extends \PHPUnit\Framework\TestCase
+{
+    /** @returns Parser */
+    abstract protected function getParser(Lexer $lexer);
+
+    public function testParserThrowsSyntaxError() {
+        $this->expectException(Error::class);
+        $this->expectExceptionMessage('Syntax error, unexpected EOF on line 1');
+        $parser = $this->getParser(new Lexer());
+        $parser->parse('<?php foo');
+    }
+
+    public function testParserThrowsSpecialError() {
+        $this->expectException(Error::class);
+        $this->expectExceptionMessage('Cannot use foo as self because \'self\' is a special class name on line 1');
+        $parser = $this->getParser(new Lexer());
+        $parser->parse('<?php use foo as self;');
+    }
+
+    public function testParserThrowsLexerError() {
+        $this->expectException(Error::class);
+        $this->expectExceptionMessage('Unterminated comment on line 1');
+        $parser = $this->getParser(new Lexer());
+        $parser->parse('<?php /*');
+    }
+
+    public function testAttributeAssignment() {
+        $lexer = new Lexer([
+            'usedAttributes' => [
+                'comments', 'startLine', 'endLine',
+                'startTokenPos', 'endTokenPos',
+            ]
+        ]);
+
+        $code = <<<'EOC'
+<?php
+/** Doc comment */
+function test($a) {
+    // Line
+    // Comments
+    echo $a;
+}
+EOC;
+        $code = canonicalize($code);
+
+        $parser = $this->getParser($lexer);
+        $stmts = $parser->parse($code);
+
+        /** @var Stmt\Function_ $fn */
+        $fn = $stmts[0];
+        $this->assertInstanceOf(Stmt\Function_::class, $fn);
+        $this->assertEquals([
+            'comments' => [
+                new Comment\Doc('/** Doc comment */', 2, 6, 1),
+            ],
+            'startLine' => 3,
+            'endLine' => 7,
+            'startTokenPos' => 3,
+            'endTokenPos' => 21,
+        ], $fn->getAttributes());
+
+        $param = $fn->params[0];
+        $this->assertInstanceOf(Node\Param::class, $param);
+        $this->assertEquals([
+            'startLine' => 3,
+            'endLine' => 3,
+            'startTokenPos' => 7,
+            'endTokenPos' => 7,
+        ], $param->getAttributes());
+
+        /** @var Stmt\Echo_ $echo */
+        $echo = $fn->stmts[0];
+        $this->assertInstanceOf(Stmt\Echo_::class, $echo);
+        $this->assertEquals([
+            'comments' => [
+                new Comment("// Line\n", 4, 49, 12),
+                new Comment("// Comments\n", 5, 61, 14),
+            ],
+            'startLine' => 6,
+            'endLine' => 6,
+            'startTokenPos' => 16,
+            'endTokenPos' => 19,
+        ], $echo->getAttributes());
+
+        /** @var \PhpParser\Node\Expr\Variable $var */
+        $var = $echo->exprs[0];
+        $this->assertInstanceOf(Expr\Variable::class, $var);
+        $this->assertEquals([
+            'startLine' => 6,
+            'endLine' =

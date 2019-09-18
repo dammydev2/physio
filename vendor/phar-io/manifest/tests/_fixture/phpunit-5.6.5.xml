@@ -1,0 +1,65 @@
+ TODO: Annotation support is planned for a later stage and as such is disabled for now
+            // $tagName = (string)$this->fqsenResolver->resolve($tagName, $context);
+            // if (isset($this->annotationMappings[$tagName])) {
+            //     $handlerClassName = $this->annotationMappings[$tagName];
+            // }
+        }
+
+        return $handlerClassName;
+    }
+
+    /**
+     * Retrieves the arguments that need to be passed to the Factory Method with the given Parameters.
+     *
+     * @param \ReflectionParameter[] $parameters
+     * @param mixed[]                $locator
+     *
+     * @return mixed[] A series of values that can be passed to the Factory Method of the tag whose parameters
+     *     is provided with this method.
+     */
+    private function getArgumentsForParametersFromWiring($parameters, $locator)
+    {
+        $arguments = [];
+        foreach ($parameters as $index => $parameter) {
+            $typeHint = $parameter->getClass() ? $parameter->getClass()->getName() : null;
+            if (isset($locator[$typeHint])) {
+                $arguments[] = $locator[$typeHint];
+                continue;
+            }
+
+            $parameterName = $parameter->getName();
+            if (isset($locator[$parameterName])) {
+                $arguments[] = $locator[$parameterName];
+                continue;
+            }
+
+            $arguments[] = null;
+        }
+
+        return $arguments;
+    }
+
+    /**
+     * Retrieves a series of ReflectionParameter objects for the static 'create' method of the given
+     * tag handler class name.
+     *
+     * @param string $handlerClassName
+     *
+     * @return \ReflectionParameter[]
+     */
+    private function fetchParametersForHandlerFactoryMethod($handlerClassName)
+    {
+        if (! isset($this->tagHandlerParameterCache[$handlerClassName])) {
+            $methodReflection                                  = new \ReflectionMethod($handlerClassName, 'create');
+            $this->tagHandlerParameterCache[$handlerClassName] = $methodReflection->getParameters();
+        }
+
+        return $this->tagHandlerParameterCache[$handlerClassName];
+    }
+
+    /**
+     * Returns a copy of this class' Service Locator with added dynamic parameters, such as the tag's name, body and
+     * Context.
+     *
+     * @param TypeContext $context The Context (namespace and aliasses) that may be passed and is used to resolve FQSENs.
+     * @param string      $tagName The name of th
